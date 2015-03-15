@@ -8,10 +8,9 @@ var Block = require( 'class/block.js' );
 var tools = require( 'lib/tools.js' );
 var _ = require( 'underscore' );
 
-var Scoring = require('class/scoring.js');
+var Scoring = require( 'class/scoring.js' );
 require( 'lib/mousetrap.js' );
 require( 'lib/raf.js' );
-
 
 class MapTemplate
 {
@@ -25,18 +24,18 @@ class MapTemplate
         // ou des animations
         this.tabEntities = [];
         this.tabEntitiesToUpdate = [];
-        
+
         //Enregistrement sour forme de tableau 2d pour plus de performance lors du test de HitBox
-        this.tiledMap = [0][0];
+        this.tiledMap = [ 0 ][ 0 ];
 
         // Taille des tuiles
         this.tileSize = config.map.tileSize;
 
         // Taille du rayon
         this.rayon = config.map.rayon;
-        
+
         //Scoring
-        this.score = new Scoring(this.game);
+        this.score = new Scoring( this.game );
 
         // Variable pour l'animation
         this.lastTime = new Date();
@@ -47,6 +46,10 @@ class MapTemplate
         // FPS alternatif
         this.then = Date.now();
         this.interval = 1000 / this.FPS;
+
+        this.stage = null;
+        this.character = null;
+        this.halo = null;
 
         // Récupération du canvas
         this.canvas = document.getElementById( 'stage' );
@@ -112,8 +115,17 @@ class MapTemplate
 
         return;
     }
-    
-    
+
+    /**
+     * Affiche le joueur sur le canvas, ajoute le sprite à la classe, centre la map sur le joueur
+     * @params Character
+     */
+    setHalo( h )
+    {
+        this.halo = h;
+
+        return;
+    }
 
     /**
      * Tous les blocs de la map ( instanceof('block')
@@ -132,13 +144,15 @@ class MapTemplate
 
         return blocks;
     }
-    
-    initTiledMap(){
-       var self = this;
-       _.each(this.tabEntities, function(item,key){
-            var posit = getPositionInArray(item.x,item.y);
-            self.tiledMap[posit.x][posit.y] = item;
-       });
+
+    initTiledMap()
+    {
+//        var self = this;
+//        _.each( this.tabEntities, function( item, key )
+//        {
+//            var posit = getPositionInArray( item.x, item.y );
+//            self.tiledMap[ posit.x ][ posit.y ] = item;
+//        } );
     }
 
     run()
@@ -154,17 +168,44 @@ class MapTemplate
 
     charEvent()
     {
-        Mousetrap.bind( 'up', this.character.handlePlayerInput.bind( this.character, config.orientations.UP ) );
-        Mousetrap.bind( 'down', this.character.handlePlayerInput.bind( this.character, config.orientations.DOWN ) );
-        Mousetrap.bind( 'left', this.character.handlePlayerInput.bind( this.character, config.orientations.LEFT ) );
-        Mousetrap.bind( 'right', this.character.handlePlayerInput.bind( this.character, config.orientations.RIGHT ) );
+        var self = this;
+
+        Mousetrap.bind( 'up', this.character.handlePlayerInput.bind( this.character, config.orientations.UP ), 'keydown' );
+        Mousetrap.bind( 'down', this.character.handlePlayerInput.bind( this.character, config.orientations.DOWN ), 'keydown' );
+        Mousetrap.bind( 'left', this.character.handlePlayerInput.bind( this.character, config.orientations.LEFT ), 'keydown' );
+        Mousetrap.bind( 'right', this.character.handlePlayerInput.bind( this.character, config.orientations.RIGHT ), 'keydown' );
+
+        Mousetrap.bind( 'a', this.character.addRayonEclairage.bind( this.character ), 'keydown' );
+
+        // Mousetrap.bind( 'up', function() {
+        //     self.character.handlePlayerInput.bind( self.character, config.orientations.UP );
+        //     // Mousetrap.unbind( ['up', 'z']);
+        // }, 'keypress' );
+        // Mousetrap.bind( 'down', function() {
+        //     self.character.handlePlayerInput.bind( self.character, config.orientations.DOWN );
+        //     // Mousetrap.unbind( ['down', 's']);
+        // }, 'keypress' );
+        // Mousetrap.bind( 'left', function() {
+        //     self.character.handlePlayerInput.bind( self.character, config.orientations.LEFT );
+        //     // Mousetrap.unbind( ['left', 'q']);
+        // }, 'keypress' );
+        // Mousetrap.bind( 'right', function() {
+        //     self.character.handlePlayerInput.bind( self.character, config.orientations.RIGHT );
+        //     // Mousetrap.unbind( ['right', 'd']);
+        // }, 'keypress' );
+
+        Mousetrap.bind( 'up', this.character.handlePlayerInputOff.bind( this.character, config.orientations.UP ), 'keyup' );
+        Mousetrap.bind( 'down', this.character.handlePlayerInputOff.bind( this.character, config.orientations.DOWN ), 'keyup' );
+        Mousetrap.bind( 'left', this.character.handlePlayerInputOff.bind( this.character, config.orientations.LEFT ), 'keyup' );
+        Mousetrap.bind( 'right', this.character.handlePlayerInputOff.bind( this.character, config.orientations.RIGHT ), 'keyup' );
 
         // var self = this;
         // this.character.onBeforeStep( function() {} );
 
-        // this.character.onAfterStep( function()
-        // {
-        // } );
+        this.character.onAfterStep( function()
+        {
+            self.centerMap();
+        } );
 
         // this.character.onStopPathing( function()
         // {
@@ -332,7 +373,7 @@ class MapTemplate
         this.score.startRun();
         this.score.startLevel();
         this.tick();
-        
+
         tools.log( "Game loop started." );
         return;
     }
@@ -376,7 +417,8 @@ class MapTemplate
     drawDark()
     {
         this.context.globalCompositeOperation = "source-over";
-        this.context.fillStyle = '#34383f';
+        // this.context.fillStyle = '#34383f';
+        this.context.fillStyle = '#000000';
         this.context.fillRect( 0, 0, this.canvas.width, this.canvas.height );
         this.context.restore();
         this.context.save();
@@ -384,20 +426,35 @@ class MapTemplate
         return;
     }
 
+    getWidthRayon()
+    {
+        return Math.round(( this.character.getRayonEcl() + 1 ) * config.map.tileSize + ( config.map.tileSize / 8 ));
+    }
+
     /**
      * Dessin du monde dans un cercle de rayon this.rayon + le picto du voyageur
      */
     drawCharacter()
     {
+        var sizeRayon = this.getWidthRayon();
         // On dessine un cercle à la position du joueur pour en faire un clip
         this.context.beginPath();
-        this.context.arc( Math.round( this.character.x / 2 ), Math.round( this.character.y / 2 ), this.rayon, 0, Math.PI * 2, true );
+        this.context.arc( Math.round( ( ( this.character.x + this.game.stage.getX() ) / 2 ) + 425 ), Math.round( ( ( this.character.y + this.game.stage.getY() ) / 2 ) + 250 ), sizeRayon, 0, Math.PI * 2, true );
         this.context.closePath();
         this.context.clip();
+
+        sizeRayon = sizeRayon + ((this.character.getRayonEcl() + 1 ) * config.map.tileSize);
 
         // On dessinne le monde en couleur dans le clip
         this.drawEntities();
         this.character.draw();
+        this.halo.setData({
+            "x": this.character.x - sizeRayon + (this.character.getRayonEcl() * config.map.tileSize),
+            "y": this.character.y - sizeRayon + (this.character.getRayonEcl() * config.map.tileSize),
+            "width": sizeRayon,
+            "height": sizeRayon
+        });
+        this.halo.draw();
         // // On dessinne le joueur
 
         // On restore l'ensemble du canvas pour ne plus dessiner uniquement dans le clip
@@ -493,7 +550,7 @@ class MapTemplate
 
         if ( c.isMoving() === true )
         {
-            c.setDeplacement( tick );
+            c.move( tick );
         }
         // NOTE
         // LAST step = c.x - this.tileSize / 2

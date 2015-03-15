@@ -43,7 +43,7 @@ module.exports = {
         "PORTEE" : 5
     },
     "energie" :{
-        "JAUGE_MAX" : 8
+        "JAUGE_MAX" : 6
     },
     "scoring":{
         "INTITULE_AFF": "affichage",
