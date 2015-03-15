@@ -22,7 +22,7 @@ var isLocalhost = function()
 };
 var isset = function( v )
 {
-    return v !== undefined && v !== null;
+    return v !== undefined && v !== null && v !== "undefined" ;
 };
 
 var convertToElement = function( el )

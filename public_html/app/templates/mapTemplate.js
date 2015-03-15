@@ -551,6 +551,18 @@ class MapTemplate
         return this.realFPS;
     }
 
+    getEntitiesByName( Name )
+    {
+        var entities = [];
+        _.each(this.tabEntities,function(item){
+            if(item.constructor.name === Name){
+                entities.push(item);
+            }
+        });
+        
+        return entities;
+    }
+
     /**
      * Défini les variables à bouger en fonction du tick et de la position du joueur
      */
@@ -562,6 +574,13 @@ class MapTemplate
         if ( c.isMoving() === true && c.canMove( tick ) )
         {
             c.move( tick );
+        }
+        
+        if(c.constructor.name === "Character" ){
+            if(c.aGagne()){
+                //Ici , le joueur gagne
+                this.game.gameController.showVictory();
+            }
         }
         // NOTE
         // LAST step = c.x - this.tileSize / 2

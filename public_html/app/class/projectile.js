@@ -28,6 +28,11 @@ class Projectile extends Entity
     {
         return this.step >= config.projectile.PORTEE;
     }
+    
+    updatePosition()
+    {
+        
+    }
 
 }
 

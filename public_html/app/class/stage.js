@@ -71,6 +71,7 @@ class Stage
         this.tabSortie = null;
 
         this.call_back_init = null;
+        
 
         return;
     }

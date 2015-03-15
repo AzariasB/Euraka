@@ -58,16 +58,16 @@ class Character extends Entity
                 if ( tools.isset( self.dequeEclairage[ this.rayon_ecl - 1 ] ) === true )
                 {
                     self.dequeEclairage[ this.rayon_ecl - 1 ].pause();
-                    self.dequeEclairage[ this.rayon_ecl - 1 ].addTime( config.eclairage.TEMP_AJOUT );;
+                   self.dequeEclairage[ this.rayon_ecl - 1 ].addTime( config.eclairage.TEMP_AJOUT );;
                 }
 
                 this.rayon_ecl++;
                 this.timer = new Timer( function()
                 {
-                    self.rayon_ecl--;
-                    if(self.rayon_ecl >= 1){
-                        self.dequeEclairage[ self.rayon_ecl - 1 ].resume();
-                    }
+//                    self.rayon_ecl--;
+//                    if(self.rayon_ecl >= 1){
+//                        self.dequeEclairage[ self.rayon_ecl - 1 ].resume();
+//                    }
                     
                 }, config.eclairage.TEMP_BASE );
 
@@ -224,6 +224,20 @@ class Character extends Entity
         {
             self.entityKilled[ monsterName ] = 0;
         } );
+    }
+    
+    aGagne()
+    {
+        
+        var aGagne = false;
+        var jPosit = tools.getPositionInArray(this.x + this.width/2, this.y + this.height + this.height/10 );
+        
+        var arrive = this.game.mapTemplate.stage.tabSortie;
+        if(jPosit.x === arrive[0] && jPosit.y === arrive[1] ){
+            console.log(this.game.mapTemplate.stage.tabSortie)
+            aGagne = true;
+        }
+       return aGagne;
     }
 
 }
