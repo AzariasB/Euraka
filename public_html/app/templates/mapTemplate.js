@@ -186,6 +186,7 @@ class MapTemplate
         Mousetrap.bind( 'left', this.character.handlePlayerInput.bind( this.character, config.orientations.LEFT ), 'keydown' );
         Mousetrap.bind( 'right', this.character.handlePlayerInput.bind( this.character, config.orientations.RIGHT ), 'keydown' );
 
+        // Action 'spéciales'
         Mousetrap.bind( 'a', this.character.addRayonEclairage.bind( this.character ), 'keydown' );
 
         // Mousetrap.bind( 'up', function() {
@@ -579,7 +580,7 @@ class MapTemplate
         if(c.constructor.name === "Character" ){
             if(c.aGagne()){
                 //Ici , le joueur gagne
-                this.game.gameController.showVictory();
+                // --> this.game.gameController.showVictory();
             }
         }
         // NOTE
