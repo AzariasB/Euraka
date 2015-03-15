@@ -3,6 +3,7 @@ var config = require( 'data/config.js' );
 // Class
 var Sprite = require( 'class/sprite.js' );
 var Transition = require( 'class/transition.js' );
+var _ = require('underscore')
 // Lib
 var tools = require( 'lib/tools.js' );
 class Entity
@@ -348,21 +349,13 @@ class Entity
 
     hasNextStep()
     {
-<<<<<<< HEAD
         return this.path !== null && (this.path.length - 1 > this.step);
-=======
-        return this.path !== null && ( this.path.length - 1 > this.step );
->>>>>>> c7022e7a102bca970dcff0be8d68946cfa558e1f
     }
 
     onHasMoved( callback )
     {
         this.hasmoved_callback = callback;
-<<<<<<< HEAD
-            return;
-=======
         return;
->>>>>>> c7022e7a102bca970dcff0be8d68946cfa558e1f
     }
 
     hasMoved()
@@ -388,6 +381,50 @@ class Entity
     die()
     {
 
+    }
+    
+    canMove(){
+        var joueurBouge = _.clone(this);
+        
+        switch(joueurBouge.orientation){
+            case config.orientations.UP:
+                joueurBouge.y -= config.map.speed;
+                break;
+            case config.orientations.DOWN :
+                joueurBouge.y += config.map.speed;
+                break;
+            case config.orientations.LEFT :
+                joueurBouge.x -= config.map.speed;
+                break;
+            case config.orientations.RIGHT :
+                joueurBouge.x += config.map.speed;
+                break;
+        }
+        
+        
+        return !this.isHittingBlock( joueurBouge);
+    }
+    
+    isHittingBlock( entityMoved ){
+        
+        var upLeft = tools.getPositionInArray(entityMoved.x,entityMoved.y);
+        console.log(upLeft);
+        
+        var downRight = tools.getPositionInArray(entityMoved.x + entityMoved.width,entityMoved.y + entityMoved.height);
+        var tiledMap = this.game.mapTemplate.tiledMap;
+        var collision = false;
+        
+        for(var myY = upLeft.y; myY < downRight.y && !collision ; y++){
+            for(var myX = upLeft.x; myX < downRight.x && !collision ; x++){
+                console.log(tiledMap);
+                if(tiledMap[myY][myX].isCollisionel()){
+                    collision = true;
+                    break
+                }
+            }
+        }
+        
+        return collision;
     }
     
    

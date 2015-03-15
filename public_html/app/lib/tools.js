@@ -674,9 +674,11 @@ var getPositionInArray = function( x,y)
     positions.x = Math.floor(x/config.map.blockSize);
     positions.y = Math.floor(y/config.map.blockSize);
     
+    return positions;
+    
 };
 
-exports.getPositionInArry = getPositionInArray;
+exports.getPositionInArray = getPositionInArray;
 exports.ts = ts;
 exports.removeOverlay = removeOverlay;
 exports.addOverlay = addOverlay;
