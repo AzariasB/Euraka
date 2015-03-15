@@ -4,6 +4,7 @@ class Timer
     {
         this.timerId = null;
         this.start = null;
+        this.callback = callback;
         this.remaining = delay;
 
         this.resume();

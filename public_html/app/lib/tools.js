@@ -22,7 +22,7 @@ var isLocalhost = function()
 };
 var isset = function( v )
 {
-    return v !== undefined && v !== null;
+    return v !== undefined && v !== null && v !== "undefined" ;
 };
 
 var convertToElement = function( el )
@@ -674,6 +674,7 @@ var getPositionInArray = function( x, y )
     positions.x = Math.floor( x / config.map.blockSize );
     positions.y = Math.floor( y / config.map.blockSize );
 
+    return positions;
 };
 
 var toHHMMSS = function( t )
@@ -698,8 +699,9 @@ var toHHMMSS = function( t )
     return time;
 };
 
+
 exports.toHHMMSS = toHHMMSS;
-exports.getPositionInArry = getPositionInArray;
+exports.getPositionInArray = getPositionInArray;
 exports.ts = ts;
 exports.removeOverlay = removeOverlay;
 exports.addOverlay = addOverlay;

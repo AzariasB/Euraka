@@ -395,6 +395,80 @@ class Entity
     {
 
     }
+    
+    canMove( deplacement ){
+        
+        var joueurBouge = _.clone(this);
+        
+        // pas plus de 5
+        deplacement = Math.min( 5, deplacement );
+
+        if ( joueurBouge.orientation === config.orientations.LEFT )
+        {
+            joueurBouge.x = joueurBouge.x - deplacement;
+        }
+        else
+        if ( joueurBouge.orientation === config.orientations.RIGHT )
+        {
+            joueurBouge.x = joueurBouge.x + deplacement;
+        }
+        else
+        if ( joueurBouge.orientation === config.orientations.UP )
+        {
+            joueurBouge.y = joueurBouge.y - deplacement;
+        }
+        else
+        if ( joueurBouge.orientation === config.orientations.DOWN )
+        {
+            joueurBouge.y = joueurBouge.y + deplacement;
+        }
+
+        if ( tools.isset( joueurBouge.after_step_callback ) === true )
+        {
+            joueurBouge.after_step_callback();
+        }
+        
+        return !this.isHittingBlock( joueurBouge );
+    }
+    
+    isHittingBlock( entityMoved ){
+        
+//        var entityPosition = tools.getPositionInArray(entityMoved.x + entityMoved.width/2,entityMoved.y + entityMoved.height - entityMoved.height/10);
+//        
+//        //console.log("HautGauche :" + upLeft + " - BasDroite : " + downRight);
+//        
+//        var tiledMap = this.game.mapTemplate.tiledMap;
+//        var collision = false;
+//        
+//        
+//        
+//        //console.log(entityPosition);
+//        
+//        if(tools.isset(tiledMap[entityPosition.y][entityPosition.x]) === true ){
+//            
+//            try{
+//                if(tiledMap[entityPosition.y][entityPosition.x].isCollisionel()){
+//                   return true;
+//               }else{
+//                   return false;
+//               }   
+//            }catch(ex){
+//                console.log(ex);
+//                return false;
+//            }
+//            console.log(tiledMap[entityPosition.y ][entityPosition.x ].constructor.name);
+//            
+//
+//            
+//        }else{
+//            console.log("Out of map");
+//        }
+
+        //return collision;
+        return false;
+    }
+    
+    
 }
 
 module.exports = Entity;

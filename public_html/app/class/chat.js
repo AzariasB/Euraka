@@ -15,8 +15,8 @@ class Chat extends Monster
         data.width = width;
         data.height = height;
 
-        super(game,config.monstres.CHAT,'spritesheet',data);
-        // super(game,config.nomsEntitee.BLOCK_KIKETTE,'spritesheet',data);
+        // super(game,config.monstres.CHAT,'spritesheet',data);
+        super(game,config.nomsEntitee.BLOCK_KIKETTE,'spritesheet',data);
     }
 
     makePath()

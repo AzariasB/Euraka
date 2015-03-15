@@ -60,6 +60,8 @@ class Stage
         this.y = -500;
         this.maxX = stageData.maxX;
         this.maxY = stageData.maxY;
+        this.nbTuilesLargeur = 0;
+        this.nbTuilesHauteur = 0;
         this.code = code; // nom du sprite
         this.file = file; // nom du fichier json
         this.game = game; // Sprite déjà chargé
@@ -69,6 +71,7 @@ class Stage
         this.tabSortie = null;
 
         this.call_back_init = null;
+
 
         return;
     }
@@ -139,11 +142,26 @@ class Stage
         return new Sprite( this.code, this.file, this.game );
     }
 
+    getNbTuilesLargeur()
+    {
+        return this.nbTuilesLargeur;
+    }
+
+    getNbTuilesHauteur()
+    {
+        return this.nbTuilesHauteur;
+    }
     /**
      * Génération de la map
      */
     init()
     {
+        console.log("Initialisation");
+
+        // console.log(this.code);
+        // console.log(bitmapData);
+        // console.log(bitmapData[ this.code ].data);
+
         var b, C, tabToPush, data = bitmapData[ this.code ].data,
             tab = {
                 "tabSolPaille": [],
@@ -155,6 +173,10 @@ class Stage
                 "tabSolEnnemi": [],
                 "tabEnnemiKikette": []
             };
+
+        this.nbTuilesHauteur = bitmapData[ this.code ].data.length;
+
+        this.nbTuilesLargeur = bitmapData[this.code].data[0].length;
 
         _.each( bitmapData[ this.code ].data, function( line, idLine )
         {

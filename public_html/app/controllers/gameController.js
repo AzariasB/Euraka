@@ -32,7 +32,8 @@ class GameController
         this.game.gameView = null;
         this.game.scoringTimer = 0;
         this.hasNeverStarted = true;
-        this.tabCodeStage = [ 'tuto', 'pyramine1' ];
+        // this.tabCodeStage = [ 'tuto', 'pyramide1' ];
+        this.tabCodeStage = [ 'pyramide1' ];
         this.indexCodeStage = 0;
         this.nbRunTotal = this.tabCodeStage.length - 1;
         this.currentCodeStage = null;
@@ -130,9 +131,9 @@ class GameController
         stage = new Stage( this.game, this.currentCodeStage );
         this.game.stage = stage;
         stage.setCallbackInit( this.stageLoaded.bind( this ) );
-        map.setStage( stage );
 
         stage.init();
+
 
         return;
     }
@@ -142,6 +143,8 @@ class GameController
         var start, character, halo;
 
         start = this.game.stage.getTabEntree();
+
+        this.game.mapTemplate.setStage(this.game.stage);
 
         halo = new Entity( this.game, 'halo', 'spritesheet',
         {
