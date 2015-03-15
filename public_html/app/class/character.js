@@ -35,7 +35,7 @@ class Character extends Entity
 
         return;
     }
-    
+
 
     /**
      * Quand on gagne de l'éngerie, on 'pause' le timer précédent et on lance le suivant
@@ -136,27 +136,27 @@ class Character extends Entity
             this.y = this.y + this.deplacement;
         }
     }
-    
+
     getNumberOfKillFor( monsterName )
     {
         return this.entityKilled[monsterName];
     }
-    
+
     getEntityKilled()
     {
         return this.entityKilled;
     }
-    
+
     addOneKillFor( monsterNamae )
     {
         //Au cas où le nom du monstre n'est pas bien renseigné, pour ne pas avoir de nullpointerexception ou un truc du genre
         try{
-           this.entityKilled[monsterName]++; 
+           this.entityKilled[monsterName]++;
         }catch(ex){
             console.log("Le nom du monstre qui a été tué n'existe pas ou n'as pas été bien renseigné.");
         }
     }
-    
+
     initTableauMobs()
     {
         var self = this;
@@ -164,5 +164,7 @@ class Character extends Entity
             self.entityKilled[monsterName] = 0;
         });
     }
-        
+
 }
+
+module.exports = Character;
