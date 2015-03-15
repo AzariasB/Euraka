@@ -343,17 +343,17 @@ class Entity
     // }
     isMoving()
     {
-    return this.moving;
+        return this.moving;
     }
 
     hasNextStep()
     {
-    return this.path !== null && (this.path.length - 1 > this.step);
+        return this.path !== null && (this.path.length - 1 > this.step);
     }
 
     onHasMoved(callback)
     {
-    this.hasmoved_callback = callback;
+        this.hasmoved_callback = callback;
             return;
     }
 
@@ -382,6 +382,8 @@ class Entity
     {
 
     }
+    
+   
 }
 
 module.exports = Entity;
