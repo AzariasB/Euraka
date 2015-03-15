@@ -1,0 +1,12 @@
+.intro-img {
+    height: 50vh;
+    width: auto;
+    display: inline-block;
+}
+.intro {
+    width: 50%;
+    height: 50%;
+}
+.intro-btn {
+    display: inline-block;
+}

@@ -1,0 +1,124 @@
+/*==========  Font  ==========*/
+@font-face {
+    font-family: 'pixel';
+    src: url('../font/advocut/advocut-webfont.eot');
+    src: url('../font/advocut/advocut-webfont.eot?#iefix') format('embedded-opentype'), url('../font/advocut/advocut-webfont.woff') format('woff'), url('../font/advocut/advocut-webfont.ttf') format('truetype'), url('../font/advocut/advocut-webfont.svg#advocut-webfont') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+/* Titre */
+/*
+@font-face {
+    font-family: 'titre';
+    src: url('../font/advocut/advocut-webfont.eot');
+    src: url('../font/advocut/advocut-webfont.eot?#iefix') format('embedded-opentype'), url('../font/advocut/advocut-webfont.woff2') format('woff2'), url('../font/advocut/advocut-webfont.woff') format('woff'), url('../font/advocut/advocut-webfont.ttf') format('truetype'), url('../font/advocut/advocut-webfont.svg#immortalregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}*/
+/*==========  HTML Structure  ==========*/
+
+html, body {
+    height: 100%;
+    min-height: 100%;
+}
+html {
+    -webkit-text-size-adjust: 100%
+}
+body {
+    /*font: 1em/1.5 labeur;*/
+    font-size: 1em;
+    line-height: 1.5em;
+    font-family: pixel, arial;
+    padding: 0;
+    margin: 0;
+    background: #f1f1f1 no-repeat center center;
+    background-size: cover;
+    overflow: hidden;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+canvas {
+    image-rendering: optimizeSpeed;
+}
+/*==========  Style générique  ==========*/
+.bold {
+    font-weight: 700 !important;
+}
+.italic {
+    font-style: italic;
+}
+.strike {
+    /* hack pour les w-btn */
+
+text-decoration: line-through !important;
+}
+.underline {
+    text-decoration: underline;
+}
+.text-left {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
+}
+.text-justify {
+    text-align: justify;
+}
+.text-error {
+    color: #BB0000;
+}
+.important {
+    color: #961313;
+}
+.ib {
+    display: inline-block;
+}
+.ib li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 2em;
+}
+.cf:before, .cf:after {
+    content: " ";
+    /* 1 */
+
+display: table;
+    /* 2 */
+}
+.cf:after {
+    clear: both;
+}
+.ac {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+.pa {
+    position: absolute;
+}
+.pr {
+    position: relative;
+}
+.cursor {
+    cursor: pointer;
+}
+.cursor-loading {
+    cursor: progress;
+}
+.pointer-none {
+    pointer-events: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}

@@ -1,0 +1,17 @@
+<img class="ac intro-img" src="./assets/img/eureka_face.png" alt="Euraka splashscreen - Fancy Tree Studio" />
+<section id="boutons" class="ac intro text-center">
+    <ul>
+        <li>
+            <a id="commencer" class="pr intro-btn" href="javascript:;">Commencer la partie !</a>
+        </li>
+        <li>
+            <a id="touches" class="pr intro-btn" href="javascript:;">Touches</a>
+        </li>
+        <li>
+            <a id="h_scores" class="pr intro-btn" href="javascript:;">High scores</a>
+        </li>
+        <li>
+            <a id="credits" class="pr intro-btn" href="javascript:;">Crédits</a>
+        </li>
+    </ul>
+</section>

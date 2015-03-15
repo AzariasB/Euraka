@@ -1,0 +1,4 @@
+<!-- Center column -->
+<section id="l-centerPanel" class="l-centerPanel">
+    <canvas class="ac game-stage" id="stage"></canvas>
+</section>
