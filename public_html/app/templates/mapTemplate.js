@@ -147,12 +147,23 @@ class MapTemplate
 
     initTiledMap()
     {
-//        var self = this;
-//        _.each( this.tabEntities, function( item, key )
-//        {
-//            var posit = getPositionInArray( item.x, item.y );
-//            self.tiledMap[ posit.x ][ posit.y ] = item;
-//        } );
+       // console.log("Nombre d'entités : " + this.stage.getTabEntities().length);
+        var self = this;
+        this.tiledMap = []
+        
+        for(var y = 0; y < this.stage.getNbTuilesHauteur(); y++){
+            this.tiledMap[y] = [];    
+            for(var x = 0; x < this.stage.getNbTuilesLargeur(); x++){ 
+                this.tiledMap[y][x] = 0;    
+            }    
+        }
+        
+        _.each( this.tabEntities, function( item, key )
+        {
+            self.tiledMap[ item.y ][ item.x ] = item;
+//            if(item.y >= 9)
+//            console.log(" x : " + item.x + " - y : " + item.y + " -Nom : " + item.constructor.name);
+        } );
     }
 
     run()
@@ -548,7 +559,7 @@ class MapTemplate
         // Estimate of the movement distance for one update
         var tick = Math.round( this.tileSize / ( c.moveSpeed / ( 1000 / this.realFPS ) ) );
 
-        if ( c.isMoving() === true )
+        if ( c.isMoving() === true && c.canMove( tick ) )
         {
             c.move( tick );
         }

@@ -671,8 +671,8 @@ var getPositionInArray = function( x,y)
         y:0
     };
     
-    positions.x = Math.floor(x/config.map.blockSize);
-    positions.y = Math.floor(y/config.map.blockSize);
+    positions.x = parseInt(x/config.map.blockSize);
+    positions.y = parseInt(y/config.map.blockSize);
     
     return positions;
     

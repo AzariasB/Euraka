@@ -25,7 +25,7 @@ class Entree extends Block
         data.height = config.map.entreeSize;
 
         //Changer le nom du sprite
-        super( game, config.nomsEntitee.BLOCK_LUMIERE, data, [ 'Prise_avant', 'Prise_après' ], 1, true );
+        super( game, config.nomsEntitee.BLOCK_LUMIERE, data, [ 'Prise_avant', 'Prise_après' ], 1, false );
     }
 
     getSpriteName( codeStage )

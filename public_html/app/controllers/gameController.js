@@ -58,10 +58,10 @@ class GameController
         stage = new Stage( this.game, 'pyramide1' );
         this.game.stage = stage;
         stage.setCallbackInit( this.stageLoaded.bind( this ) );
-        map.setStage( stage );
-
+        
         stage.init();
-
+        
+        
         return;
     }
 
@@ -70,6 +70,8 @@ class GameController
         var start, character, halo;
 
         start = this.game.stage.getTabEntree();
+        
+        this.game.mapTemplate.setStage(this.game.stage);
 
         halo = new Entity( this.game, 'halo', 'spritesheet', {
             "x": 0,

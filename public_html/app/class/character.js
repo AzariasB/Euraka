@@ -54,8 +54,6 @@ class Character extends Entity
 
             if ( this.rayon_ecl > 1 )
             {
-                console.log("Ce n'est pas ma première fois");
-                console.log(self.dequeEclairage);
                 // Quand il a déjà boosté son niveau d'énergie
                 if ( tools.isset( self.dequeEclairage[ this.rayon_ecl - 1 ] ) === true )
                 {
@@ -64,10 +62,8 @@ class Character extends Entity
                 }
 
                 this.rayon_ecl++;
-                console.log(this.rayon_ecl);
                 this.timer = new Timer( function()
                 {
-                    console.log("Fin du niveau d'éclairage : " + self.rayon_ecl);
                     self.rayon_ecl--;
                     if(self.rayon_ecl >= 1){
                         self.dequeEclairage[ self.rayon_ecl - 1 ].resume();
@@ -80,7 +76,6 @@ class Character extends Entity
             }
             else
             { // Quand c'est la première fois qu'il booste son niveau d'énergie;
-                console.log("C'est ma première fois");
                 this.rayon_ecl++;
                 this.timer = new Timer( function()
                 {
@@ -97,7 +92,7 @@ class Character extends Entity
 
     getEnery()
     {
-        return energy;
+        return this.energy;
     }
 
     gainEnergy()

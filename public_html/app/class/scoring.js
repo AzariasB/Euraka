@@ -56,7 +56,7 @@ class Scoring
         /*
          * Règles de scoring :
          *  +125 par munitions restantes
-         *  +400 si kikette en sa position
+         *  +400 si kikette en sa possession
          */
         
         //Nom de la fonction à changer très probablement => fonction qui permet de savoir le nombre de munitions du joueur
