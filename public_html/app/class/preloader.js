@@ -28,7 +28,15 @@ class Preloader
             {
                 name: 'game',
                 files: [
-                    new Img( 'spritesheet.png' )
+                    new Img( 'spritesheet.png' ),
+                    new Img( 'illu1.jpg' ),
+                    new Img( 'illu2.jpg' ),
+                    new Img( 'illu3gameover.jpg' ),
+                    new Img( 'pyramide1.png' ),
+                    new Img( 'scoringlevel.jpg' ),
+                    new Img( 'scoring_run.jpg' ),
+                    new Img( 'scoring_run_exemple.jpg' ),
+                    new Img( 'tuto.png' )
                 ]
 
             },
@@ -99,8 +107,8 @@ class Preloader
         _.each( this.tabGroup, function( group )
         {
 
-            group.total   = group.files.length;
-            group.count   = 0;
+            group.total = group.files.length;
+            group.count = 0;
             group.percent = 0;
 
             _.each( group.files, function( file )

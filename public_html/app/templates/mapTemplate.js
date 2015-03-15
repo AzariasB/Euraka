@@ -119,7 +119,7 @@ class MapTemplate
         // this.tabEntities.push( this.character );
 
         // On bind les callback du déplacement
-        this.charEvent();
+        // this.charEvent();
         // On a besoin d'une valeur x,y pour la map
         this.centerMap();
 
@@ -423,6 +423,7 @@ class MapTemplate
         // On dessine le monde pour appliquer le sépia
         this.drawDark();
         this.drawCharacter();
+        this.updateUi();
 
         if ( tools.isDebug() === true )
         {
@@ -430,6 +431,14 @@ class MapTemplate
         }
 
         this.context.restore();
+
+        return;
+    }
+
+    updateUi()
+    {
+        this.game.gameView.set( 'score', this.game.scoring.getScore() );
+        this.game.gameView.set( 'timer', tools.toHHMMSS( this.game.scoringTimer ) );
 
         return;
     }
@@ -451,7 +460,7 @@ class MapTemplate
 
     getWidthRayon()
     {
-        return Math.round(( this.character.getRayonEcl() + 1 ) * config.map.tileSize + ( config.map.tileSize / 8 ));
+        return Math.round( ( this.character.getRayonEcl() + 1 ) * config.map.tileSize + ( config.map.tileSize / 8 ) );
     }
 
     /**
@@ -466,17 +475,18 @@ class MapTemplate
         this.context.closePath();
         this.context.clip();
 
-        sizeRayon = sizeRayon + ((this.character.getRayonEcl() + 1 ) * config.map.tileSize);
+        // sizeRayon = sizeRayon + ((this.character.getRayonEcl() + 1 ) * config.map.tileSize);
 
         // On dessinne le monde en couleur dans le clip
         this.drawEntities();
         this.character.draw();
-        this.halo.setData({
-            "x": this.character.x - sizeRayon + (this.character.getRayonEcl() * config.map.tileSize),
-            "y": this.character.y - sizeRayon + (this.character.getRayonEcl() * config.map.tileSize),
+        this.halo.setData(
+        {
+            "x": this.character.x - sizeRayon + Math.round( sizeRayon / 2 ),
+            "y": this.character.y - sizeRayon + Math.round( sizeRayon / 2 ),
             "width": sizeRayon,
             "height": sizeRayon
-        });
+        } );
         this.halo.draw();
         // // On dessinne le joueur
 

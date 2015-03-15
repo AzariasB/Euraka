@@ -23,6 +23,11 @@ class Character extends Entity
         this.orientation = config.orientations.RIGHT;
         this.nbInput = 0;
         this.tabInput = [];
+        this.spriteStepStart = 1;
+        this.spriteStepEnd = 4;
+        this.changeSpriteMax = 20;
+        this.changeSprite = this.changeSpriteMax;
+        this.spriteStep = this.spriteStepStart;
 
         super( game, config.nomsEntitee.JOUEUR + this.orientation, 'spritesheet', data );
 
@@ -39,6 +44,15 @@ class Character extends Entity
     {
         return this.rayon_ecl;
     }
+
+    hasChangeEnergie()
+    {
+        // this.game.gameView.set('energieClass', 'energy_0' + this.getEnery());
+        this.game.gameView.set('energieClass', 'energy_0' + '1');
+
+        return;
+    }
+
 
     /**
      * Quand on gagne de l'éngerie, on 'pause' le timer précédent et on lance le suivant
@@ -86,6 +100,8 @@ class Character extends Entity
 
                 self.dequeEclairage[ 1 ] = this.timer;
             }
+
+            this.hasChangeEnergie();
         }
 
         return;
@@ -166,6 +182,9 @@ class Character extends Entity
             return;
         }
 
+        // Reset animation
+        this.changeSprite = this.changeSpriteMax;
+
         this.tabInput.push( keyinput );
         this.orientation = keyinput;
         this.moving = true;
@@ -199,10 +218,35 @@ class Character extends Entity
             this.y = this.y + deplacement;
         }
 
+        this.afterStep();
+
         if ( tools.isset( this.after_step_callback ) === true )
         {
             this.after_step_callback();
         }
+
+        return;
+    }
+
+    afterStep()
+    {
+        // Update animation tous les x
+        if ( this.changeSprite < this.changeSpriteMax )
+        {
+            this.changeSprite = this.changeSprite + 1;
+            return;
+        }
+
+        this.changeSprite = 0;
+        this.spriteStep = this.spriteStep + 1;
+
+        if ( this.spriteStep > this.spriteStepEnd )
+        {
+            this.spriteStep = this.spriteStepStart;
+        }
+
+        this.code = config.nomsEntitee.JOUEUR + this.orientation + '_' + this.spriteStep;
+        this.sprite = this.getSprite();
 
         return;
     }

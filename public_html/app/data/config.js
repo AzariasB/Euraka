@@ -22,7 +22,7 @@ module.exports = {
         "scale": 1,
         "scaleMin": 0.3,
         "scaleMax": 1.5,
-        "speed": 80,
+        "speed": 230,
         "music": {
             "limitRecurrence": 3,
             "timeBeforeEndTransition": 5,
@@ -80,7 +80,7 @@ module.exports = {
         "BLOCK_SOL" : "sol"
     },
     "monstres":{
-        "CHAT":"chat_",
+        "CHAT":"CHAT_RIGHT_1",
         "RAT" :"rat_"
     }
 };
