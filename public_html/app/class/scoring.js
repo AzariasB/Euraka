@@ -4,6 +4,10 @@ var config = require( 'data/config.js' );
 // Class
 var Stage = require( 'class/stage.js' );
 
+// Lib
+var tools = require( 'lib/tools.js' );
+var _ = require( 'underscore' );
+
 var intituleScore = config.scoring.INTITULE_AFF;
 var valeurScore = config.scoring.INTITULE_VAL;
 
@@ -16,7 +20,7 @@ class Scoring
         this.game.scoring = this;
 
         this.levelScore = config.scoring.BEGIN_LEVEL;
-        this.totalScore = 0;
+        this.totalScore = 2500;
 
         this.timeOut = null;
 

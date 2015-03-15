@@ -47,12 +47,11 @@ class Character extends Entity
 
     hasChangeEnergie()
     {
-        // this.game.gameView.set('energieClass', 'energy_0' + this.getEnery());
-        this.game.gameView.set('energieClass', 'energy_0' + '1');
+        this.game.gameView.set('energieClass', 'energy_0' + this.getEnery());
+        // this.game.gameView.set( 'energieClass', 'energy_0' + '1' );
 
         return;
     }
-
 
     /**
      * Quand on gagne de l'éngerie, on 'pause' le timer précédent et on lance le suivant
@@ -73,17 +72,17 @@ class Character extends Entity
                 if ( tools.isset( self.dequeEclairage[ this.rayon_ecl - 1 ] ) === true )
                 {
                     self.dequeEclairage[ this.rayon_ecl - 1 ].pause();
-                   self.dequeEclairage[ this.rayon_ecl - 1 ].addTime( config.eclairage.TEMP_AJOUT );;
+                    self.dequeEclairage[ this.rayon_ecl - 1 ].addTime( config.eclairage.TEMP_AJOUT );;
                 }
 
                 this.rayon_ecl++;
                 this.timer = new Timer( function()
                 {
-//                    self.rayon_ecl--;
-//                    if(self.rayon_ecl >= 1){
-//                        self.dequeEclairage[ self.rayon_ecl - 1 ].resume();
-//                    }
-                    
+                    //                    self.rayon_ecl--;
+                    //                    if(self.rayon_ecl >= 1){
+                    //                        self.dequeEclairage[ self.rayon_ecl - 1 ].resume();
+                    //                    }
+
                 }, config.eclairage.TEMP_BASE );
 
                 self.dequeEclairage[ this.rayon_ecl - 1 ] = this.timer;
@@ -106,16 +105,18 @@ class Character extends Entity
 
         return;
     }
-    
-    lanceProjectile(x,y)
+
+    lanceProjectile( x, y )
     {
         var self = this;
-        if(this.peutLancerProjectile){
-            this.game.mapTemplate.createProjectile(this.x,this.y,this.direction);
+        if ( this.peutLancerProjectile )
+        {
+            this.game.mapTemplate.createProjectile( this.x, this.y, this.direction );
             this.peutLancerProjectile = false;
-            setTimeout(function(){
-               self.peutLancerProjectile = true;
-            });
+            setTimeout( function()
+            {
+                self.peutLancerProjectile = true;
+            } );
         }
     }
 
@@ -282,20 +283,44 @@ class Character extends Entity
             self.entityKilled[ monsterName ] = 0;
         } );
     }
-    
+
     aGagne()
     {
         var aGagne = false;
-        var jPosit = tools.getPositionInArray(this.x + this.width/2, this.y + this.height + this.height/10 );
-        
+        var jPosit = tools.getPositionInArray( this.x + this.width / 2, this.y + this.height + this.height / 10 );
+
         var arrive = this.game.mapTemplate.stage.tabSortie;
-        if(jPosit.x === arrive[0] && jPosit.y === arrive[1] ){
-            console.log(this.game.mapTemplate.stage.tabSortie)
+        if ( jPosit.x === arrive[ 0 ] && jPosit.y === arrive[ 1 ] )
+        {
             aGagne = true;
         }
-       return aGagne;
+        return aGagne;
     }
 
+    hasAllKikette()
+    {
+        return _.random( 0, 1 ) === 1;
+    }
+
+    killedNobody()
+    {
+        return _.random( 0, 1 ) === 1;
+    }
+
+    minuteTime()
+    {
+        return _.random( 0, 1 ) === 1;
+    }
+
+    getMunitions()
+    {
+        return _.random( 0, 1 ) === 1;
+    }
+
+    hasKikette()
+    {
+        return _.random( 0, 1 ) === 1;
+    }
 }
 
 module.exports = Character;

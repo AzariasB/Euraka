@@ -268,6 +268,11 @@ class Stage
                         break;
                 }
 
+                if (this.code === 'tuto') {
+                    this.tabEntree = [ 9, 21 ];
+                    this.tabSortie = [ 59, 19 ];
+                }
+
                 if ( tools.isset( tabToPush ) === true )
                 {
                     tab[ tabToPush ].push( [ idCol, idLine ] );

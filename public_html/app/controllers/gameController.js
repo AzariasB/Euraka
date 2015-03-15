@@ -23,6 +23,7 @@ var CinematiqueGameTpl = require( 'views/game/cinematiqueGameTpl.ract' );
 var ModalTpl = require( 'views/game/modalTpl.ract' );
 var ScoringTpl = require( 'views/game/scoringTpl.ract' );
 var DeathTpl = require( 'views/game/deathTpl.ract' );
+var CinematiqueTplKaode = require( 'views/game/cinematiqueKaodeTpl.ract' );
 
 class GameController
 {
@@ -32,8 +33,8 @@ class GameController
         this.game.gameView = null;
         this.game.scoringTimer = 0;
         this.hasNeverStarted = true;
-        // this.tabCodeStage = [ 'tuto', 'pyramide1' ];
-        this.tabCodeStage = [ 'pyramide1' ];
+        this.tabCodeStage = [ 'tuto', 'pyramide1' ];
+        // this.tabCodeStage = [ 'pyramide1' ];
         this.indexCodeStage = 0;
         this.nbRunTotal = this.tabCodeStage.length - 1;
         this.currentCodeStage = null;
@@ -84,7 +85,7 @@ class GameController
         {
             self.game.gameView = tools.showTemplate( GameView, 'l-main',
             {
-                'score': 9999,
+                'score': 2500,
                 'timer': '00:00'
             }, self.gameLoaded.bind( self ) );
         } );
@@ -134,7 +135,6 @@ class GameController
 
         stage.init();
 
-
         return;
     }
 
@@ -144,7 +144,7 @@ class GameController
 
         start = this.game.stage.getTabEntree();
 
-        this.game.mapTemplate.setStage(this.game.stage);
+        this.game.mapTemplate.setStage( this.game.stage );
 
         halo = new Entity( this.game, 'halo', 'spritesheet',
         {
@@ -190,6 +190,11 @@ class GameController
         this.game.mapTemplate.charEvent();
         this.startTimer();
 
+        setTimeout( function()
+        {
+            tools.empty( 'popin' );
+        }, 1000 );
+
         return;
     }
 
@@ -204,16 +209,23 @@ class GameController
 
     showPopinScoring()
     {
-        var isEnd = this.indexCodeStage === this.nbRunTotal,
-            fct;
+        tools.fadeOut( 'l-main', function()
+        {
+            tools.showTemplate( CinematiqueTplKaode, 'l-main' );
+        } );
 
+        return;
+
+        var self = this,
+            isEnd = this.indexCodeStage === this.nbRunTotal,
+            fct;
         tools.addOverlay( function()
         {
             tools.showTemplate( ScoringTpl, 'popin',
             {
                 "isHighScore": false,
                 "isFinal": false,
-                "end": this.game.scoring.endLevel()
+                "end": self.game.scoring.endLevel.bind( self )()
             } );
         } );
 
@@ -262,14 +274,15 @@ class GameController
 
     showPopinScoringTotal()
     {
-
+        var self = this;
+        console.log( self.game.scoring.endRun.bind( self )() );
         tools.addOverlay( function()
         {
             tools.showTemplate( ScoringTpl, 'popin',
             {
                 "isHighScore": false,
                 "isFinal": true,
-                "end": this.game.scoring.endRun()
+                "end": self.game.scoring.endRun.bind( self )()
             } );
         } );
 

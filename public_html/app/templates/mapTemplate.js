@@ -75,7 +75,7 @@ class MapTemplate
 
         return;
     }
-    
+
     createProjectile(x,y, direction)
     {
         console.log("Projectile créé");
@@ -160,14 +160,14 @@ class MapTemplate
        // console.log("Nombre d'entités : " + this.stage.getTabEntities().length);
         var self = this;
         this.tiledMap = []
-        
+
         for(var y = 0; y < this.stage.getNbTuilesHauteur(); y++){
-            this.tiledMap[y] = [];    
-            for(var x = 0; x < this.stage.getNbTuilesLargeur(); x++){ 
-                this.tiledMap[y][x] = 0;    
-            }    
+            this.tiledMap[y] = [];
+            for(var x = 0; x < this.stage.getNbTuilesLargeur(); x++){
+                this.tiledMap[y][x] = 0;
+            }
         }
-        
+
         _.each( this.tabEntities, function( item, key )
         {
             self.tiledMap[ item.y ][ item.x ] = item;
@@ -581,7 +581,7 @@ class MapTemplate
                 entities.push(item);
             }
         });
-        
+
         return entities;
     }
 
@@ -597,19 +597,19 @@ class MapTemplate
         {
             c.move( tick );
         }
-        
+
         if(c.constructor.name === "Character" ){
             if(c.aGagne()){
-                //Ici , le joueur gagne
-                // --> this.game.gameController.showVictory();
+                this.stop();
+                return this.game.gameController.showVictoire();
             }
         }
-        
+
         if(c.constructor.name === "Projectile")
         {
             c.avance();
         }
-            
+
             //Si le projectile a atteind sa portee maximale, on le détruit !
             //
 //            if(c.getPortee() === 0 ){

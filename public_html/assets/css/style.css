@@ -35,6 +35,10 @@
     background: transparent url('../img/illu3gameover.jpg') center center no-repeat;
     background-size: cover;
 }
+.cinematiqueKaode {
+    background: transparent url('../img/eurak_kaode.png') center center no-repeat;
+    background-size: cover;
+}
 .cinematique-txt {
     color: #FFF;
     bottom: 3em;
@@ -51,6 +55,7 @@
 .scoring {
     background: transparent url('../img/scoringlevel.jpg') center center no-repeat;
     background-size: cover;
+    z-index: 16;
 }
 .scoring.is-final {
     background: transparent url('../img/scoring_run.jpg') center center no-repeat;

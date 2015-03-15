@@ -1,18 +1,18 @@
 <!-- <img class="ac intro-img" src="./assets/img/eureka_face.png" alt="Euraka splashscreen - Fancy Tree Studio" /> -->
 <section class="ac intro-img">
     <section id="boutons" class="ac intro text-center">
-        <ul class="intro-nav">
+        <ul class="pr intro-nav">
             <li>
-                <a id="commencer" class="pr intro-btn btn-commencer" href="javascript:;">&nbsp;</a>
+                <a id="commencer" class="intro-btn btn-commencer" href="javascript:;">&nbsp;</a>
             </li>
             <li>
-                <a id="touches" class="pr intro-btn btn-touches" href="javascript:;">&nbsp;</a>
+                <a id="touches" class="intro-btn btn-touches" href="javascript:;">&nbsp;</a>
             </li>
             <li>
-                <a id="h_scores" class="pr intro-btn btn-h_scores" href="javascript:;">&nbsp;</a>
+                <a id="h_scores" class="intro-btn btn-h_scores" href="javascript:;">&nbsp;</a>
             </li>
             <li>
-                <a id="credits" class="pr intro-btn btn-credits" href="javascript:;">&nbsp;</a>
+                <a id="credits" class="intro-btn btn-credits" href="javascript:;">&nbsp;</a>
             </li>
         </ul>
     </section>
