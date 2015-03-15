@@ -199,6 +199,7 @@ class MapTemplate
         // Action 'spéciales'
         Mousetrap.bind( 'a', this.character.addRayonEclairage.bind( this.character ), 'keydown' );
         Mousetrap.bind( 'z', this.character.lanceProjectile.bind(this.character), 'keydown' );
+        Mousetrap.bind( '=', this.character.fillEnergy.bind(this.character), 'keydown' );
 
         // Mousetrap.bind( 'up', function() {
         //     self.character.handlePlayerInput.bind( self.character, config.orientations.UP );
@@ -460,7 +461,7 @@ class MapTemplate
 
     getWidthRayon()
     {
-        return Math.round( ( this.character.getRayonEcl() + 1 ) * config.map.tileSize + ( config.map.tileSize / 8 ) );
+        return Math.round( ( this.character.getRayonEcl() + 1 ) *  config.map.tileSize + ( config.map.tileSize / 8 ) );
     }
 
     /**
@@ -471,7 +472,7 @@ class MapTemplate
         var sizeRayon = this.getWidthRayon();
         // On dessine un cercle à la position du joueur pour en faire un clip
         this.context.beginPath();
-        this.context.arc( Math.round( ( ( this.character.x + this.game.stage.getX() ) / 2 ) + 425 ), Math.round( ( ( this.character.y + this.game.stage.getY() ) / 2 ) + 250 ), sizeRayon, 0, Math.PI * 2, true );
+        this.context.arc( Math.round( ( ( this.character.x + this.game.stage.getX() ) / 2 ) + 340 ), Math.round( ( ( this.character.y + this.game.stage.getY() ) / 2 ) + 167 ), sizeRayon / 2.2, 0, Math.PI *2 , true );
         this.context.closePath();
         this.context.clip();
 
@@ -482,8 +483,8 @@ class MapTemplate
         this.character.draw();
         this.halo.setData(
         {
-            "x": this.character.x - sizeRayon + Math.round( sizeRayon / 2 ),
-            "y": this.character.y - sizeRayon + Math.round( sizeRayon / 2 ),
+            "x": this.character.x - sizeRayon + Math.round( sizeRayon / 2 ) + 20,
+            "y": this.character.y - sizeRayon + Math.round( sizeRayon / 2 ) + 20,
             "width": sizeRayon,
             "height": sizeRayon
         } );
