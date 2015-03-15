@@ -1,6 +1,6 @@
 /* global exports */
 
-﻿// Data
+﻿ // Data
 var config = require( 'data/config.js' );
 
 // Lib
@@ -664,18 +664,41 @@ var center = function( el, options )
 };
 
 //Pour pouvoir situer les éléments les uns par rapport aux autres
-var getPositionInArray = function( x,y)
+var getPositionInArray = function( x, y )
 {
     var positions = {
-        x:0,
-        y:0
+        x: 0,
+        y: 0
     };
-    
-    positions.x = Math.floor(x/config.map.blockSize);
-    positions.y = Math.floor(y/config.map.blockSize);
-    
+
+    positions.x = Math.floor( x / config.map.blockSize );
+    positions.y = Math.floor( y / config.map.blockSize );
+
 };
 
+var toHHMMSS = function( t )
+{
+    var sec_num = parseInt( t, 10 ); // don't forget the second param
+    var hours   = Math.floor( sec_num / 3600 );
+    var minutes = Math.floor( ( sec_num - ( hours * 3600 ) ) / 60 );
+    var seconds = sec_num - ( hours * 3600 ) - ( minutes * 60 );
+
+    if ( minutes < 10 )
+    {
+        minutes = "0" + minutes;
+    }
+
+    if ( seconds < 10 )
+    {
+        seconds = "0" + seconds;
+    }
+
+    var time = minutes + ':' + seconds;
+
+    return time;
+};
+
+exports.toHHMMSS = toHHMMSS;
 exports.getPositionInArry = getPositionInArray;
 exports.ts = ts;
 exports.removeOverlay = removeOverlay;

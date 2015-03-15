@@ -22,7 +22,7 @@ module.exports = {
         "scale": 1,
         "scaleMin": 0.3,
         "scaleMax": 1.5,
-        "speed": 80,
+        "speed": 230,
         "music": {
             "limitRecurrence": 3,
             "timeBeforeEndTransition": 5,

@@ -1,4 +1,12 @@
 <!-- Center column -->
+<section id="l-ui" class="pa ui interfacevierge">
+    <div class="pr">
+        <div id="ui-energie" class="pa ui-energie {{energieClass}}"></div>
+        <div id="ui-timer" class="pa ui-timer">{{{score}}}</div>
+        <div id="ui-score" class="pa ui-score">{{{timer}}}</div>
+        <div id="ui-reset" class="pa ui-reset"><a id="ui-reset-btn" class="ui-reset-btn" href="javascript:;">&nbsp;</a></div>
+    </div>
+</section>
 <section id="l-centerPanel" class="l-centerPanel">
     <canvas class="ac game-stage" id="stage"></canvas>
 </section>

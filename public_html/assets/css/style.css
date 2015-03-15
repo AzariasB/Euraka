@@ -1,3 +1,7 @@
+/*------------------------------------*\
+    Intro
+\*------------------------------------*/
+
 .intro-img {
     height: 50vh;
     width: auto;
@@ -9,4 +13,37 @@
 }
 .intro-btn {
     display: inline-block;
+}
+/*------------------------------------*\
+    Ui
+\*------------------------------------*/
+
+.ui {
+    top: 2em;
+    right: 2em;
+    z-index: 1;
+    color: #FFF;
+}
+.ui-energie {
+    top: 0.25em;
+    left: 3.2em;
+}
+.ui-timer {
+    top: -0.4em;
+    left: 6.5em;
+    line-height: 2em;
+    font-size: 2em;
+}
+.ui-score {
+    top: -0.4em;
+    left: 8.85em;
+    line-height: 2em;
+    font-size: 2em;
+}
+.ui-reset-btn {
+    display: inline-block;
+    width: 5.5em;
+    height: 2.5em;
+    position: absolute;
+    right: 1em;
 }

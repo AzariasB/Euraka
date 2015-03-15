@@ -23,13 +23,19 @@ class GameController
     constructor( game )
     {
         this.game = game;
+        this.game.gameView = null;
+        this.game.scoringTimer = 0;
 
         return;
     }
 
     start()
     {
-        tools.showTemplate( GameView, 'l-main', null, this.gameLoaded.bind( this ) );
+        this.game.gameView = tools.showTemplate( GameView, 'l-main',
+        {
+            'score': 9999,
+            'timer': '00:00'
+        }, this.gameLoaded.bind( this ) );
 
         // // On instancie la musique après la map
         // this.musicManager = new MusicManager( this.game );
@@ -40,6 +46,19 @@ class GameController
         // this.ambienceManager = new AmbienceManager( this.game );
         // this.ambienceManager.play();
         // this.ambienceManager.fadeInCurrent();
+this.startTimer();
+        return;
+    }
+
+    startTimer()
+    {
+        window.setInterval( this.updateTimer.bind( this ), 1000 );
+    }
+
+    updateTimer()
+    {
+        console.log(this.game.scoringTimer);
+        this.game.scoringTimer = this.game.scoringTimer + 1;
 
         return;
     }
@@ -71,13 +90,15 @@ class GameController
 
         start = this.game.stage.getTabEntree();
 
-        halo = new Entity( this.game, 'halo', 'spritesheet', {
+        halo = new Entity( this.game, 'halo', 'spritesheet',
+        {
             "x": 0,
             "y": 0,
             "width": 0,
             "height": 0
         } );
         character = new Character( this.game, start[ 0 ] * config.map.tileSize, start[ 1 ] * config.map.tileSize, config.map.speed );
+        character.hasChangeEnergie();
         this.game.character = character;
         this.game.mapTemplate.pushEntityToUpdate( character );
         this.game.mapTemplate.setCharacter( character );
