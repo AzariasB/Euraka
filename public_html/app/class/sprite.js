@@ -17,10 +17,6 @@ class Sprite
         // console.log(game);
         // console.log( code );
 
-        if (code === 410) {
-            code = config.nomsEntitee.BLOCK_PRISE;
-        }
-
         this.code = code;
         this.file = file;
         this.imgName = this.file;
@@ -29,9 +25,9 @@ class Sprite
         this.visible = true;
         this.json = this.getSpriteData();
 
-        // console.log(this.code);
-        // console.log(this.json);
-        // console.log(_.keys(this.json.frames));
+            // console.log(this.code);
+            // console.log(this.json);
+            // console.log(_.keys(this.json.frames));
 
         this.width = this.json.frames[ this.code ].frame.w;
         this.height = this.json.frames[ this.code ].frame.h;

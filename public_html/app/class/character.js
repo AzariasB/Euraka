@@ -5,6 +5,10 @@ var config = require( 'data/config.js' );
 var Entity = require( 'class/entity.js' );
 var Timer = require( 'class/timer.js' );
 
+// Lib
+var tools = require( 'lib/tools.js' );
+var _ = require( 'underscore' );
+
 class Character extends Entity
 {
     constructor( game, x, y, speed )
@@ -17,7 +21,8 @@ class Character extends Entity
         data.height = config.map.characterSize;
 
         this.orientation = config.orientations.RIGHT;
-        this.deplacement = 0;
+        this.nbInput = 0;
+        this.tabInput = [];
 
         super( game, config.nomsEntitee.JOUEUR + this.orientation, 'spritesheet', data );
 
@@ -29,13 +34,10 @@ class Character extends Entity
         return;
     }
 
-    setDeplacement( v )
+    getRayonEcl()
     {
-        this.deplacement = v;
-
-        return;
+        return this.rayon_ecl;
     }
-
 
     /**
      * Quand on gagne de l'éngerie, on 'pause' le timer précédent et on lance le suivant
@@ -43,25 +45,30 @@ class Character extends Entity
      */
     addRayonEclairage()
     {
-        var dequeEclairage;
+        var self = this,
+            dequeEclairage = {};
 
         //On perd de l'énergie et s'il en reste, on fait quelque chose
         if ( this.lostEnergy() >= 0 )
         {
 
             if ( this.rayon_ecl > 1 )
-            { // Quand il a déjà boosté son niveau d'énergie
-                dequeEclairage[ rayon_ecl - 1 ].pause();
-                dequeEclairage[ rayon_ecl - 1 ].addTime( config.eclairage.TEMP_AJOUT );
+            {
+                // Quand il a déjà boosté son niveau d'énergie
+                if ( tools.isset( dequeEclairage[ this.rayon_ecl - 1 ] ) === true )
+                {
+                    dequeEclairage[ this.rayon_ecl - 1 ].pause();
+                    dequeEclairage[ this.rayon_ecl - 1 ].addTime( config.eclairage.TEMP_AJOUT );
+                }
 
                 this.rayon_ecl++;
                 this.timer = new Timer( function()
                 {
-                    this.rayon_ecl--;
-                    dequeEclairage[ rayon_ecl - 1 ].resume();
+                    self.rayon_ecl--;
+                    dequeEclairage[ self.rayon_ecl - 1 ].resume();
                 }, config.eclairage.TEMP_BASE );
 
-                dequeEclairage[ rayon_ecl - 1 ] = timer;
+                dequeEclairage[ this.rayon_ecl - 1 ] = this.timer;
 
             }
             else
@@ -69,11 +76,11 @@ class Character extends Entity
                 this.rayon_ecl++;
                 this.timer = new Timer( function()
                 {
-                    this.rayon_ecl--;
+                    self.rayon_ecl--;
                 }, config.eclairage.TEMP_BASE );
-                timer.addTime( config.eclairage.TEMP_AJOUT );
+                this.timer.addTime( config.eclairage.TEMP_AJOUT );
 
-                dequeEclairage[ 0 ] = timer;
+                dequeEclairage[ 0 ] = this.timer;
             }
         }
 
@@ -107,39 +114,86 @@ class Character extends Entity
         else
         {
             this.energy--;
-            return energy;
+            return this.energy;
         }
+    }
+
+    /**
+     * Interuption du joueur si toutes les touches enfoncé sont relevées
+     */
+    handlePlayerInputOff( keyinput )
+    {
+        var index = _.indexOf( this.tabInput, keyinput );
+
+        // Input pas dans le tableau
+        if ( index === -1 )
+        {
+            return;
+        }
+
+        delete this.tabInput[ index ];
+        this.nbInput = this.nbInput - 1;
+
+        if ( this.nbInput === 0 )
+        {
+            this.moving = false;
+        }
+
+        return;
     }
 
     handlePlayerInput( keyinput )
     {
-        this.moving = true;
+        // Input déjà dans le tableau
+        if ( _.contains( this.tabInput, keyinput ) === true )
+        {
+            return;
+        }
+
+        this.tabInput.push( keyinput );
         this.orientation = keyinput;
-        console.log( this.deplacement );
+        this.moving = true;
+        this.nbInput = this.nbInput + 1;
+
+        return;
+    }
+
+    move( deplacement )
+    {
+        // pas plus de 5
+        deplacement = Math.min( 5, deplacement );
+
         if ( this.orientation === config.orientations.LEFT )
         {
-            this.x = this.x - this.deplacement;
+            this.x = this.x - deplacement;
         }
         else
         if ( this.orientation === config.orientations.RIGHT )
         {
-            this.x = this.x + this.deplacement;
+            this.x = this.x + deplacement;
         }
         else
         if ( this.orientation === config.orientations.UP )
         {
-            this.y = this.y - this.deplacement;
+            this.y = this.y - deplacement;
         }
         else
         if ( this.orientation === config.orientations.DOWN )
         {
-            this.y = this.y + this.deplacement;
+            this.y = this.y + deplacement;
         }
+
+        if ( tools.isset( this.after_step_callback ) === true )
+        {
+            this.after_step_callback();
+        }
+
+        return;
     }
 
     getNumberOfKillFor( monsterName )
     {
-        return this.entityKilled[monsterName];
+        return this.entityKilled[ monsterName ];
     }
 
     getEntityKilled()
@@ -150,19 +204,23 @@ class Character extends Entity
     addOneKillFor( monsterNamae )
     {
         //Au cas où le nom du monstre n'est pas bien renseigné, pour ne pas avoir de nullpointerexception ou un truc du genre
-        try{
-           this.entityKilled[monsterName]++;
-        }catch(ex){
-            console.log("Le nom du monstre qui a été tué n'existe pas ou n'as pas été bien renseigné.");
+        try
+        {
+            this.entityKilled[ monsterName ]++;
+        }
+        catch ( ex )
+        {
+            console.log( "Le nom du monstre qui a été tué n'existe pas ou n'as pas été bien renseigné." );
         }
     }
 
     initTableauMobs()
     {
         var self = this;
-        _.each(config.monstres,function(item,monsterName){
-            self.entityKilled[monsterName] = 0;
-        });
+        _.each( config.monstres, function( item, monsterName )
+        {
+            self.entityKilled[ monsterName ] = 0;
+        } );
     }
 
 }

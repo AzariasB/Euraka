@@ -1,10 +1,14 @@
 // Data
 var config = require( 'data/config.js' );
+
 // Class
 var Sprite = require( 'class/sprite.js' );
 var Transition = require( 'class/transition.js' );
+
 // Lib
 var tools = require( 'lib/tools.js' );
+var _ = require( 'underscore' );
+
 class Entity
 {
     constructor( game, code, file, data )
@@ -124,6 +128,16 @@ class Entity
         return this.y * config.map.tileSize + this.game.stage.getY();
     }
 
+    setData(data)
+    {
+        this.x = data.x || 0;
+        this.y = data.y || 0;
+        this.width = data.width || 0;
+        this.height = data.height || 0;
+
+        return;
+    }
+
     /**
      * Affiche le sprite
      */
@@ -132,7 +146,7 @@ class Entity
         // console.log( this.calcX() );
         // console.log( this.calcY() );
         // console.log(this.constructor.name);
-        if ( this.constructor.name === 'Character' )
+        if ( _.contains(['Character','Entity'], this.constructor.name) === true )
         {
             this.sprite.draw( this.x + this.game.stage.getX(), this.y + this.game.stage.getY(), this.width, this.height );
         }

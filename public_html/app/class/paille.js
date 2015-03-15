@@ -4,6 +4,10 @@ var config = require( 'data/config.js' );
 // Class
 var Destructible = require( 'class/destructible.js' );
 
+// Lib
+var tools = require( 'lib/tools.js' );
+var _ = require( 'underscore' );
+
 /**
  * Un block bord se situe au bord de la map et empêche le joueur de s'échapper !
  */

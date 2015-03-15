@@ -4,19 +4,33 @@ var config = require( 'data/config.js' );
 // Class
 var Entity = require( 'class/entity.js' );
 
+// Lib
+var tools = require( 'lib/tools.js' );
+var _ = require( 'underscore' );
+
 class Monster extends Entity
 {
     constructor( game, name, file, data )
     {
-        data.x = x;
-        data.y = y;
-        data.width = width;
-        data.height = height;
+        this.orientation = config.orientations.DOWN;
+        super( game, name, 'spritesheet', data );
 
         this.followingPlayer = false;
         this.target = false;
         return;
     }
+
+    // getSpriteName( codeStage )
+    // {
+    //     var result;
+
+    //     if ( _.contains(['pyramide1'], codeStage ) === true)
+    //     {
+    //         result = config.monstres.CHAT;
+    //     }
+
+    //     return config.monstres.CHAT + this.orientation;
+    // }
 
     isNear( character, distance )
     {

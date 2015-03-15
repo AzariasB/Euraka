@@ -21,7 +21,8 @@ class Prise extends Block
         data.height = config.map.priseSize;
 
         //Changer le nom du sprite
-        super( game, config.nomsEntitee.BLOCK_PRISE, data, [ 'Prise_avant', 'Prise_après' ], 1, true );
+        // super( game, config.nomsEntitee.BLOCK_PRISE, data, [ 'Prise_avant', 'Prise_après' ], 1, true );
+        super( game, config.nomsEntitee.BLOCK_LUMIERE, data, [ 'Prise_avant', 'Prise_après' ], 1, true );
     }
 
     isDestructed()
