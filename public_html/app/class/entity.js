@@ -301,6 +301,7 @@ class Entity
 
         return;
         }
+    }
 
         onBeforeStep(callback)
         {
@@ -381,8 +382,6 @@ class Entity
         //Ben... il est mort, faut détruire l'objet
         die()
         {
-
-        }
 
         }
     }
