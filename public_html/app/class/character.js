@@ -72,16 +72,16 @@ class Character extends Entity
                 if ( tools.isset( self.dequeEclairage[ this.rayon_ecl - 1 ] ) === true )
                 {
                     self.dequeEclairage[ this.rayon_ecl - 1 ].pause();
-                    self.dequeEclairage[ this.rayon_ecl - 1 ].addTime( config.eclairage.TEMP_AJOUT );;
+                    self.dequeEclairage[ this.rayon_ecl - 1 ].addTime( config.eclairage.TEMP_AJOUT );
                 }
 
                 this.rayon_ecl++;
                 this.timer = new Timer( function()
                 {
-                    //                    self.rayon_ecl--;
-                    //                    if(self.rayon_ecl >= 1){
-                    //                        self.dequeEclairage[ self.rayon_ecl - 1 ].resume();
-                    //                    }
+                    self.rayon_ecl--;
+                    if(self.rayon_ecl >= 1){
+                        self.dequeEclairage[ self.rayon_ecl - 1 ].resume();
+                    }
 
                 }, config.eclairage.TEMP_BASE );
 
@@ -137,6 +137,12 @@ class Character extends Entity
             return -1;
         }
     }
+
+    fillEnergy()
+    {
+        this.energy = config.energie.JAUGE_MAX;
+    }
+
 
     lostEnergy()
     {
