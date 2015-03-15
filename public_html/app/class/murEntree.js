@@ -2,16 +2,16 @@
 var config = require( 'data/config.js' );
 
 // Class
-var Destructible = require( 'class/destructible.js' );
+var Block = require( 'class/block.js' );
 
 // Lib
 var tools = require( 'lib/tools.js' );
 var _ = require( 'underscore' );
 
 /**
- * Un block bord se situe au bord de la map et empêche le joueur de s'échapper !
+ * Un block mur .. c'est comme un block 'bord' mais pas avec les mêmes sprites
  */
-class Paille extends Destructible
+class MurEntree extends Block
 {
 
     constructor( game, x, y, width, heigh )
@@ -24,10 +24,8 @@ class Paille extends Destructible
         data.height = config.map.blockSize;
 
         //Changer le nom du sprite
-        super( game, config.nomsEntitee.BLOCK_PAILLE, data, [ 'sol' ], 1, false );
-
-        return;
+        super( game, config.nomsEntitee.BLOCK_BORD_START_END, data, [ 'mur' ], 1, true );
     }
 }
 
-module.exports = Paille;
+module.exports = MurEntree;

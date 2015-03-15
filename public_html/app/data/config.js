@@ -11,13 +11,13 @@ module.exports = {
         "audio": "./assets/audio/"
     },
     "map": {
-        "blockSize": 44,
-        "kiketteSize": 44,
-        "priseSize": 44,
-        "sortieSize": 44,
-        "entreeSize": 44,
-        "characterSize": 44,
-        "tileSize": 46,
+        "blockSize": 54,
+        "kiketteSize": 54,
+        "priseSize": 54,
+        "sortieSize": 54,
+        "entreeSize": 54,
+        "characterSize": 54,
+        "tileSize": 54,
         "rayon": 650,
         "scale": 1,
         "scaleMin": 0.3,
@@ -63,20 +63,23 @@ module.exports = {
         }
     },
     "nomsEntitee":{
-        "PROJECTILE" : "projectile",
+        "PROJECTILE" : "tir_",
         "JOUEUR" : "eureka_",
         "BLOCK_BORD" : "bord",
+        "BLOCK_BORDURE" : "bordure_01",
+        "BLOCK_BORD_START_END" : "bordure_start_end",
         "BLOCK_MUR" : "mur",
         "BLOCK_PIEGE" : "piege",
         "BLOCK_PRISE" : "prise",
+        "BLOCK_LUMIERE" : "lumiere",
         "BLOCK_PAILLE" : "paille",
-        "BLOCK_ENTREE" : "entree",
-        "BLOCK_SORTIE" : "sortie",
+        "BLOCK_ENTREE" : "start_end_halo_",
+        "BLOCK_SORTIE" : "start_end_halo_",
         "BLOCK_KIKETTE" : "kikette",
         "BLOCK_SOL" : "sol"
     },
     "monstres":{
-        "CHAT":"chat.png",
-        "RAT" :"rat.png"
+        "CHAT":"chat_",
+        "RAT" :"rat_"
     }
-}
+};

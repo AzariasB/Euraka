@@ -4,6 +4,7 @@ var config = require( 'data/config.js' );
 // Class
 var Character = require( 'class/character.js' );
 var Stage = require( 'class/stage.js' );
+var Entity = require( 'class/entity.js' );
 // var MusicManager = require( 'class/musicManager.js' );
 // var AmbienceManager = require( 'class/ambienceManager.js' );
 
@@ -28,11 +29,6 @@ class GameController
 
     start()
     {
-        if ( tools.isDebug() === true )
-        {
-            console.log( 'GameController@init' );
-        }
-
         tools.showTemplate( GameView, 'l-main', null, this.gameLoaded.bind( this ) );
 
         // // On instancie la musique après la map
@@ -59,7 +55,7 @@ class GameController
         // stage.updateGrid();
 
         // Set du character en premier, car il faut un x,y pour instancier le pathfinder de la map
-        stage = new Stage( this.game, 'tuto' );
+        stage = new Stage( this.game, 'pyramide1' );
         this.game.stage = stage;
         stage.setCallbackInit( this.stageLoaded.bind( this ) );
         map.setStage( stage );
@@ -71,14 +67,21 @@ class GameController
 
     stageLoaded()
     {
-        var start, character;
+        var start, character, halo;
 
         start = this.game.stage.getTabEntree();
 
+        halo = new Entity( this.game, 'halo', 'spritesheet', {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+        } );
         character = new Character( this.game, start[ 0 ] * config.map.tileSize, start[ 1 ] * config.map.tileSize, config.map.speed );
         this.game.character = character;
         this.game.mapTemplate.pushEntityToUpdate( character );
         this.game.mapTemplate.setCharacter( character );
+        this.game.mapTemplate.setHalo( halo );
         this.game.mapTemplate.run();
 
         return;

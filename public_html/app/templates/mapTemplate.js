@@ -134,15 +134,11 @@ class MapTemplate
     }
     
     initTiledMap(){
-        console.log("Initiation de la tiled map");
        var self = this;
-       console.log("Nombre d'entites : " + this.tabEntities.length);
        _.each(this.tabEntities, function(item,key){
-           console.log(key);
             var posit = getPositionInArray(item.x,item.y);
             self.tiledMap[posit.x][posit.y] = item;
        });
-       console.log(this.tiledMap);
     }
 
     run()
@@ -495,7 +491,7 @@ class MapTemplate
         // Estimate of the movement distance for one update
         var tick = Math.round( this.tileSize / ( c.moveSpeed / ( 1000 / this.realFPS ) ) );
 
-        if ( c.canMove() && c.isMoving() === true)
+        if ( c.isMoving() === true )
         {
             c.setDeplacement( tick );
         }

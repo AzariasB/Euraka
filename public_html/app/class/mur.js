@@ -4,6 +4,10 @@ var config = require( 'data/config.js' );
 // Class
 var Block = require( 'class/block.js' );
 
+// Lib
+var tools = require( 'lib/tools.js' );
+var _ = require( 'underscore' );
+
 /**
  * Un block mur .. c'est comme un block 'bord' mais pas avec les mêmes sprites
  */
@@ -20,7 +24,24 @@ class Mur extends Block
         data.height = config.map.blockSize;
 
         //Changer le nom du sprite
-        super(game, config.nomsEntitee.BLOCK_MUR ,data,['mur'],1, true );
+        super( game, this.getSpriteName( game.stage.getCode() ), data, [ 'mur' ], 1, true );
+    }
+
+    getSpriteName( codeStage )
+    {
+        var rand;
+        // if ( _.random( 0, 10 ) <= 8 )
+        // {
+        //     rand = '01';
+        // }
+        // else
+        // {
+        //     rand = '02';
+        // }
+
+        rand = '01';
+
+        return config.nomsEntitee.BLOCK_MUR + '_' + rand;
     }
 }
 
