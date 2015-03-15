@@ -79,7 +79,7 @@ module.exports = {
         "BLOCK_SOL" : "sol"
     },
     "monstres":{
-        "CHAT":"chat_",
+        "CHAT":"CHAT_RIGHT_1",
         "RAT" :"rat_"
     }
 };

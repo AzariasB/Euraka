@@ -3,16 +3,89 @@
 \*------------------------------------*/
 
 .intro-img {
-    height: 50vh;
-    width: auto;
-    display: inline-block;
+    background: transparent url('../img/menu_principal_apercu.jpg') center center no-repeat;
+    background-size: cover;
 }
 .intro {
-    width: 50%;
-    height: 50%;
+    top: 29em;
+    line-height: 6em;
+    width: 28em;
+}
+.intro-nav {
+    margin-bottom: 2em;
 }
 .intro-btn {
     display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+/*------------------------------------*\
+    Cinématique
+\*------------------------------------*/
+
+.cinematique {
+    background: transparent url('../img/illu1.jpg') center center no-repeat;
+    background-size: cover;
+}
+.cinematiqueEnd {
+    background: transparent url('../img/illu2.jpg') center center no-repeat;
+    background-size: cover;
+}
+.cinematiqueDeath {
+    background: transparent url('../img/illu3gameover.jpg') center center no-repeat;
+    background-size: cover;
+}
+.cinematique-txt {
+    color: #FFF;
+    bottom: 3em;
+    width: 56em;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+/*------------------------------------*\
+    Scoring
+\*------------------------------------*/
+
+.scoring {
+    background: transparent url('../img/scoringlevel.jpg') center center no-repeat;
+    background-size: cover;
+}
+.scoring.is-final {
+    background: transparent url('../img/scoring_run.jpg') center center no-repeat;
+    background-size: cover;
+}
+.scoring.is-hightscore {
+    background: transparent url('../img/scoring_run_exemple.jpg') center center no-repeat;
+    background-size: cover;
+}
+.cinematique-txt {
+    color: #FFF;
+    bottom: 3em;
+    width: 56em;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+/*------------------------------------*\
+    Modal
+\*------------------------------------*/
+
+.modal {
+    width: 50%;
+    height: 50%;
+    z-index: 16;
+}
+.modal-minimap {
+    width: 100%;
+    height: 100%;
+}
+.modal-tuto {
+    background: transparent url('../img/tuto.png') center center no-repeat;
+}
+.modal-pyramide1 {
+    background: transparent url('../img/pyramide1.png') center center no-repeat;
 }
 /*------------------------------------*\
     Ui

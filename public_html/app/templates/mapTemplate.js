@@ -109,7 +109,7 @@ class MapTemplate
         // this.tabEntities.push( this.character );
 
         // On bind les callback du déplacement
-        this.charEvent();
+        // this.charEvent();
         // On a besoin d'une valeur x,y pour la map
         this.centerMap();
 

@@ -1,0 +1,4 @@
+<div class="ac modal">
+    <div class="pa modal-minimap modal-{{code}}">
+    </div>
+</div>

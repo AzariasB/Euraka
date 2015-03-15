@@ -11,12 +11,18 @@ var Entity = require( 'class/entity.js' );
 // Lib
 var tools = require( 'lib/tools.js' );
 var _ = require( 'underscore' );
+require( 'lib/mousetrap.js' );
 
 // Template
 var MapTemplate = require( 'templates/mapTemplate.js' );
 
 // View
 var GameView = require( 'views/game/gameTpl.ract' );
+var CinematiqueTpl = require( 'views/game/cinematiqueTpl.ract' );
+var CinematiqueGameTpl = require( 'views/game/cinematiqueGameTpl.ract' );
+var ModalTpl = require( 'views/game/modalTpl.ract' );
+var ScoringTpl = require( 'views/game/scoringTpl.ract' );
+var DeathTpl = require( 'views/game/deathTpl.ract' );
 
 class GameController
 {
@@ -25,17 +31,62 @@ class GameController
         this.game = game;
         this.game.gameView = null;
         this.game.scoringTimer = 0;
+        this.hasNeverStarted = true;
+        this.tabCodeStage = [ 'tuto', 'pyramine1' ];
+        this.indexCodeStage = 0;
+        this.nbRunTotal = this.tabCodeStage.length - 1;
+        this.currentCodeStage = null;
+
+        return;
+    }
+
+    rerun()
+    {
+        this.indexCodeStage = 0;
+        return this.start();
+    }
+
+    cinematique()
+    {
+        this.hasNeverStarted = false;
+        tools.fadeOut( 'l-main', function()
+        {
+            tools.showTemplate( CinematiqueTpl, 'l-main' );
+        } );
+
+        Mousetrap.bind( 'a', this.cinematiqueEnd.bind( this ), 'keydown' );
+
+        return;
+    }
+
+    cinematiqueEnd()
+    {
+        Mousetrap.unbind( 'a' );
+        this.start();
 
         return;
     }
 
     start()
     {
-        this.game.gameView = tools.showTemplate( GameView, 'l-main',
+        var self = this;
+
+        clearTimeout( this.interval );
+        this.game.scoringTimer = 0;
+
+        if ( this.hasNeverStarted === true )
         {
-            'score': 9999,
-            'timer': '00:00'
-        }, this.gameLoaded.bind( this ) );
+            return this.cinematique();
+        }
+
+        tools.fadeOut( 'l-main', function()
+        {
+            self.game.gameView = tools.showTemplate( GameView, 'l-main',
+            {
+                'score': 9999,
+                'timer': '00:00'
+            }, self.gameLoaded.bind( self ) );
+        } );
 
         // // On instancie la musique après la map
         // this.musicManager = new MusicManager( this.game );
@@ -46,18 +97,17 @@ class GameController
         // this.ambienceManager = new AmbienceManager( this.game );
         // this.ambienceManager.play();
         // this.ambienceManager.fadeInCurrent();
-this.startTimer();
+
         return;
     }
 
     startTimer()
     {
-        window.setInterval( this.updateTimer.bind( this ), 1000 );
+        this.interval = window.setInterval( this.updateTimer.bind( this ), 1000 );
     }
 
     updateTimer()
     {
-        console.log(this.game.scoringTimer);
         this.game.scoringTimer = this.game.scoringTimer + 1;
 
         return;
@@ -67,6 +117,9 @@ this.startTimer();
     {
         var map, stage;
 
+        this.currentCodeStage = this.tabCodeStage[ this.indexCodeStage ];
+        this.indexCodeStage = this.indexCodeStage + 1;
+
         map = new MapTemplate( this.game );
 
         // stage = this.getInitialMap();
@@ -74,7 +127,7 @@ this.startTimer();
         // stage.updateGrid();
 
         // Set du character en premier, car il faut un x,y pour instancier le pathfinder de la map
-        stage = new Stage( this.game, 'pyramide1' );
+        stage = new Stage( this.game, this.currentCodeStage );
         this.game.stage = stage;
         stage.setCallbackInit( this.stageLoaded.bind( this ) );
         map.setStage( stage );
@@ -103,9 +156,138 @@ this.startTimer();
         this.game.mapTemplate.pushEntityToUpdate( character );
         this.game.mapTemplate.setCharacter( character );
         this.game.mapTemplate.setHalo( halo );
-        this.game.mapTemplate.run();
+
+        return this.showPopin();
+    }
+
+    showPopin()
+    {
+        var self = this;
+
+        tools.addOverlay( function()
+        {
+            tools.showTemplate( ModalTpl, 'popin',
+            {
+                "code": self.currentCodeStage
+            } );
+        } );
+
+        Mousetrap.bind( 'a', this.showPopinEnd.bind( this ), 'keydown' );
 
         return;
+    }
+
+    showPopinEnd()
+    {
+        tools.empty( 'popin' );
+        tools.removeOverlay();
+        Mousetrap.unbind( 'a' );
+
+        this.game.mapTemplate.run();
+        this.game.mapTemplate.charEvent();
+        this.startTimer();
+
+        return;
+    }
+
+    showVictoire()
+    {
+        clearTimeout( this.interval );
+        this.game.mapTemplate.stop();
+        this.showPopinScoring();
+
+        return;
+    }
+
+    showPopinScoring()
+    {
+        var isEnd = this.indexCodeStage === this.nbRunTotal,
+            fct;
+
+        tools.addOverlay( function()
+        {
+            tools.showTemplate( ScoringTpl, 'popin',
+            {
+                "isHighScore": false,
+                "isFinal": false,
+                "end": this.game.scoring.endLevel()
+            } );
+        } );
+
+        if ( isEnd === true )
+        {
+            fct = this.showPopinScoringTotal.bind( this );
+        }
+        else
+        {
+            fct = this.showNextLvl.bind( this );
+        }
+
+        Mousetrap.bind( 'a', fct, 'keydown' );
+
+        return;
+    }
+
+    showNextLvl()
+    {
+        this.indexCodeStage = this.indexCodeStage + 1;
+        this.start();
+
+        return;
+    }
+
+    showDeath()
+    {
+        tools.fadeOut( 'l-main', function()
+        {
+            self.game.gameView = tools.showTemplate( DeathTpl, 'l-main' );
+        } );
+
+        this.indexCodeStage = 0;
+        Mousetrap.bind( 'a', fct, 'keydown' );
+
+        return;
+    }
+
+    showDeathEnd()
+    {
+        Mousetrap.unbind( 'a' );
+        this.start();
+
+        return;
+    }
+
+    showPopinScoringTotal()
+    {
+
+        tools.addOverlay( function()
+        {
+            tools.showTemplate( ScoringTpl, 'popin',
+            {
+                "isHighScore": false,
+                "isFinal": true,
+                "end": this.game.scoring.endRun()
+            } );
+        } );
+
+        this.cinematiqueGame();
+
+        return;
+    }
+
+    cinematiqueGame()
+    {
+        tools.fadeOut( 'l-main', function()
+        {
+            tools.showTemplate( CinematiqueGameTpl, 'l-main' );
+        } );
+
+        Mousetrap.bind( 'a', this.cinematiqueGameEnd.bind( this ), 'keydown' );
+    }
+
+    cinematiqueGameEnd()
+    {
+        Mousetrap.unbind( 'a' );
     }
 
     updateMusic()
