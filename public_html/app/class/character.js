@@ -30,6 +30,7 @@ class Character extends Entity
         this.rayon_ecl = 1;
         this.dequeEclairage = [];
         this.entityKilled = {};
+        this.peutLancerProjectile = true;
 
         return;
     }
@@ -88,6 +89,18 @@ class Character extends Entity
         }
 
         return;
+    }
+    
+    lanceProjectile(x,y)
+    {
+        var self = this;
+        if(this.peutLancerProjectile){
+            this.game.mapTemplate.createProjectile(this.x,this.y,this.direction);
+            this.peutLancerProjectile = false;
+            setTimeout(function(){
+               self.peutLancerProjectile = true;
+            });
+        }
     }
 
     getEnery()
@@ -228,7 +241,6 @@ class Character extends Entity
     
     aGagne()
     {
-        
         var aGagne = false;
         var jPosit = tools.getPositionInArray(this.x + this.width/2, this.y + this.height + this.height/10 );
         

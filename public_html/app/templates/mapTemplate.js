@@ -7,6 +7,7 @@ var Block = require( 'class/block.js' );
 // Lib
 var tools = require( 'lib/tools.js' );
 var _ = require( 'underscore' );
+var Projectile = require('class/projectile.js');
 
 var Scoring = require( 'class/scoring.js' );
 require( 'lib/mousetrap.js' );
@@ -73,6 +74,15 @@ class MapTemplate
         this.tabEntitiesToUpdate.push( v );
 
         return;
+    }
+    
+    createProjectile(x,y, direction)
+    {
+        console.log("Projectile créé");
+        var dimension = config.map.blockSize;
+        var projectile = new Projectile(this.game, x, y, dimension, dimension);
+        this.tabEntities.push(projectile);
+        this.tabEntitiesToUpdate.push(projectile);
     }
 
     getContext()
@@ -188,6 +198,7 @@ class MapTemplate
 
         // Action 'spéciales'
         Mousetrap.bind( 'a', this.character.addRayonEclairage.bind( this.character ), 'keydown' );
+        Mousetrap.bind( 'z', this.character.lanceProjectile.bind(this.character), 'keydown' );
 
         // Mousetrap.bind( 'up', function() {
         //     self.character.handlePlayerInput.bind( self.character, config.orientations.UP );
@@ -583,6 +594,17 @@ class MapTemplate
                 // --> this.game.gameController.showVictory();
             }
         }
+        
+        if(c.constructor.name === "Projectile")
+        {
+            c.avance();
+        }
+            
+            //Si le projectile a atteind sa portee maximale, on le détruit !
+            //
+//            if(c.getPortee() === 0 ){
+//               delete this.tabEntities[this.tabEntities.indexOf(c)];
+//            }
         // NOTE
         // LAST step = c.x - this.tileSize / 2
         // pour centrer la pastille du joueur

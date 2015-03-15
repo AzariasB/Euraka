@@ -13,25 +13,32 @@ class Projectile extends Entity
 {
     constructor( game, x, y, width, height, direction )
     {
-        data = {};
+        var data = {};
         data.x = x;
         data.y = y;
         data.width = width;
         data.height = height;
 
         this.orientation = config.orientations.RIGHT;
+        this.portee = config.projectile.PORTEE;
 
         super( game, config.nomsEntitee.PROJECTILE + this.orientation, 'spritesheet', data );
     }
-
-    canIDie()
+    
+    avance()
     {
-        return this.step >= config.projectile.PORTEE;
+        //console.log(this.portee);
+        this.lossPortee( .01 );
     }
     
-    updatePosition()
+    lossPortee( loss )
     {
-        
+        this.portee -= loss;
+    }
+    
+    getPortee()
+    {
+        return this.portee;
     }
 
 }

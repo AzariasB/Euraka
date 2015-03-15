@@ -40,7 +40,8 @@ module.exports = {
         "TEMP_AJOUT" : 1000
     },
     "projectile" : {
-        "PORTEE" : 5
+        "PORTEE" : 4,
+        "COOLDOWN" : 1000
     },
     "energie" :{
         "JAUGE_MAX" : 6
@@ -56,7 +57,7 @@ module.exports = {
         "PER_MUNITIONS" : 125,
         "ALL_KIKETTE" : 1000,
         "NO_KILL" : 1500,
-        "TIME_MAX" : 10, // Temps max en minutes avant lequel on peut gagner un bonus
+        "TIME_MAX" : 4, // Temps max en minutes avant lequel on peut gagner un bonus
         "GOOD_TIME" : 1000,
         "MOBS" : { //Il faudra changer le nom des images pour que ça corresonde
             "CHAT": "chat.png"
