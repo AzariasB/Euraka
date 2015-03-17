@@ -7,18 +7,18 @@ var bitmapData = {
 };
 
 // Class
-var Sol = require( 'class/sol.js' );
-var Prise = require( 'class/prise.js' );
-var Piege = require( 'class/piege.js' );
-var Mur = require( 'class/mur.js' );
-var Entree = require( 'class/entree.js' );
-var Sortie = require( 'class/sortie.js' );
-var Paille = require( 'class/paille.js' );
-var Kikette = require( 'class/kikette.js' );
-var MurEntree = require( 'class/murEntree.js' );
-var MurSortie = require( 'class/murSortie.js' );
-var Bordure = require( 'class/bordure.js' );
-var Chat = require( 'class/chat.js' );
+var Sol = require( 'class/entities/sol.js' );
+var Prise = require( 'class/entities/prise.js' );
+var Piege = require( 'class/entities/piege.js' );
+var Mur = require( 'class/entities/mur.js' );
+var Entree = require( 'class/entities/entree.js' );
+var Sortie = require( 'class/entities/sortie.js' );
+var Paille = require( 'class/entities/paille.js' );
+var Kikette = require( 'class/entities/kikette.js' );
+var MurEntree = require( 'class/entities/murEntree.js' );
+var MurSortie = require( 'class/entities/murSortie.js' );
+var Bordure = require( 'class/entities/bordure.js' );
+var Chat = require( 'class/entities/chat.js' );
 
 // lib
 var tools = require( 'lib/tools.js' );
@@ -54,17 +54,17 @@ var _ = require( 'underscore' );
 
 class Stage
 {
-    constructor( game, code, file )
+    constructor( game, code )
     {
-        this.x = -500;
-        this.y = -500;
-        this.maxX = stageData.maxX;
-        this.maxY = stageData.maxY;
+        this.game = game;
+
+        this.code = code;
+        var data = stageData[ this.code ];
+
+        this.style = data.style;
+
         this.nbTuilesLargeur = 0;
         this.nbTuilesHauteur = 0;
-        this.code = code; // nom du sprite
-        this.file = file; // nom du fichier json
-        this.game = game; // Sprite déjà chargé
 
         this.tabEntities = [];
         this.tabEntree = null;
@@ -72,8 +72,12 @@ class Stage
 
         this.call_back_init = null;
 
-
         return;
+    }
+
+    getStyle()
+    {
+        return this.style.length === 0 ? '' : this.style + '_';
     }
 
     getCode()
@@ -122,6 +126,11 @@ class Stage
         return;
     }
 
+    pushTabEntities( v )
+    {
+        return this.tabEntities.push( v );
+    }
+
     getTabEntities()
     {
         return this.tabEntities;
@@ -135,11 +144,6 @@ class Stage
     getTabSortie()
     {
         return this.tabSortie;
-    }
-
-    getSprite()
-    {
-        return new Sprite( this.code, this.file, this.game );
     }
 
     getNbTuilesLargeur()
@@ -156,8 +160,6 @@ class Stage
      */
     init()
     {
-        console.log("Initialisation");
-
         // console.log(this.code);
         // console.log(bitmapData);
         // console.log(bitmapData[ this.code ].data);
@@ -176,7 +178,10 @@ class Stage
 
         this.nbTuilesHauteur = bitmapData[ this.code ].data.length;
 
-        this.nbTuilesLargeur = bitmapData[this.code].data[0].length;
+        this.nbTuilesLargeur = bitmapData[ this.code ].data[ 0 ].length;
+
+        this.maxX = this.nbTuilesLargeur * config.map.tileSize;
+        this.maxY = this.nbTuilesHauteur * config.map.tileSize;
 
         _.each( bitmapData[ this.code ].data, function( line, idLine )
         {
@@ -266,11 +271,6 @@ class Stage
                         // mur
                         C = Mur;
                         break;
-                }
-
-                if (this.code === 'tuto') {
-                    this.tabEntree = [ 9, 21 ];
-                    this.tabSortie = [ 59, 19 ];
                 }
 
                 if ( tools.isset( tabToPush ) === true )

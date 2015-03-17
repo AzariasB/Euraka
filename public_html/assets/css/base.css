@@ -1,4 +1,5 @@
 /*==========  Font  ==========*/
+
 @font-face {
     font-family: 'pixel';
     src: url('../font/advocut/advocut-webfont.eot');
@@ -6,15 +7,6 @@
     font-weight: normal;
     font-style: normal;
 }
-/* Titre */
-/*
-@font-face {
-    font-family: 'titre';
-    src: url('../font/advocut/advocut-webfont.eot');
-    src: url('../font/advocut/advocut-webfont.eot?#iefix') format('embedded-opentype'), url('../font/advocut/advocut-webfont.woff2') format('woff2'), url('../font/advocut/advocut-webfont.woff') format('woff'), url('../font/advocut/advocut-webfont.ttf') format('truetype'), url('../font/advocut/advocut-webfont.svg#immortalregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}*/
 /*==========  HTML Structure  ==========*/
 
 html, body {
@@ -26,7 +18,8 @@ html {
 }
 body {
     /*font: 1em/1.5 labeur;*/
-    font-size: 1em;
+
+font-size: 1em;
     line-height: 1.5em;
     font-family: pixel, arial;
     padding: 0;
@@ -46,6 +39,7 @@ canvas {
     image-rendering: optimizeSpeed;
 }
 /*==========  Style générique  ==========*/
+
 .bold {
     font-weight: 700 !important;
 }
@@ -116,8 +110,7 @@ display: table;
 .pointer-none {
     pointer-events: none;
 }
-
 a {
     text-decoration: none;
-    color: #000;
+    color: #FFF;
 }

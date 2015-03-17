@@ -1,10 +1,27 @@
 # Euraka - Fancy Tree Studio
 
-## Equipe
-Azarias
-Chloé
-Qentin
-Fabien
+## Description
+
+Euraka est une étrange créature provenant d'un futur sombre, où l'Humanité semble s'être éteinte...
+
+A la tête d'un gang de petits individus (légèrement illuminés), notre héros dérobe régulièrement de l’énergie à l’abri dans lequel il réside, par le biais de prises et autres sources d'éclairage.
+
+Excédé par cet indigne vandalisme, mais désireuse de satisfaire le plus grand nombre, l'Intelligence Artificielle en charge de la faune du bunker décide d'envoyer Euraka dans le temps.
+
+Parcourant les moments clefs de l'Histoire, peut-être trouvera t-il ce qu'il semble convoiter : La Lumière.
+
+(… mais parviendra t-il seulement à rentrer chez lui ?!)
+
+## [Fancy Tree Studio](http://www.thegamehasbegun.com/)
+* Azarias (dev)
+* Chloé (graph)
+* Qentin (gamedesign)
+* Fabien (dev)
+
+## Mission
+Grenoble Game Jam 48h in [La Casemate](http://lacasemate.fr/) - 2015
+Theme : light *(UNESCO)*
+
 
 ## Architecture development
 
@@ -12,21 +29,14 @@ Fabien
 
 * [UnderscoreJS](http://underscorejs.org/) 1.8.1
 * [Ractive.js](http://www.ractivejs.org/) 0.6.1
-* [Velocity.js](http://julian.com/research/velocity/) 1.2.1
-* [Velocityui](https://github.com/julianshapiro/velocity) 5.0.2
 
 ### Css code style
 
 * [SMACSS](https://smacss.com/)
 
-### Client-side
-
-* [NW.js](http://nwjs.io/)
-
 ### Plugins
 
 * rAF Paul Irish http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-* A* STAR Andrea Giammarchi https://www.npmjs.com/package/astar-andrea
 * https://github.com/ccampbell/mousetrap 1.4.6
 
 ### Plugins dev-side
@@ -36,6 +46,45 @@ Fabien
 * [Babel](https://github.com/babel/babel) 5.0.3
 * [Gulp](https://github.com/gulpjs/gulp) 3.8.11
 
-### SAVE Convert plugin jQuery
-* jqueryPluginCommonjs.js -->  https://github.com/umdjs/umd
-https://raw.githubusercontent.com/umdjs/umd/master/jqueryPluginCommonjs.js
+### Thanks to
+
+* http://www.leshylabs.com/apps/sstool/
+* http://littleworkshop.fr/
+* https://popcorntime.io/
+
+## Development explanation
+Browserify permet de faire des appels au class JS avec la méthode ** require ** et donne la possibilité d'appliquer des transformations au code.
+De plus, il compacte tous les fichiers en 1 seul, ce qui préserve les requettes HTTP.
+
+Babel permet d'utiliser du ES6 (Ecmascript 6) qui produit un code proche des autres langages avec des mots clés comme Class, extends,... pour le convertir en ES5, car l'ES6 n'est pas encore finalisé et donc pas compatible avec les navigateurs.
+
+La librairie underscore permet de compléter des fonctions dont on a fréquemment besoin (each, contains, ...)
+
+La librairie Ractive permet le d'afficher des templates en précompilant le JS, elle offre le 2-way-bindin, c'est-à-dire que la vue peut mettre à jour le model et le model peut mettre à jour la vu, sans que le développeur n'écrive pas de code/marqueur particulier pour le faire.
+
+### Process
+
+Browserify créer un bundle composé de tous les fichiers JS, watchify identifie chaque modification de fichier pour ne lancer la compilation du bundle que sur la partie modifiée, babel converti le code ES6 en ES5.
+
+
+### Dev starting
+Install node
+
+```
+npm i -g npm-install-missing gulp
+npm-install-missing
+npm i --save ractive underscore
+```
+
+** Start server **
+```
+gulp connect
+```
+** Start watchify **
+```
+gulp js
+```
+** Executable for win, linux, mac **
+```
+gulp build
+```

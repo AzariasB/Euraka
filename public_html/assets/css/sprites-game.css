@@ -1,0 +1,270 @@
+.start_end_halo_UP {
+   background: url('../img/game.png') no-repeat -180px -993px;
+   width: 44px;
+   height: 44px;
+}
+.start_end_LEFT {
+   background: url('../img/game.png') no-repeat -225px -993px;
+   width: 44px;
+   height: 44px;
+}
+.start_end_RIGHT {
+   background: url('../img/game.png') no-repeat -1083px -697px;
+   width: 44px;
+   height: 44px;
+}
+.tir_DOWN {
+   background: url('../img/game.png') no-repeat -1062px -646px;
+   width: 44px;
+   height: 44px;
+}
+.tir_LEFT {
+   background: url('../img/game.png') no-repeat -1107px -595px;
+   width: 44px;
+   height: 44px;
+}
+.tir_RIGHT {
+   background: url('../img/game.png') no-repeat -270px -993px;
+   width: 44px;
+   height: 44px;
+}
+.tir_UP {
+   background: url('../img/game.png') no-repeat -1062px -493px;
+   width: 44px;
+   height: 44px;
+}
+.warning {
+   background: url('../img/game.png') no-repeat -1107px -544px;
+   width: 44px;
+   height: 44px;
+}
+.bordure_01 {
+   background: url('../img/game.png') no-repeat -0px -993px;
+   width: 44px;
+   height: 44px;
+}
+.bordure_start_end {
+   background: url('../img/game.png') no-repeat -45px -993px;
+   width: 44px;
+   height: 44px;
+}
+.CHAT_DOWN_1 {
+   background: url('../img/game.png') no-repeat -1001px -351px;
+   width: 26px;
+   height: 70px;
+}
+.CHAT_DOWN_2 {
+   background: url('../img/game.png') no-repeat -1001px -422px;
+   width: 26px;
+   height: 70px;
+}
+.CHAT_LEFT_1 {
+   background: url('../img/game.png') no-repeat -1001px -646px;
+   width: 60px;
+   height: 50px;
+}
+.CHAT_LEFT_2 {
+   background: url('../img/game.png') no-repeat -1001px -493px;
+   width: 60px;
+   height: 50px;
+}
+.CHAT_RIGHT_1 {
+   background: url('../img/game.png') no-repeat -1001px -544px;
+   width: 60px;
+   height: 50px;
+}
+.CHAT_RIGHT_2 {
+   background: url('../img/game.png') no-repeat -1001px -595px;
+   width: 60px;
+   height: 50px;
+}
+.CHAT_UP_1 {
+   background: url('../img/game.png') no-repeat -1001px -189px;
+   width: 60px;
+   height: 80px;
+}
+.CHAT_UP_2 {
+   background: url('../img/game.png') no-repeat -1001px -270px;
+   width: 60px;
+   height: 80px;
+}
+.eureka_DOWN_1 {
+   background: url('../img/game.png') no-repeat -1122px -856px;
+   width: 38px;
+   height: 50px;
+}
+.eureka_DOWN_2 {
+   background: url('../img/game.png') no-repeat -1001px -909px;
+   width: 38px;
+   height: 50px;
+}
+.eureka_DOWN_3 {
+   background: url('../img/game.png') no-repeat -1130px -909px;
+   width: 38px;
+   height: 50px;
+}
+.eureka_DOWN_4 {
+   background: url('../img/game.png') no-repeat -1077px -803px;
+   width: 38px;
+   height: 50px;
+}
+.eureka_LEFT_1 {
+   background: url('../img/game.png') no-repeat -1077px -856px;
+   width: 44px;
+   height: 50px;
+}
+.eureka_LEFT_2 {
+   background: url('../img/game.png') no-repeat -1032px -803px;
+   width: 44px;
+   height: 50px;
+}
+.eureka_LEFT_3 {
+   background: url('../img/game.png') no-repeat -1077px -750px;
+   width: 44px;
+   height: 50px;
+}
+.eureka_LEFT_4 {
+   background: url('../img/game.png') no-repeat -1032px -750px;
+   width: 44px;
+   height: 50px;
+}
+.eureka_RIGHT_1 {
+   background: url('../img/game.png') no-repeat -1116px -803px;
+   width: 44px;
+   height: 50px;
+}
+.eureka_RIGHT_2 {
+   background: url('../img/game.png') no-repeat -1085px -909px;
+   width: 44px;
+   height: 50px;
+}
+.eureka_RIGHT_3 {
+   background: url('../img/game.png') no-repeat -1032px -856px;
+   width: 44px;
+   height: 50px;
+}
+.eureka_RIGHT_4 {
+   background: url('../img/game.png') no-repeat -1040px -909px;
+   width: 44px;
+   height: 50px;
+}
+.eureka_UP_1 {
+   background: url('../img/game.png') no-repeat -1001px -856px;
+   width: 30px;
+   height: 52px;
+}
+.eureka_UP_2 {
+   background: url('../img/game.png') no-repeat -1001px -803px;
+   width: 30px;
+   height: 52px;
+}
+.eureka_UP_3 {
+   background: url('../img/game.png') no-repeat -1001px -697px;
+   width: 30px;
+   height: 52px;
+}
+.eureka_UP_4 {
+   background: url('../img/game.png') no-repeat -1001px -750px;
+   width: 30px;
+   height: 52px;
+}
+.halo {
+   background: url('../img/game.png') no-repeat -0px -0px;
+   width: 1000px;
+   height: 992px;
+}
+.kikette {
+   background: url('../img/game.png') no-repeat -1032px -697px;
+   width: 50px;
+   height: 50px;
+}
+.mur_01 {
+   background: url('../img/game.png') no-repeat -1107px -493px;
+   width: 44px;
+   height: 44px;
+}
+.mur_02 {
+   background: url('../img/game.png') no-repeat -1028px -422px;
+   width: 44px;
+   height: 44px;
+}
+.mur_03 {
+   background: url('../img/game.png') no-repeat -1073px -422px;
+   width: 44px;
+   height: 44px;
+}
+.paille {
+   background: url('../img/game.png') no-repeat -1118px -422px;
+   width: 44px;
+   height: 44px;
+}
+.piege_01 {
+   background: url('../img/game.png') no-repeat -1028px -351px;
+   width: 44px;
+   height: 44px;
+}
+.piege_02 {
+   background: url('../img/game.png') no-repeat -1073px -351px;
+   width: 44px;
+   height: 44px;
+}
+.prehi_bordure {
+   background: url('../img/game.png') no-repeat -1118px -351px;
+   width: 44px;
+   height: 44px;
+}
+.prehi_bordure_start_end {
+   background: url('../img/game.png') no-repeat -1062px -544px;
+   width: 44px;
+   height: 44px;
+}
+.prehi_kikette {
+   background: url('../img/game.png') no-repeat -1122px -750px;
+   width: 44px;
+   height: 46px;
+}
+.prehi_mur_01 {
+   background: url('../img/game.png') no-repeat -1062px -595px;
+   width: 44px;
+   height: 44px;
+}
+.prehi_sol_01 {
+   background: url('../img/game.png') no-repeat -1107px -646px;
+   width: 44px;
+   height: 44px;
+}
+.prehi_sol_02 {
+   background: url('../img/game.png') no-repeat -1107px -189px;
+   width: 44px;
+   height: 44px;
+}
+.prehi_sol_03 {
+   background: url('../img/game.png') no-repeat -1062px -189px;
+   width: 44px;
+   height: 44px;
+}
+.prise {
+   background: url('../img/game.png') no-repeat -1107px -270px;
+   width: 44px;
+   height: 44px;
+}
+.rayon_lumiere {
+   background: url('../img/game.png') no-repeat -1001px -0px;
+   width: 168px;
+   height: 188px;
+}
+.sol_01 {
+   background: url('../img/game.png') no-repeat -135px -993px;
+   width: 44px;
+   height: 44px;
+}
+.sol_02 {
+   background: url('../img/game.png') no-repeat -90px -993px;
+   width: 44px;
+   height: 44px;
+}
+.start_end_halo_DOWN {
+   background: url('../img/game.png') no-repeat -1062px -270px;
+   width: 44px;
+   height: 44px;
+}

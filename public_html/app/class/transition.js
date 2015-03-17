@@ -26,8 +26,6 @@ class Transition
 
     step( currentTime )
     {
-        // console.log(this.inProgress);
-        // console.log(this.count);
         if ( this.inProgress )
         {
             if ( this.count > 0 )
@@ -58,16 +56,6 @@ class Transition
                 }
                 else if ( this.updateFunction )
                 {
-                    // console.log( 'this.startValue : ' + this.startValue );
-                    // console.log( 'this.endValue : ' + this.endValue );
-                    // console.log( 'diff : ' + diff );
-                    // console.log( 'currentTime : ' + currentTime );
-                    // console.log( 'this.startTime : ' + this.startTime );
-                    // console.log( 'elapsed = currentTime - this.startTime : ' + currentTime - this.startTime );
-                    // console.log( 'this.duration : ' + this.duration );
-                    // console.log( 'this.elapsed : ' + this.elapsed );
-                    // console.log( 'i : ' + i );
-
                     this.updateFunction( i );
                 }
             }

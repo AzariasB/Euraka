@@ -20,7 +20,6 @@ build/
 dist/
 gulp/
 npm.md
-package.json
 server/
 _doc/
 /public_html/assets/audio/

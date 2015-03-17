@@ -2,14 +2,13 @@
 var config = require( 'data/config.js' );
 
 // Class
-var Block = require( 'class/block.js' );
+var Block = require( 'class/entities/block.js' );
+var Projectile = require( 'class/entities/projectile.js' );
+var Scoring = require( 'class/scoring.js' );
 
 // Lib
 var tools = require( 'lib/tools.js' );
 var _ = require( 'underscore' );
-var Projectile = require('class/projectile.js');
-
-var Scoring = require( 'class/scoring.js' );
 require( 'lib/mousetrap.js' );
 require( 'lib/raf.js' );
 
@@ -19,7 +18,6 @@ class MapTemplate
     constructor( game )
     {
         this.game = game;
-        this.game.mapView = this;
 
         // Tout ce qui peut avoir du monvement sur la map
         // ou des animations
@@ -51,6 +49,8 @@ class MapTemplate
         this.stage = null;
         this.character = null;
         this.halo = null;
+        this.windowWidth = tools.getDocWidth();
+        this.windowHeight = tools.getDocHeight();
 
         // Récupération du canvas
         this.canvas = document.getElementById( 'stage' );
@@ -76,13 +76,13 @@ class MapTemplate
         return;
     }
 
-    createProjectile(x,y, direction)
+    createProjectile( x, y, direction )
     {
-        console.log("Projectile créé");
+        console.log( "Projectile créé" );
         var dimension = config.map.blockSize;
-        var projectile = new Projectile(this.game, x, y, dimension, dimension);
-        this.tabEntities.push(projectile);
-        this.tabEntitiesToUpdate.push(projectile);
+        var projectile = new Projectile( this.game, x, y, dimension, dimension );
+        this.tabEntities.push( projectile );
+        this.tabEntitiesToUpdate.push( projectile );
     }
 
     getContext()
@@ -157,22 +157,24 @@ class MapTemplate
 
     initTiledMap()
     {
-       // console.log("Nombre d'entités : " + this.stage.getTabEntities().length);
+        // console.log("Nombre d'entités : " + this.stage.getTabEntities().length);
         var self = this;
-        this.tiledMap = []
+        this.tiledMap = [];
 
-        for(var y = 0; y < this.stage.getNbTuilesHauteur(); y++){
-            this.tiledMap[y] = [];
-            for(var x = 0; x < this.stage.getNbTuilesLargeur(); x++){
-                this.tiledMap[y][x] = 0;
+        for ( var y = 0; y < this.stage.getNbTuilesHauteur(); y++ )
+        {
+            this.tiledMap[ y ] = [];
+            for ( var x = 0; x < this.stage.getNbTuilesLargeur(); x++ )
+            {
+                this.tiledMap[ y ][ x ] = 0;
             }
         }
 
         _.each( this.tabEntities, function( item, key )
         {
             self.tiledMap[ item.y ][ item.x ] = item;
-//            if(item.y >= 9)
-//            console.log(" x : " + item.x + " - y : " + item.y + " -Nom : " + item.constructor.name);
+            //            if(item.y >= 9)
+            //            console.log(" x : " + item.x + " - y : " + item.y + " -Nom : " + item.constructor.name);
         } );
     }
 
@@ -198,8 +200,9 @@ class MapTemplate
 
         // Action 'spéciales'
         Mousetrap.bind( 'a', this.character.addRayonEclairage.bind( this.character ), 'keydown' );
-        Mousetrap.bind( 'z', this.character.lanceProjectile.bind(this.character), 'keydown' );
-        Mousetrap.bind( '=', this.character.fillEnergy.bind(this.character), 'keydown' );
+        Mousetrap.bind( 'z', this.character.lanceProjectile.bind( this.character ), 'keydown' );
+        Mousetrap.bind( '=', this.character.fillEnergy.bind( this.character ), 'keydown' );
+        Mousetrap.bind( 'q', this.game.gameController.showVictoire.bind( this.game.gameController ), 'keydown' );
 
         // Mousetrap.bind( 'up', function() {
         //     self.character.handlePlayerInput.bind( self.character, config.orientations.UP );
@@ -226,14 +229,16 @@ class MapTemplate
         // var self = this;
         // this.character.onBeforeStep( function() {} );
 
-        this.character.onAfterStep( function()
+        this.character.onHasMoved( function()
         {
             self.centerMap();
-        } );
 
-        // this.character.onStopPathing( function()
-        // {
-        // } );
+            if ( self.character.aGagne() )
+            {
+                this.stop();
+                return this.game.gameController.showVictoire();
+            }
+        } );
 
         return;
     }
@@ -243,8 +248,8 @@ class MapTemplate
         var el = document.getElementById( 'l-main' ),
             elStyle = window.getComputedStyle( el );
 
-        this.canvas.width = elStyle.width.replace( 'px', '' ) - 100;
-        this.canvas.height = elStyle.height.replace( 'px', '' ) - 60;
+        this.canvas.width = elStyle.width.replace( 'px', '' );
+        this.canvas.height = elStyle.height.replace( 'px', '' );
 
         return;
     }
@@ -438,8 +443,10 @@ class MapTemplate
 
     updateUi()
     {
-        this.game.gameView.set( 'score', this.game.scoring.getScore() );
-        this.game.gameView.set( 'timer', tools.toHHMMSS( this.game.scoringTimer ) );
+        var ractive = this.game.gameTemplate.getRactive();
+
+        ractive.set( 'score', this.game.scoring.getScore() );
+        ractive.set( 'timer', tools.toHHMMSS( this.game.stageTime ) );
 
         return;
     }
@@ -450,10 +457,12 @@ class MapTemplate
     drawDark()
     {
         this.context.globalCompositeOperation = "source-over";
-        // this.context.fillStyle = '#34383f';
         this.context.fillStyle = '#000000';
         this.context.fillRect( 0, 0, this.canvas.width, this.canvas.height );
         this.context.restore();
+        // this.context.fillStyle = 'rgba(0, 0, 0, 0)';
+        // ?
+        this.context.fillStyle = 'none';
         this.context.save();
 
         return;
@@ -461,7 +470,7 @@ class MapTemplate
 
     getWidthRayon()
     {
-        return Math.round( ( this.character.getRayonEcl() + 1 ) *  config.map.tileSize + ( config.map.tileSize / 8 ) );
+        return Math.round( ( this.character.getRayonEcl() + 1 ) * config.map.tileSize + ( config.map.tileSize / 8 ) );
     }
 
     /**
@@ -469,22 +478,25 @@ class MapTemplate
      */
     drawCharacter()
     {
-        var sizeRayon = this.getWidthRayon();
+        var sizeRayon = this.getWidthRayon(),
+            characterWidth = Math.round( this.character.getWidth() / 2 );
+
+        // console.log( this.windowWidth );
+        // console.log( this.windowHeight );
+
         // On dessine un cercle à la position du joueur pour en faire un clip
         this.context.beginPath();
-        this.context.arc( Math.round( ( ( this.character.x + this.game.stage.getX() ) / 2 ) + 340 ), Math.round( ( ( this.character.y + this.game.stage.getY() ) / 2 ) + 167 ), sizeRayon / 2.2, 0, Math.PI *2 , true );
+        this.context.arc( this.character.x + this.game.stage.getX() + characterWidth, this.character.y + this.game.stage.getY() + characterWidth, sizeRayon / 2.2, 0, Math.PI * 2, true );
         this.context.closePath();
         this.context.clip();
-
-        // sizeRayon = sizeRayon + ((this.character.getRayonEcl() + 1 ) * config.map.tileSize);
 
         // On dessinne le monde en couleur dans le clip
         this.drawEntities();
         this.character.draw();
         this.halo.setData(
         {
-            "x": this.character.x - sizeRayon + Math.round( sizeRayon / 2 ) + 20,
-            "y": this.character.y - sizeRayon + Math.round( sizeRayon / 2 ) + 20,
+            "x": this.character.x - ( sizeRayon / 2 ) + characterWidth,
+            "y": this.character.y - ( sizeRayon / 2 ) + characterWidth,
             "width": sizeRayon,
             "height": sizeRayon
         } );
@@ -552,36 +564,146 @@ class MapTemplate
     update()
     {
         this.updateFps();
-        this.updateMovement();
-        this.updateTransitions();
+        this.updateMovements();
+        // this.updateTransitions();
         this.updateAnimations();
 
         return;
     }
 
-    updateMovement()
+    updateMovements()
     {
+        // Estimate of the movement distance for one update
+        var tick = 0;
+
         _.each( this.tabEntitiesToUpdate, function( e )
         {
-            this.updateMovementEntity( e );
+            tick = Math.round( this.tileSize / ( e.moveSpeed / ( 1000 / this.realFPS ) ) );
+
+            if ( e.isMoving() && e.canMove( tick ) )
+            {
+                // Lag or.. ?
+                if ( isFinite( tick ) === false )
+                {
+                    tick = 5;
+                }
+
+                if ( e.orientation === config.orientations.LEFT )
+                {
+                    e.x = e.x - tick;
+                }
+                else
+                if ( e.orientation === config.orientations.RIGHT )
+                {
+                    e.x = e.x + tick;
+                }
+                else
+                if ( e.orientation === config.orientations.UP )
+                {
+                    e.y = e.y - tick;
+                }
+                else
+                if ( e.orientation === config.orientations.DOWN )
+                {
+                    e.y = e.y + tick;
+                }
+
+                e.hasMoved();
+
+                // if ( tools.isset( this.after_step_callback ) === true )
+                // {
+                //     this.after_step_callback();
+                // }
+
+                // if ( e.orientation === config.orientations.LEFT )
+                // {
+                //     e.movement.start( this.currentTime,
+                //         function( x )
+                //         {
+                //             e.x = x;
+                //             e.hasMoved();
+                //         },
+                //         function()
+                //         {
+                //             e.x = e.movement.endValue;
+                //             e.hasMoved();
+
+                //         },
+                //         e.x - tick,
+                //         e.x - 0,
+                //         e.moveSpeed );
+                // }
+                // else if ( e.orientation === config.orientations.RIGHT )
+                // {
+                //     e.movement.start( this.currentTime,
+                //         function( x )
+                //         {
+                //             e.x = x;
+                //             e.hasMoved();
+                //         },
+                //         function()
+                //         {
+                //             e.x = e.movement.endValue;
+                //             e.hasMoved();
+
+                //         },
+                //         e.x + tick,
+                //         e.x + 0,
+                //         e.moveSpeed );
+                // }
+                // else if ( e.orientation === config.orientations.UP )
+                // {
+                //     e.movement.start( this.currentTime,
+                //         function( y )
+                //         {
+                //             e.y = y;
+                //             e.hasMoved();
+                //         },
+                //         function()
+                //         {
+                //             e.y = e.movement.endValue;
+                //             e.hasMoved();
+
+                //         },
+                //         e.y - tick,
+                //         e.y - 0,
+                //         e.moveSpeed );
+                // }
+                // else if ( e.orientation === config.orientations.DOWN )
+                // {
+                //     e.movement.start( this.currentTime,
+                //         function( y )
+                //         {
+                //             e.y = y;
+                //             e.hasMoved();
+                //         },
+                //         function()
+                //         {
+                //             e.y = e.movement.endValue;
+                //             e.hasMoved();
+
+                //         },
+                //         e.y + tick,
+                //         e.y + 0,
+                //         e.moveSpeed );
+                // }
+            }
         }, this );
 
         return;
     }
 
-    getRealFPS()
-    {
-        return this.realFPS;
-    }
-
     getEntitiesByName( Name )
     {
         var entities = [];
-        _.each(this.tabEntities,function(item){
-            if(item.constructor.name === Name){
-                entities.push(item);
+
+        _.each( this.tabEntities, function( item )
+        {
+            if ( item.constructor.name === Name )
+            {
+                entities.push( item );
             }
-        });
+        } );
 
         return entities;
     }
@@ -589,133 +711,19 @@ class MapTemplate
     /**
      * Défini les variables à bouger en fonction du tick et de la position du joueur
      */
-    updateMovementEntity( c )
+    updateTransitions( c )
     {
-        // Estimate of the movement distance for one update
-        var tick = Math.round( this.tileSize / ( c.moveSpeed / ( 1000 / this.realFPS ) ) );
+        var m; // Transition
 
-        if ( c.isMoving() === true && c.canMove( tick ) )
+        _.each( this.tabEntitiesToUpdate, function( e )
         {
-            c.move( tick );
-        }
+            m = e.movement;
 
-        if(c.constructor.name === "Character" ){
-            if(c.aGagne()){
-                this.stop();
-                return this.game.gameController.showVictoire();
-            }
-        }
-
-        if(c.constructor.name === "Projectile")
-        {
-            c.avance();
-        }
-
-            //Si le projectile a atteind sa portee maximale, on le détruit !
-            //
-//            if(c.getPortee() === 0 ){
-//               delete this.tabEntities[this.tabEntities.indexOf(c)];
-//            }
-        // NOTE
-        // LAST step = c.x - this.tileSize / 2
-        // pour centrer la pastille du joueur
-
-        // if ( c.isMoving() && c.movement.inProgress === false )
-        // {
-        //     if ( c.orientation === config.orientations.LEFT )
-        //     {
-        //         c.movement.start( this.currentTime,
-        //             function( x )
-        //             {
-        //                 c.x = x;
-        //                 c.hasMoved();
-        //             },
-        //             function()
-        //             {
-        //                 c.x = c.movement.endValue;
-        //                 c.hasMoved();
-        //                 c.nextStep();
-        //             },
-        //             c.x - tick,
-        //             c.x - this.tileSize,
-        //             c.moveSpeed );
-        //     }
-        //     else if ( c.orientation === config.orientations.RIGHT )
-        //     {
-        //         c.movement.start( this.currentTime,
-        //             function( x )
-        //             {
-        //                 c.x = x;
-        //                 c.hasMoved();
-        //             },
-        //             function()
-        //             {
-        //                 c.x = c.movement.endValue;
-        //                 c.hasMoved();
-        //                 c.nextStep();
-        //             },
-        //             c.x + tick,
-        //             c.x + this.tileSize,
-        //             c.moveSpeed );
-        //     }
-        //     else if ( c.orientation === config.orientations.UP )
-        //     {
-        //         c.movement.start( this.currentTime,
-        //             function( y )
-        //             {
-        //                 c.y = y;
-        //                 c.hasMoved();
-        //             },
-        //             function()
-        //             {
-        //                 c.y = c.movement.endValue;
-        //                 c.hasMoved();
-        //                 c.nextStep();
-        //             },
-        //             c.y - tick,
-        //             c.y - this.tileSize,
-        //             c.moveSpeed );
-        //     }
-        //     else if ( c.orientation === config.orientations.DOWN )
-        //     {
-        //         c.movement.start( this.currentTime,
-        //             function( y )
-        //             {
-        //                 c.y = y;
-        //                 c.hasMoved();
-        //             },
-        //             function()
-        //             {
-        //                 c.y = c.movement.endValue;
-        //                 c.hasMoved();
-        //                 c.nextStep();
-        //             },
-        //             c.y + tick,
-        //             c.y + this.tileSize,
-        //             c.moveSpeed );
-        //     }
-        // }
-
-        return;
-    }
-
-    /**
-     * Fait passer les transitions de toutes les entitées à la prochiane étape
-     */
-    updateTransitions()
-    {
-        var m = null;
-
-        _.each( this.tabEntities, function( entity )
-        {
-            m = entity.movement;
-            if ( m )
+            if ( m.inProgress )
             {
-                if ( m.inProgress )
-                {
-                    m.step( this.currentTime );
-                }
+                m.step( this.currentTime );
             }
+
         }, this );
 
         return;
@@ -723,6 +731,19 @@ class MapTemplate
 
     updateAnimations()
     {
+        var anim; // Animation
+
+        _.each( this.tabEntitiesToUpdate, function( e )
+        {
+            anim = e.getAnimation();
+
+            if ( e.isMoving() === true && tools.isset( anim ) === true && anim.update( this.currentTime ) === true )
+            {
+                e.updateSprite();
+            }
+
+        }, this );
+
         return;
     }
 

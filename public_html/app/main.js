@@ -1,19 +1,22 @@
 // Data
-var config = require( "data/config.js" );
+var config = require( 'data/config.js' );
 
 // Lib
-var tools = require( "lib/tools.js" );
+var _ = require( 'underscore' );
+var tools = require( 'lib/tools.js' );
+require( 'lib/mousetrap.js' );
 
 // Class
-var Preloader = require( "class/preloader.js" );
+var Preloader = require( 'class/preloader.js' );
+
 // Controllers
-var GameController = require( "controllers/gameController.js" );
+var GameController = require( 'controllers/gameController.js' );
 
 // Views
-var IntroTemplate = require( "templates/introTemplate.js" );
-// var IntroView = require( "tempaltes/introView.js" );
+var IntroTemplate = require( 'templates/introTemplate.js' );
+var GameTemplate = require( 'templates/GameTemplate.js' );
 
-for ( var k = [ "       /|________________\n", "O|===|* >________________> Euraka - Fancy Tree Studio \n", "       \\|\n", "\n www.thegamehasbegun.com" ], g = 0; 4 > g; g++ );
+for ( var k = [ '       /| ________________\n', 'O|===|* >________________> Euraka - Fancy Tree Studio \n', '      \\|\n', '\n www.thegamehasbegun.com' ], g = 0; 4 > g; g++ );
 console.log.apply( console, k );
 
 // Contient tous les objets pour être paratagé entre les classes
@@ -23,9 +26,33 @@ var game = {};
 game.preloader = new Preloader( game );
 game.preloader.start();
 
+// Gestion des écrans du jeu
+game.gameTemplate = new GameTemplate( game );
+game.mapTemplate = null;
+game.introTemplate = new IntroTemplate( game );
+// Gestion du fonctionnement du jeu
+game.gameController = new GameController( game );
 
-// Lancement du jeu
-game.gameController  = new GameController( game );
-// Intro et menu du jeu
-game.introTemplate  = new IntroTemplate( game );
+// Démarage du jeu
 game.introTemplate.start();
+
+if ( tools.isDebug() === true )
+{
+    Mousetrap.bind( 'q', function()
+    {
+        game.gameController.hasNeverStarted = false;
+
+        game.gameTemplate.showGame();
+        // delay le temps de créer la map
+        _.delay( function()
+        {
+            game.gameController.start();
+            // game.gameTemplate.showPopinEnd();
+        }, 1000 );
+    }, 'keydown' );
+    Mousetrap.bind( 's', function()
+    {
+        game.mapTemplate.stop();
+        game.gameController.showVictoire();
+    }, 'keydown' );
+}

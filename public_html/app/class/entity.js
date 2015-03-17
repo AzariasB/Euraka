@@ -21,24 +21,62 @@ class Entity
         this.y = data.y;
         this.width = data.width;
         this.height = data.height;
-        this.path = null;
-        this.step = 0;
-        this.movement = new Transition();
-        this.moveSpeed = config.map.speed;
+
+        // mouvement
         this.moveSpeed = tools.isset( data.speed ) === true ? data.speed : config.map.speed;
         this.moveSpeedDefault = this.moveSpeed;
-        this.blockMoveSpeed = false; // set à true, empêche la modif de movespeed des effets
+
         this.orientation = config.orientations.LEFT;
-        this.tuile = null;
+
         this.sprite = this.getSprite();
-        // this.setTuile();
 
         return;
     }
 
     getSprite()
     {
-        return new Sprite( this.code, this.file, this.game );
+        var imgName = this.code;
+
+        // Si on a une animation, on set le sprite
+        if ( tools.isset( this.animation ) === true )
+        {
+            imgName = this.getCurrentSprite();
+        }
+
+        return new Sprite( imgName, this.file, this.game );
+    }
+
+    getWidth()
+    {
+        return this.sprite.getWidth();
+    }
+
+    getHeight()
+    {
+        return this.sprite.getHeight();
+    }
+
+    getEndSpriteName()
+    {
+        return this.orientation + '_' + this.animation.getCurrentFrame();
+    }
+
+    getCurrentSprite()
+    {
+        return this.code + this.getEndSpriteName();
+    }
+
+    getAnimation()
+    {
+        return this.animation;
+    }
+
+    updateSprite()
+    {
+        // Update de l'image qu'utilise le sprite
+        this.sprite.updateImg( this.getCurrentSprite() );
+
+        return;
     }
 
     setPath( p )
@@ -51,17 +89,6 @@ class Entity
     {
         this.step = s;
         return;
-    }
-
-    setTuile()
-    {
-
-        return;
-    }
-
-    getTuile()
-    {
-        return this.tuile;
     }
 
     getMoveSpeedDefault()
@@ -128,7 +155,7 @@ class Entity
         return this.y * config.map.tileSize + this.game.stage.getY();
     }
 
-    setData(data)
+    setData( data )
     {
         this.x = data.x || 0;
         this.y = data.y || 0;
@@ -146,7 +173,7 @@ class Entity
         // console.log( this.calcX() );
         // console.log( this.calcY() );
         // console.log(this.constructor.name);
-        if ( _.contains(['Character','Entity'], this.constructor.name) === true )
+        if ( _.contains( [ 'Character', 'Entity' ], this.constructor.name ) === true )
         {
             this.sprite.draw( this.x + this.game.stage.getX(), this.y + this.game.stage.getY(), this.width, this.height );
         }
@@ -380,11 +407,6 @@ class Entity
         return;
     }
 
-    isBlockMoveSpeed()
-    {
-        return this.blockMoveSpeed;
-    }
-
     isAttacked()
     {
         this.die();
@@ -395,11 +417,12 @@ class Entity
     {
 
     }
-    
-    canMove( deplacement ){
-        
-        var joueurBouge = _.clone(this);
-        
+
+    canMove( deplacement )
+    {
+
+        var joueurBouge = _.clone( this );
+
         // pas plus de 5
         deplacement = Math.min( 5, deplacement );
 
@@ -423,51 +446,51 @@ class Entity
             joueurBouge.y = joueurBouge.y + deplacement;
         }
 
-        if ( tools.isset( joueurBouge.after_step_callback ) === true )
-        {
-            joueurBouge.after_step_callback();
-        }
-        
         return !this.isHittingBlock( joueurBouge );
     }
-    
-    isHittingBlock( entityMoved ){
-        
-        var entityPosition = tools.getPositionInArray(entityMoved.x + entityMoved.width/2,entityMoved.y + entityMoved.height - entityMoved.height/10);
-        
+
+    isHittingBlock( entityMoved )
+    {
+
+        var entityPosition = tools.getPositionInArray( entityMoved.x + entityMoved.width / 2, entityMoved.y + entityMoved.height - entityMoved.height / 10 );
+
         //console.log("HautGauche :" + upLeft + " - BasDroite : " + downRight);
-        
+
         var tiledMap = this.game.mapTemplate.tiledMap;
         var collision = false;
-        
-        
-        
+
         //console.log(entityPosition);
-        
-        if(tools.isset(tiledMap[entityPosition.y][entityPosition.x]) === true ){
-            
-            try{
-                if(tiledMap[entityPosition.y][entityPosition.x].isCollisionel()){
-                   return true;
-               }else{
-                   return false;
-               }   
-            }catch(ex){
-                console.log(ex);
+
+        if ( tools.isset( tiledMap[ entityPosition.y ][ entityPosition.x ] ) === true )
+        {
+
+            try
+            {
+                if ( tiledMap[ entityPosition.y ][ entityPosition.x ].isCollisionel() )
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch ( ex )
+            {
+                console.log( ex );
                 return false;
             }
-            console.log(tiledMap[entityPosition.y ][entityPosition.x ].constructor.name);
-            
+            console.log( tiledMap[ entityPosition.y ][ entityPosition.x ].constructor.name );
 
-            
-        }else{
-            console.log("Out of map");
+        }
+        else
+        {
+            console.log( "Out of map" );
         }
 
         return collision;
     }
-    
-    
+
 }
 
 module.exports = Entity;

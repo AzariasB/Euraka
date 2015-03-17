@@ -1,0 +1,18 @@
+<section class="ac menu_principal">
+    <nav class="text-center">
+        <ul class="pr intro-nav">
+            <li>
+                <a id="commencer" class="intro-btn commencer" href="javascript:;">&nbsp;</a>
+            </li>
+            <li>
+                <a id="touches" class="intro-btn commandes" href="javascript:;">&nbsp;</a>
+            </li>
+            <li>
+                <a id="h_scores" class="intro-btn highscore" href="javascript:;">&nbsp;</a>
+            </li>
+            <li>
+                <a id="credits" class="intro-btn credits" href="javascript:;">&nbsp;</a>
+            </li>
+        </ul>
+    </nav>
+</section>

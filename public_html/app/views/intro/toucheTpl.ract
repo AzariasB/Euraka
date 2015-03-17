@@ -1,0 +1,73 @@
+<div class="ac l-touche text-right">
+    <div class="cf">
+        <div class="touche-block touche-titre text-center">
+            <div class="ib eureka_DOWN_1"></div> EURAKA <div class="ib eureka_DOWN_1"></div>
+        </div>
+        <div class="touche-col">
+            <div class="touche-block">
+                <div class="touche-img-col1"><div class="ib arrowkeys touche-img"></div></div>
+                <span>Déplacer Euraka</span>
+                <span>(To Move Euraka)</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col1"><div class="ib a touche-img"></div></div>
+                <span>Augmenter la luminosité</span>
+                <span>(To see clearer)</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col1"><div class="ib z touche-img"></div></div>
+                <span>Tirer un éclair</span>
+                <span>(To shoot a lightning bolt)</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col1"><div class="ib e touche-img"></div></div>
+                <span>Absorber une charge d'énergie</span>
+                <span>(To absorb some energie)</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col1"><div class="ib space touche-img"></div></div>
+                <span>Relance la partie</span>
+                <span>(Reset the run)</span>
+            </div>
+        </div>
+        <div class="touche-col">
+            <div class="touche-block">
+                <div class="touche-img-col2"><div class="ib start_end_halo_DOWN"></div></div>
+                <span>Entrée / Sortie</span>
+                <span>(Entrance / Exit)</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col2 touche-lumiere"><div class="ib prise"></div>
+                <div class="ib rayon_lumiere"></div></div>
+                <span>Donne une charge d'énergie.</span>
+                <span>(Bring a charge to our hero)</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col2"><div class="ib kikette"></div>
+                <div class="ib prehi_kikette"></div></div>
+                <span>Bonus « Lumière » : plus de points !</span>
+                <span>(«Light» bonus: More points!)</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col2"><div class="ib paille"></div></div>
+                <span>Prennent feu.</span>
+                <span>(Vulnerable to fire)</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col2"><div class="ib piege_01"></div>
+                <div class="ib piege_02"></div></div>
+                <span>« It's a trap ! »</span>
+            </div>
+            <div class="touche-block">
+                <div class="touche-img-col2"><div class="ib CHAT_RIGHT_1"></div></div>
+                <span>Attention à eux !</span>
+                <span>(Beware!)</span>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <p>EURAKA est encore meilleur avec une image manette et Joy To Key  !</p>
+        <a class="touche-link" onclick="window.open(this.href);return false;" href="http://joytokey.net/en/download">joytokey.net</a>
+        <p>EURAKA is even better with a image manette and « Joy To Key » !</p>
+    </div>
+</div>

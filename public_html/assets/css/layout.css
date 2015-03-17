@@ -1,2 +1,10 @@
-.l-center {
+.l-main {
+    width: 1280px;
+    height: 720px;
+}
+.l-touche {
+    width: 1280px;
+    height: 720px;
+    color: #FFF;
+    vertical-align: middle;
 }

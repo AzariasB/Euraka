@@ -1,0 +1,51 @@
+<div class="ac l-touche text-right">
+    <div class="cf">
+        <div class="touche-block touche-titre text-center">
+            <div class="ib eureka_DOWN_1"></div> EURAKA <div class="ib eureka_DOWN_1"></div>
+        </div>
+        <div class="touche-col">
+            <div class="touche-block">
+                <p>Azarias Boutin &ndash; Développeur</p>
+                <p>&laquo;  Me Gusta &raquo;</p>
+                <br>
+                <p><a href="http://azarias.tk/" onclick="window.open(this.href);return false;">http://azarias.tk/</a></p>
+            </div>
+            <div class="touche-block">
+                <p>Chloé Georges Boutin &ndash; Graphisme</p>
+                <p>&laquo; On va partir sur du Pixel Art les gars ! &raquo;</p>
+                <br>
+                <p><a href="www.behance.net/kuroe" onclick="window.open(this.href);return false;">www.behance.net/kuroe</a></p>
+            </div>
+            <div class="touche-block">
+                <p>Fabien Plart &ndash; Développeur</p>
+                <p>Café !</p>
+                <br>
+                <p><a href="www.thegamehasbegun.com" onclick="window.open(this.href);return false;">www.thegamehasbegun.com</a></p>
+            </div>
+            <div class="touche-block">
+                <p>Quentin Guidotti &ndash; Game designer</p>
+                <p>&laquo; Moi ? Je veux un raptor ! &raquo;</p>
+                <br>
+                <p><a href="www.thegamehasbegun.com/kaode-et-membres-projet.html" onclick="window.open(this.href);return false;">www.thegamehasbegun.com/kaode-et-membres-projet.html</a></p>
+            </div>
+            <div class="touche-block">
+                <p>Music by Erik Thormann</p>
+                <p>&laquo; Sure bro, use my stuff for your game ! &raquo;</p>
+                <br>
+                <p><a href="https://www.youtube.com/user/TCKoLSDE" onclick="window.open(this.href);return false;">https://www.youtube.com/user/TCKoLSDE</a></p>
+            </div>
+        </div>
+        <div class="touche-col">
+            <div class="touche-block">
+                <p>&laquo; Euraka &raquo; a été développé en 48 heures, dans le cadre de la Gamejam &laquo; Lumière &raquo; organisée le 14 et 15 Mars 2015, à la Casemate de Grenoble.</p>
+                <br>
+                <p>&laquo; Euraka &raquo; was created in 48 hours, during a Gamejam that took place the 14th and 15th of March 2015, at the Casemate in Grenoble, France.</p>
+                <p>It's theme was : &laquo; The Light &raquo;</p>
+                <br>
+                <br>
+                <p class="text-center">Merci d'avoir joué !</p>
+                <p class="text-center">Thanks for playing !</p>
+            </div>
+        </div>
+    </div>
+</div>

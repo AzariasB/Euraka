@@ -1,4 +1,1 @@
-<div class="ac modal">
-    <div class="pa modal-minimap modal-{{code}}">
-    </div>
-</div>
+<img class="ac" src="./assets/img/minimaps/{{code}}.png" alt="Minimap du labyrinthe">

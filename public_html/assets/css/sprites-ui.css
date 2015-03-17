@@ -1,0 +1,120 @@
+.interfacevierge {
+   background: url('../img/ui.png') no-repeat -1281px -2816px;
+   width: 451px;
+   height: 51px;
+}
+.intro {
+   background: url('../img/ui.png') no-repeat -1284px -721px;
+   width: 1280px;
+   height: 720px;
+}
+.menu_principal {
+   background: url('../img/ui.png') no-repeat -1284px -1442px;
+   width: 1280px;
+   height: 720px;
+}
+.new_highscore {
+   background: url('../img/ui.png') no-repeat -1281px -2167px;
+   width: 186px;
+   height: 186px;
+}
+.commandes {
+   background: url('../img/ui.png') no-repeat -1281px -2662px;
+   width: 304px;
+   height: 76px;
+}
+.commandes:hover {
+   background: url('../img/ui.png') no-repeat -1594px -2664px;
+   width: 304px;
+   height: 76px;
+}
+.commencer {
+   background: url('../img/ui.png') no-repeat -1281px -2585px;
+   width: 304px;
+   height: 76px;
+}
+.commencer:hover {
+   background: url('../img/ui.png') no-repeat -1281px -2354px;
+   width: 304px;
+   height: 76px;
+}
+.scoring_run {
+   background: url('../img/ui.png') no-repeat -0px -1446px;
+   width: 1283px;
+   height: 720px;
+}
+.scoringlevel {
+   background: url('../img/ui.png') no-repeat -0px -0px;
+   width: 1281px;
+   height: 722px;
+}
+.credits {
+   background: url('../img/ui.png') no-repeat -1281px -2431px;
+   width: 304px;
+   height: 76px;
+}
+.credits:hover {
+   background: url('../img/ui.png') no-repeat -1281px -2508px;
+   width: 304px;
+   height: 76px;
+}
+.energy_00 {
+   background: url('../img/ui.png') no-repeat -1891px -2767px;
+   width: 144px;
+   height: 27px;
+}
+.energy_01 {
+   background: url('../img/ui.png') no-repeat -1891px -2739px;
+   width: 144px;
+   height: 27px;
+}
+.energy_02 {
+   background: url('../img/ui.png') no-repeat -2313px -2816px;
+   width: 144px;
+   height: 27px;
+}
+.energy_03 {
+   background: url('../img/ui.png') no-repeat -2168px -2816px;
+   width: 144px;
+   height: 27px;
+}
+.energy_04 {
+   background: url('../img/ui.png') no-repeat -2023px -2816px;
+   width: 144px;
+   height: 27px;
+}
+.energy_05 {
+   background: url('../img/ui.png') no-repeat -1733px -2816px;
+   width: 144px;
+   height: 27px;
+}
+.energy_06 {
+   background: url('../img/ui.png') no-repeat -1878px -2816px;
+   width: 144px;
+   height: 27px;
+}
+.highscore {
+   background: url('../img/ui.png') no-repeat -1586px -2739px;
+   width: 304px;
+   height: 76px;
+}
+.highscore:hover {
+   background: url('../img/ui.png') no-repeat -1281px -2739px;
+   width: 304px;
+   height: 76px;
+}
+.end_kaode {
+   background: url('../img/ui.png') no-repeat -0px -723px;
+   width: 1281px;
+   height: 722px;
+}
+.end {
+   background: url('../img/ui.png') no-repeat -1284px -0px;
+   width: 1280px;
+   height: 720px;
+}
+.gameover {
+   background: url('../img/ui.png') no-repeat -0px -2167px;
+   width: 1280px;
+   height: 720px;
+}

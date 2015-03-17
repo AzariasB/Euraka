@@ -2,7 +2,7 @@
 var config = require( 'data/config.js' );
 
 var tabSprite = {
-    "spritesheet": require( 'data/spritesheet.json' )
+    "game": require( 'data/sprites-game.json' )
 };
 
 // lib
@@ -13,10 +13,6 @@ class Sprite
 {
     constructor( code, file, game )
     {
-        // console.log( tabSprite );
-        // console.log(game);
-        // console.log( code );
-
         this.code = code;
         this.file = file;
         this.imgName = this.file;
@@ -25,23 +21,43 @@ class Sprite
         this.visible = true;
         this.json = this.getSpriteData();
 
-            // console.log(this.code);
-            // console.log(this.json);
-            // console.log(_.keys(this.json.frames));
-
-        this.width = this.json.frames[ this.code ].frame.w;
-        this.height = this.json.frames[ this.code ].frame.h;
-        this.x = this.json.frames[ this.code ].frame.x;
-        this.y = this.json.frames[ this.code ].frame.y;
+        this.setFrameData();
         this.game = game;
         this.preloader = this.game.preloader;
-        this.context = this.game.mapView.getContext();
+        this.context = this.game.mapTemplate.getContext();
 
         // console.log( this.scale + '/' + this.imgName + '.' + this.getExtension() );
-        this.img = this.preloader.getAssetObjet( 'game', this.imgName + '.' + this.getExtension() );
+        this.img = this.preloader.getAssetObjet( file, this.imgName + '.' + this.getExtension() );
         this.center = true;
 
         // console.log( this.img );
+
+        return;
+    }
+
+    setFrameData()
+    {
+        if ( tools.isset( this.json.frames ) === false ||
+            tools.isset( this.json.frames[ this.code ] ) === false ||
+            tools.isset( this.json.frames[ this.code ].frame ) === false )
+        {
+            console.log( this.code );
+            console.log( this.json );
+            console.log( _.keys( this.json.frames ) );
+        }
+
+        var frame = this.json.frames[ this.code ].frame;
+
+        this.width = frame.w;
+        this.height = frame.h;
+        this.x = frame.x;
+        this.y = frame.y;
+    }
+
+    updateImg( v )
+    {
+        this.code = v;
+        this.setFrameData();
 
         return;
     }
@@ -96,18 +112,18 @@ class Sprite
         return;
     }
 
-    draw( x, y, width, height, center )
+    draw( x, y, width, height)
     {
         if ( this.visible === false )
         {
             return;
         }
 
-        // if ( this.center === true && center !== false )
-        // {
-        //     x = Math.round( x - ( width / 2 ) + ( this.game.mapTemplate.tileSize / 2 ) );
-        //     y = Math.round( y - ( height / 2 ) + ( this.game.mapTemplate.tileSize / 2 ) );
-        // }
+        // Hack du gros cul d'Euraka
+        if ( this.code.indexOf( config.nomsEntitee.JOUEUR + config.orientations.UP ) > -1 )
+        {
+            width = config.map.characterSize - 12;
+        }
 
         this.context.drawImage( this.img, this.x, this.y, this.width, this.height, x, y, width, height );
 

@@ -11,18 +11,21 @@ module.exports = {
         "audio": "./assets/audio/"
     },
     "map": {
+        "style": 54,
         "blockSize": 54,
         "kiketteSize": 54,
         "priseSize": 54,
         "sortieSize": 54,
         "entreeSize": 54,
         "characterSize": 54,
+        "chatSize": 54,
         "tileSize": 54,
         "rayon": 650,
         "scale": 1,
         "scaleMin": 0.3,
         "scaleMax": 1.5,
-        "speed": 230,
+        "speed": 300,
+        "speedMonster": 230,
         "music": {
             "limitRecurrence": 3,
             "timeBeforeEndTransition": 5,
@@ -58,29 +61,22 @@ module.exports = {
         "ALL_KIKETTE" : 1000,
         "NO_KILL" : 1500,
         "TIME_MAX" : 4, // Temps max en minutes avant lequel on peut gagner un bonus
-        "GOOD_TIME" : 1000,
-        "MOBS" : { //Il faudra changer le nom des images pour que ça corresonde
-            "CHAT": "chat.png"
-        }
+        "GOOD_TIME" : 1000
     },
     "nomsEntitee":{
         "PROJECTILE" : "tir_",
         "JOUEUR" : "eureka_",
-        "BLOCK_BORD" : "bord",
-        "BLOCK_BORDURE" : "bordure_01",
+        "BLOCK_BORDURE" : "bordure",
         "BLOCK_BORD_START_END" : "bordure_start_end",
-        "BLOCK_MUR" : "mur",
-        "BLOCK_PIEGE" : "piege",
+        "BLOCK_MUR" : "mur_",
+        "BLOCK_PIEGE" : "piege_",
         "BLOCK_PRISE" : "prise",
-        "BLOCK_LUMIERE" : "lumiere",
+        "BLOCK_LUMIERE" : "rayon_lumiere",
         "BLOCK_PAILLE" : "paille",
         "BLOCK_ENTREE" : "start_end_halo_",
         "BLOCK_SORTIE" : "start_end_halo_",
         "BLOCK_KIKETTE" : "kikette",
-        "BLOCK_SOL" : "sol"
-    },
-    "monstres":{
-        "CHAT":"CHAT_RIGHT_1",
-        "RAT" :"rat_"
+        "BLOCK_SOL" : "sol",
+        "CHAT" : "CHAT_"
     }
 };

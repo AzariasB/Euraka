@@ -1,15 +1,9 @@
-/* global exports */
-
-﻿ // Data
+// Data
 var config = require( 'data/config.js' );
 
 // Lib
 var _ = require( 'underscore' );
 var Ractive = require( 'ractive/ractive.runtime.js' );
-var $ = require( 'jquery' );
-var md5 = require( 'md5' );
-var Velocity = require( 'velocity-animate/velocity.js' );
-require( 'velocity-animate/velocity.ui.js' );
 require( 'lib/raf.js' );
 
 var isDebug = function()
@@ -18,11 +12,12 @@ var isDebug = function()
 };
 var isLocalhost = function()
 {
-    return document.URL.indexOf( 'localhost' ) !== -1;
+    return false;
+    // return document.URL.indexOf( 'localhost' ) !== -1;
 };
 var isset = function( v )
 {
-    return v !== undefined && v !== null && v !== "undefined" ;
+    return v !== undefined && v !== null && v !== "undefined";
 };
 
 var convertToElement = function( el )
@@ -38,35 +33,6 @@ var convertToElement = function( el )
     }
 
     return ele;
-};
-
-var show = function( element, callback, options )
-{
-    var settings = {
-        'speed': 600
-    };
-    settings = _.extend( settings, options );
-
-    var $ele = $( element );
-    $ele.stop().show( settings.speed, callback );
-
-    if ( $ele.hasClass( 'is-hide' ) )
-    {
-        $ele.removeClass( 'is-hide' );
-    }
-
-    return;
-};
-
-var hide = function( element, callback, options )
-{
-    var settings = {
-        'speed': 800
-    };
-    settings = _.extend( settings, options );
-
-    $( element ).stop().hide( settings.speed, callback );
-    return;
 };
 
 var fadeOut = function( el, callback, options )
@@ -228,7 +194,7 @@ var populateTemplate = function( tpl, container, data, callback, partials )
     // we're passing the ID of the <script> tag above.
     // template: '#' + tpl,
 
-    return new Ractive(
+    var ractive = new Ractive(
     {
         // The `el` option can be a node, an ID, or a CSS selector.
         el: container,
@@ -243,18 +209,26 @@ var populateTemplate = function( tpl, container, data, callback, partials )
         partials: partials
 
     } );
+
+    if ( isset( callback ) === true )
+    {
+        // call back après le return (si jamais on a besoin de ractive)
+        _.delay(callback, 0);
+    }
+
+    return ractive;
 };
 
 var showTemplate = function( tpl, container, data, callback, partials )
 {
     // console.trace();
-    var ractive = this.populateTemplate( tpl, container, data, callback, partials );
+    var ractive = this.populateTemplate( tpl, container, data, null, partials );
 
-    // Callback après le return
+    // Call back après le return (si jamais on a besoin de ractive)
     _.delay( function()
     {
         fadeIn( container, callback );
-    }, 100 );
+    }, 0 );
 
     return ractive;
 };
@@ -406,47 +380,61 @@ var isDesktop = function()
     return window.orientation === undefined;
 };
 
-var decode = function( file )
-{
-    // console.log( fs );
-    // return window.BISON.decode( fs.readFileSync( file, 'utf8', function ( err, data )
-    // {
-    //     if ( err )
-    //     {
-    //         console.log( 'Erreur tools@decode file : ' + file );
-    //         return console.log( err );
-    //     }
-    //     return data;
-    // } ) );
-};
-
 var ajax = function( url, data, callback, callbackBadChecksum )
 {
     var self = this;
+    var xmlhttp;
 
-    // On save en ligne
-    // Send the request
-    $.post( config.app.api + url, data, function( response )
+    if ( window.XMLHttpRequest )
     {
-        // Checksum ok
-        if ( self.verifyChecksum( response.checksum, response.data ) )
-        {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else
+    {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject( "Microsoft.XMLHTTP" );
+    }
 
-            if ( isset( callback ) === true )
-            {
-                callback( JSON.parse( response.data ) );
-            }
-        }
-        // Checksum bad
-        else
+    xmlhttp.onreadystatechange = function()
+    {
+        if ( xmlhttp.readyState == 4 )
         {
-            if ( isset( callbackBadChecksum ) === true )
+            if ( xmlhttp.status == 200 )
             {
-                console.log( 'Error : bad checksum...' );
-                callbackBadChecksum( response.data );
+                // Checksum ok
+                if ( self.verifyChecksum( response.checksum, response.data ) )
+                {
+
+                    if ( isset( callback ) === true )
+                    {
+                        callback( JSON.parse( response.data ) );
+                    }
+                }
+                // Checksum bad
+                else
+                {
+                    if ( isset( callbackBadChecksum ) === true )
+                    {
+                        console.log( 'Error : bad checksum...' );
+                        callbackBadChecksum( response.data );
+                    }
+                }
+            }
+            else if ( xmlhttp.status == 400 )
+            {
+                console.log( 'There was an error 400' )
+            }
+            else
+            {
+                console.log( 'something else other than 200 was returned' )
             }
         }
-    }, 'json' );
+    }
+
+    xmlhttp.open( 'POST', url, true );
+    xmlhttp.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8' );
+    xmlhttp.send();
 
     return;
 };
@@ -454,7 +442,7 @@ var ajax = function( url, data, callback, callbackBadChecksum )
 var verifyChecksum = function( checksum, data )
 {
     return true;
-    return checksum === md5.digest_s( data );
+    // return checksum === md5.digest_s( data );
 };
 
 var toInt = function( n )
@@ -485,116 +473,6 @@ var removeOverlay = function( callback, options )
     el = document.getElementById( 'overlay' );
 
     fadeOut( el, callback );
-
-    return;
-};
-
-var slideDown = function( el, callback, options )
-{
-    el = convertToElement( el );
-
-    if ( isset( el ) === false )
-    {
-        return false;
-    }
-
-    el.style.opacity = 0;
-    el.classList.remove( 'is-hide' );
-
-    Velocity( el, 'stop', true );
-    Promise.all( [ Velocity( el, 'transition.slideDownIn' ) ] ).then( function()
-    {
-        if ( isset( callback ) === true )
-        {
-            callback();
-        }
-    } );
-
-    return;
-
-};
-
-var slideUp = function( el, callback, options )
-{
-    el = convertToElement( el );
-
-    if ( isset( el ) === false )
-    {
-        return false;
-    }
-
-    Velocity( el, 'stop', true );
-    Promise.all( [ Velocity( el, 'transition.slideUpOut' ) ] ).then( function()
-    {
-        el.classList.add( 'is-hide' );
-
-        if ( isset( callback ) === true )
-        {
-            callback();
-        }
-    } );
-
-    // Velocity( 'stop', true )
-    //     .Velocity( document.getElementById( element ), 'transition.slideUpOut' ).promise().done( callback );
-
-    return;
-};
-var clapDown = function( callback, options )
-{
-    var settings = {
-        'speed': 600,
-        'delay': 0,
-        'height': 0,
-        'top': 'auto'
-    },
-        clapTop = convertToElement( 'clapTop' ),
-        clapBottom = convertToElement( 'clapBottom' );
-
-    settings = _.extend( settings, options );
-
-    Velocity( clapTop, 'stop', true );
-    Velocity( clapBottom, 'stop', true );
-
-    _.delay( function()
-    {
-        Promise.all( [ Velocity( clapTop, 'transition.bounceDownIn', settings.speed ), Velocity( clapBottom, 'transition.bounceUpIn', settings.speed ) ] ).then( function()
-        {
-            if ( isset( callback ) === true )
-            {
-                callback();
-            }
-        } );
-
-    }, settings.delay );
-
-    return;
-};
-
-var clapUp = function( callback, options )
-{
-    var settings = {
-        'speed': 200,
-        'delay': 0,
-    },
-        clapTop = convertToElement( 'clapTop' ),
-        clapBottom = convertToElement( 'clapBottom' );
-
-    settings = _.extend( settings, options );
-
-    Velocity( clapTop, 'stop', true );
-    Velocity( clapBottom, 'stop', true );
-
-    _.delay( function()
-    {
-        Promise.all( [ Velocity( clapTop, 'transition.bounceUpOut', settings.speed ), Velocity( clapBottom, 'transition.bounceDownOut', settings.speed ) ] ).then( function()
-        {
-            if ( isset( callback ) === true )
-            {
-                callback();
-            }
-        } );
-
-    }, settings.delay );
 
     return;
 };
@@ -680,7 +558,7 @@ var getPositionInArray = function( x, y )
 var toHHMMSS = function( t )
 {
     var sec_num = parseInt( t, 10 ); // don't forget the second param
-    var hours   = Math.floor( sec_num / 3600 );
+    var hours = Math.floor( sec_num / 3600 );
     var minutes = Math.floor( ( sec_num - ( hours * 3600 ) ) / 60 );
     var seconds = sec_num - ( hours * 3600 ) - ( minutes * 60 );
 
@@ -699,7 +577,6 @@ var toHHMMSS = function( t )
     return time;
 };
 
-
 exports.toHHMMSS = toHHMMSS;
 exports.getPositionInArray = getPositionInArray;
 exports.ts = ts;
@@ -708,7 +585,6 @@ exports.addOverlay = addOverlay;
 exports.toInt = toInt;
 exports.verifyChecksum = verifyChecksum;
 exports.ajax = ajax;
-exports.decode = decode;
 exports.isDesktop = isDesktop;
 exports.getDocWidth = getDocWidth;
 exports.getDocHeight = getDocHeight;
@@ -716,8 +592,6 @@ exports.tabRandom = tabRandom;
 exports.getTsDay = getTsDay;
 exports.isset = isset;
 exports.typeWriter = typeWriter;
-exports.hide = hide;
-exports.show = show;
 exports.fadeIn = fadeIn;
 exports.fadeOut = fadeOut;
 exports.empty = empty;
@@ -734,10 +608,6 @@ exports.addClick = addClick;
 exports.addClickOne = addClickOne;
 exports.addOver = addOver;
 exports.removeClick = removeClick;
-exports.clapDown = clapDown;
-exports.clapUp = clapUp;
-exports.slideUp = slideUp;
-exports.slideDown = slideDown;
 exports.merge = merge;
 exports.center = center;
 exports.convertToElement = convertToElement;

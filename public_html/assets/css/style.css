@@ -2,95 +2,53 @@
     Intro
 \*------------------------------------*/
 
-.intro-img {
-    background: transparent url('../img/menu_principal_apercu.jpg') center center no-repeat;
-    background-size: cover;
-}
-.intro {
-    top: 29em;
-    line-height: 6em;
-    width: 28em;
-}
 .intro-nav {
-    margin-bottom: 2em;
+    top: 22em;
 }
 .intro-btn {
     display: inline-block;
-    width: 100%;
-    height: 100%;
 }
 /*------------------------------------*\
     Cinématique
 \*------------------------------------*/
 
-.cinematique {
-    background: transparent url('../img/illu1.jpg') center center no-repeat;
-    background-size: cover;
-}
-.cinematiqueEnd {
-    background: transparent url('../img/illu2.jpg') center center no-repeat;
-    background-size: cover;
-}
-.cinematiqueDeath {
-    background: transparent url('../img/illu3gameover.jpg') center center no-repeat;
-    background-size: cover;
-}
-.cinematiqueKaode {
-    background: transparent url('../img/eurak_kaode.png') center center no-repeat;
-    background-size: cover;
-}
 .cinematique-txt {
     color: #FFF;
-    bottom: 3em;
-    width: 56em;
+    bottom: 0.8em;
+    width: 51em;
     left: 0;
     right: 0;
     margin: auto;
 }
-
 /*------------------------------------*\
     Scoring
 \*------------------------------------*/
 
-.scoring {
-    background: transparent url('../img/scoringlevel.jpg') center center no-repeat;
-    background-size: cover;
-    z-index: 16;
-}
-.scoring.is-final {
-    background: transparent url('../img/scoring_run.jpg') center center no-repeat;
-    background-size: cover;
-}
-.scoring.is-hightscore {
-    background: transparent url('../img/scoring_run_exemple.jpg') center center no-repeat;
-    background-size: cover;
-}
-.cinematique-txt {
+.scoring-tpl {
+    top: 8em;
+    left: 13em;
     color: #FFF;
-    bottom: 3em;
-    width: 56em;
-    left: 0;
-    right: 0;
-    margin: auto;
+    font-size: 2em;
+    line-height: 1em;
+}
+.scoring_run .scoring-tpl {
+    left: 8em;
+}
+.scoreList li {
+    margin-bottom: 1.1em;
+}
+.scoreList li: last-child {
+    margin-top: 1em;
+    padding-left: 1.5em;
+    font-size: 2em;
+    line-height: 1em;
 }
 /*------------------------------------*\
-    Modal
+    Popin
 \*------------------------------------*/
 
-.modal {
-    width: 50%;
-    height: 50%;
+.popin {
     z-index: 16;
-}
-.modal-minimap {
-    width: 100%;
-    height: 100%;
-}
-.modal-tuto {
-    background: transparent url('../img/tuto.png') center center no-repeat;
-}
-.modal-pyramide1 {
-    background: transparent url('../img/pyramide1.png') center center no-repeat;
 }
 /*------------------------------------*\
     Ui
@@ -118,10 +76,61 @@
     line-height: 2em;
     font-size: 2em;
 }
+.ui-reset {
+    width: 6em;
+    height: 2em;
+    right: 0;
+}
 .ui-reset-btn {
     display: inline-block;
     width: 5.5em;
     height: 2.5em;
     position: absolute;
     right: 1em;
+}
+/*------------------------------------*\
+    Touches
+\*------------------------------------*/
+
+.touche-block {
+    margin-bottom: 1.5em;
+}
+.touche-titre {
+    font-size: 3em;
+}
+.touche-col {
+    float: left;
+    width: 45%
+}
+.touche-img-col1 {
+    width: 317px;
+    float: left;
+    clear: left;
+}
+.touche-img-col2 {
+    width: 232px;
+    float: left;
+    clear: left;
+}
+.touche-col span {
+    display: block;
+    margin-bottom: 3em;
+    height: 0px;
+}
+.touche-lumiere {
+    overflow: hidden;
+    height: 78px;
+}
+.touche-lumiere .prise {
+    display: inherit;
+    float: left;
+    /*background-position:-1002px -119px;*/
+}
+.touche-lumiere .rayon_lumiere {
+    display: inherit;
+    float: left;
+    background-position:-976px -107px;
+}
+.touche-link {
+    color: #F1F1F1;
 }

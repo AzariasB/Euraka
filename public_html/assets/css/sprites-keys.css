@@ -1,0 +1,30 @@
+.z {
+   background: url('../img/keys.png') no-repeat -237px -354px;
+   width: 76px;
+   height: 68px;
+}
+.a {
+   background: url('../img/keys.png') no-repeat -314px -354px;
+   width: 76px;
+   height: 68px;
+}
+.arrowkeys {
+   background: url('../img/keys.png') no-repeat -0px -285px;
+   width: 236px;
+   height: 140px;
+}
+.e {
+   background: url('../img/keys.png') no-repeat -391px -354px;
+   width: 76px;
+   height: 68px;
+}
+.space {
+   background: url('../img/keys.png') no-repeat -237px -285px;
+   width: 317px;
+   height: 68px;
+}
+.manette {
+   background: url('../img/keys.png') no-repeat -0px -0px;
+   width: 657px;
+   height: 284px;
+}

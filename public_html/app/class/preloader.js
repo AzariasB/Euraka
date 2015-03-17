@@ -28,15 +28,9 @@ class Preloader
             {
                 name: 'game',
                 files: [
-                    new Img( 'spritesheet.png' ),
-                    new Img( 'illu1.jpg' ),
-                    new Img( 'illu2.jpg' ),
-                    new Img( 'illu3gameover.jpg' ),
-                    new Img( 'pyramide1.png' ),
-                    new Img( 'scoringlevel.jpg' ),
-                    new Img( 'scoring_run.jpg' ),
-                    new Img( 'scoring_run_exemple.jpg' ),
-                    new Img( 'tuto.png' )
+                    new Img( 'ui.png' ),
+                    new Img( 'game.png' ),
+                    new Img( 'keys.png' )
                 ]
 
             },

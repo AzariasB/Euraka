@@ -1,9 +1,11 @@
-<div class="ac scoring">
-    <div class="pa scoring-tpl {{#isHighScore}}is-hightscore{{/isHighScore}} {{#isFinal}}is-final{{/isFinal}}">
-        <ul>
+<div class="ac {{classPopin}}">
+    <div class="pa scoring-tpl {{#isHighScore}}is-hightscore{{/isHighScore}}">
+        <ul class="scoreList">
             {{#end}}
                 <li>{{intituleScore}} : {{valeurScore}}</li>
             {{/end}}
         </ul>
     </div>
 </div>
+
+scoring-tpl

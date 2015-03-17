@@ -1,25 +1,12 @@
-// // Data
-// var config = require( '../data/config.js' );
-// var terrainTypeData = require( '../data/terrainTypeData.js' );
-// var archetypeData = require( '../data/archetypeData.js' );
-
-// // Class
-// var Start = require( '../class/start.js' );
-
-// // Lib
-// var $ = require( 'jquery' );
+// Lib
 var tools = require( 'lib/tools.js' );
 var _ = require( 'underscore' );
-// var Velocity = require( 'velocity-animate/velocity.js' );
-// require( 'velocity-animate/velocity.ui.js' );
-
-// var i18n = require( 'lib/i18n.js' );
-// var easing = require( 'lib/jquery.easing.js' );
-// var tools = require( 'lib/tools.js' );
-// var booklet = require( 'lib/jquery.booklet.js' );
+require( 'lib/mousetrap.js' );
 
 // Template
-var AccueilView = require( 'views/game/accueilTpl.ract' );
+var AccueilView = require( 'views/intro/accueilTpl.ract' );
+var ToucheView = require( 'views/intro/toucheTpl.ract' );
+var CreditView = require( 'views/intro/creditTpl.ract' );
 
 class IntroTemplate
 {
@@ -32,7 +19,7 @@ class IntroTemplate
 
     start()
     {
-        tools.showTemplate( AccueilView, 'l-main', null, this.tplLoaded.bind( this ) );
+        tools.populateTemplate( AccueilView, 'l-main', null, this.tplLoaded.bind( this ) );
 
         return;
     }
@@ -40,11 +27,47 @@ class IntroTemplate
     tplLoaded()
     {
         tools.addClick( 'commencer', this.handleCommencer.bind( this ) );
+        Mousetrap.bind( 'a', this.handleCommencer.bind( this ), 'keydown' );
+
+        tools.addClick( 'touches', this.handleTouches.bind( this ) );
+        tools.addClick( 'credits', this.handleCredits.bind( this ) );
+        return;
     }
 
     handleCommencer()
     {
         this.game.gameController.start();
+
+        return;
+    }
+
+    handleTouches()
+    {
+        this.openPopin(ToucheView);
+
+        return;
+    }
+
+    handleCredits()
+    {
+        this.openPopin(CreditView);
+
+        return;
+    }
+
+    openPopin(view)
+    {
+        tools.addOverlay( function()
+        {
+            tools.showTemplate( view, 'popin' );
+            Mousetrap.bind( 'a', function()
+            {
+                tools.removeOverlay();
+                tools.fadeOut( 'popin' );
+            }, 'keydown' );
+        } );
+
+        return;
     }
 }
 
