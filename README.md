@@ -36,7 +36,7 @@ Theme : light *(UNESCO)*
 
 ### Plugins
 
-* rAF Paul Irish http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+* rAF
 * https://github.com/ccampbell/mousetrap 1.4.6
 
 ### Plugins dev-side
@@ -76,15 +76,15 @@ npm-install-missing
 npm i --save ractive underscore
 ```
 
-** Start server **
+**Start server**
 ```
 gulp connect
 ```
-** Start watchify **
+**Start watchify**
 ```
 gulp js
 ```
-** Executable for win, linux, mac **
+**Executable for win, linux, mac**
 ```
 gulp build
 ```
