@@ -101,11 +101,15 @@ class GameController
         return;
     }
 
-    rerun()
+    resetRun()
     {
         this.resetTimer();
         this.indexCodeStage = 0;
+    }
 
+    reRun()
+    {
+        this.resetRun();
         return this.start();
     }
 
@@ -183,6 +187,7 @@ class GameController
     showVictoire()
     {
         this.stopTimers();
+
         // if ( tools.isset(Storage ) === true )
         // {
         //     localStorage.getItem('higthscore');
@@ -198,7 +203,14 @@ class GameController
 
     startNextLvl()
     {
-        this.start();
+        if ( this.isEndRun() === true )
+        {
+            this.game.gameTemplate.showPopinScoringTotal();
+        }
+        else
+        {
+            this.start();
+        }
 
         return;
     }

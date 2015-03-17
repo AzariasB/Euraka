@@ -120,7 +120,8 @@ class Sprite
         }
 
         // Hack du gros cul d'Euraka
-        if ( this.code.indexOf( config.nomsEntitee.JOUEUR + config.orientations.UP ) > -1 )
+        if ( this.code.indexOf( config.nomsEntitee.JOUEUR + config.orientations.UP ) > -1 ||
+         this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.DOWN ) > -1 )
         {
             width = config.map.characterSize - 12;
         }

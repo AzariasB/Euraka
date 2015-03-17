@@ -421,32 +421,32 @@ class Entity
     canMove( deplacement )
     {
 
-        var joueurBouge = _.clone( this );
+        var entityMove = _.clone( this );
 
         // pas plus de 5
         deplacement = Math.min( 5, deplacement );
 
-        if ( joueurBouge.orientation === config.orientations.LEFT )
+        if ( entityMove.orientation === config.orientations.LEFT )
         {
-            joueurBouge.x = joueurBouge.x - deplacement;
+            entityMove.x = this.x - deplacement;
         }
         else
-        if ( joueurBouge.orientation === config.orientations.RIGHT )
+        if ( entityMove.orientation === config.orientations.RIGHT )
         {
-            joueurBouge.x = joueurBouge.x + deplacement;
+            entityMove.x = this.x + deplacement;
         }
         else
-        if ( joueurBouge.orientation === config.orientations.UP )
+        if ( entityMove.orientation === config.orientations.UP )
         {
-            joueurBouge.y = joueurBouge.y - deplacement;
+            entityMove.y = this.y - deplacement;
         }
         else
-        if ( joueurBouge.orientation === config.orientations.DOWN )
+        if ( entityMove.orientation === config.orientations.DOWN )
         {
-            joueurBouge.y = joueurBouge.y + deplacement;
+            entityMove.y = this.y + deplacement;
         }
 
-        return !this.isHittingBlock( joueurBouge );
+        return !this.isHittingBlock( entityMove );
     }
 
     isHittingBlock( entityMoved )
@@ -459,9 +459,10 @@ class Entity
         var tiledMap = this.game.mapTemplate.tiledMap;
         var collision = false;
 
-        //console.log(entityPosition);
+        // console.log(tiledMap);
+        // console.log(entityPosition);
 
-        if ( tools.isset( tiledMap[ entityPosition.y ][ entityPosition.x ] ) === true )
+        if ( tiledMap  && tools.isset( tiledMap[ entityPosition.y ][ entityPosition.x ] ) === true )
         {
 
             try
@@ -480,6 +481,7 @@ class Entity
                 console.log( ex );
                 return false;
             }
+
             console.log( tiledMap[ entityPosition.y ][ entityPosition.x ].constructor.name );
 
         }

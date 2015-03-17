@@ -23,6 +23,7 @@ class MapTemplate
         // ou des animations
         this.tabEntities = [];
         this.tabEntitiesToUpdate = [];
+        this.tabEntitiesIA = [];
 
         //Enregistrement sour forme de tableau 2d pour plus de performance lors du test de HitBox
         this.tiledMap = [ 0 ][ 0 ];
@@ -103,6 +104,17 @@ class MapTemplate
     {
         this.stage = stage;
         this.tabEntities = this.stage.getTabEntities();
+
+        // On place les monstres dans les entité à update
+        _.each( this.tabEntities, function( item )
+        {
+            if ( _.contains( config.map.ia, item.constructor.name ) === true )
+            {
+                this.tabEntitiesIA.push( item );
+                this.tabEntitiesToUpdate.push( item );
+            }
+        }, this );
+
         this.initTiledMap();
         return;
     }
@@ -176,6 +188,8 @@ class MapTemplate
             //            if(item.y >= 9)
             //            console.log(" x : " + item.x + " - y : " + item.y + " -Nom : " + item.constructor.name);
         } );
+
+        return;
     }
 
     run()
@@ -185,6 +199,12 @@ class MapTemplate
 
         // On lance l'animation
         this.start();
+
+        // Run IA
+        _.each( this.tabEntitiesIA, function( item )
+        {
+            item.runIa();
+        } );
 
         return;
     }
@@ -201,8 +221,12 @@ class MapTemplate
         // Action 'spéciales'
         Mousetrap.bind( 'a', this.character.addRayonEclairage.bind( this.character ), 'keydown' );
         Mousetrap.bind( 'z', this.character.lanceProjectile.bind( this.character ), 'keydown' );
-        Mousetrap.bind( '=', this.character.fillEnergy.bind( this.character ), 'keydown' );
         Mousetrap.bind( 'q', this.game.gameController.showVictoire.bind( this.game.gameController ), 'keydown' );
+
+        if ( tools.isDebug() === true )
+        {
+            Mousetrap.bind( '=', this.character.fillEnergy.bind( this.character ), 'keydown' );
+        }
 
         // Mousetrap.bind( 'up', function() {
         //     self.character.handlePlayerInput.bind( self.character, config.orientations.UP );
@@ -235,8 +259,8 @@ class MapTemplate
 
             if ( self.character.aGagne() )
             {
-                this.stop();
-                return this.game.gameController.showVictoire();
+                self.stop();
+                return self.game.gameController.showVictoire();
             }
         } );
 
@@ -587,6 +611,12 @@ class MapTemplate
                 {
                     tick = 5;
                 }
+
+                // if ( e.constructor.name === 'Chat' )
+                // {
+                //     console.log( tick );
+                //     // console.log( e.moveSpeed );
+                // }
 
                 if ( e.orientation === config.orientations.LEFT )
                 {

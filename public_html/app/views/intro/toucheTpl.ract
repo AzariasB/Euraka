@@ -1,71 +1,71 @@
 <div class="ac l-touche text-right">
     <div class="cf">
-        <div class="touche-block touche-titre text-center">
-            <div class="ib eureka_DOWN_1"></div> EURAKA <div class="ib eureka_DOWN_1"></div>
+        <div class="touche-titre text-center">
+            <div class="ib eureka_DOWN_1"></div> EURAKA <div class="ib eureka_DOWN_3"></div>
         </div>
         <div class="touche-col">
-            <div class="touche-block">
+            <div class="touche-block touche-big">
                 <div class="touche-img-col1"><div class="ib arrowkeys touche-img"></div></div>
-                <span>Déplacer Euraka</span>
-                <span>(To Move Euraka)</span>
+                <p>Déplacer Euraka</p>
+                <p>(To Move Euraka)</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col1"><div class="ib a touche-img"></div></div>
-                <span>Augmenter la luminosité</span>
-                <span>(To see clearer)</span>
+                <p>Augmenter la luminosité</p>
+                <p>(To see clearer)</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col1"><div class="ib z touche-img"></div></div>
-                <span>Tirer un éclair</span>
-                <span>(To shoot a lightning bolt)</span>
+                <p>Tirer un éclair</p>
+                <p>(To shoot a lightning bolt)</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col1"><div class="ib e touche-img"></div></div>
-                <span>Absorber une charge d'énergie</span>
-                <span>(To absorb some energie)</span>
+                <p>Absorber une charge d'énergie</p>
+                <p>(To absorb some energie)</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col1"><div class="ib space touche-img"></div></div>
-                <span>Relance la partie</span>
-                <span>(Reset the run)</span>
+                <p>Relance la partie</p>
+                <p>(Reset the run)</p>
             </div>
         </div>
         <div class="touche-col">
             <div class="touche-block">
                 <div class="touche-img-col2"><div class="ib start_end_halo_DOWN"></div></div>
-                <span>Entrée / Sortie</span>
-                <span>(Entrance / Exit)</span>
+                <p>Entrée / Sortie</p>
+                <p>(Entrance / Exit)</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col2 touche-lumiere"><div class="ib prise"></div>
                 <div class="ib rayon_lumiere"></div></div>
-                <span>Donne une charge d'énergie.</span>
-                <span>(Bring a charge to our hero)</span>
+                <p>Donne une charge d'énergie.</p>
+                <p>(Bring a charge to our hero)</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col2"><div class="ib kikette"></div>
                 <div class="ib prehi_kikette"></div></div>
-                <span>Bonus « Lumière » : plus de points !</span>
-                <span>(«Light» bonus: More points!)</span>
+                <p>Bonus « Lumière » : plus de points !</p>
+                <p>(«Light» bonus: More points!)</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col2"><div class="ib paille"></div></div>
-                <span>Prennent feu.</span>
-                <span>(Vulnerable to fire)</span>
+                <p>Prennent feu.</p>
+                <p>(Vulnerable to fire)</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col2"><div class="ib piege_01"></div>
                 <div class="ib piege_02"></div></div>
-                <span>« It's a trap ! »</span>
+                <p>« It's a trap ! »</p>
             </div>
             <div class="touche-block">
                 <div class="touche-img-col2"><div class="ib CHAT_RIGHT_1"></div></div>
-                <span>Attention à eux !</span>
-                <span>(Beware!)</span>
+                <p>Attention à eux !</p>
+                <p>(Beware!)</p>
             </div>
         </div>
     </div>
-    <div class="text-center">
+    <div class="text-center touche-end">
         <p>EURAKA est encore meilleur avec une image manette et Joy To Key  !</p>
         <a class="touche-link" onclick="window.open(this.href);return false;" href="http://joytokey.net/en/download">joytokey.net</a>
         <p>EURAKA is even better with a image manette and « Joy To Key » !</p>

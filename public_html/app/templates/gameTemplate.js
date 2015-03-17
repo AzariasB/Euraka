@@ -12,6 +12,7 @@ var _ = require( 'underscore' );
 var GameTpl = require( 'views/game/gameTpl.ract' );
 var CinematiqueTpl = require( 'views/game/cinematiqueTpl.ract' );
 var CinematiqueGameTpl = require( 'views/game/cinematiqueGameTpl.ract' );
+var CinematiqueCreditTpl = require( 'views/game/cinematiqueCreditTpl.ract' );
 var CinematiqueTplKaode = require( 'views/game/cinematiqueKaodeTpl.ract' );
 var ModalTpl = require( 'views/game/modalTpl.ract' );
 var ScoringTpl = require( 'views/game/scoringTpl.ract' );
@@ -86,8 +87,8 @@ class GameTemplate
         Mousetrap.bind( 'a', this.showMinimapEnd.bind( this ), 'keydown' );
 
         // Reset
-        Mousetrap.bind( 'space', this.game.gameController.rerun.bind( this.game.gameController ), 'keydown' );
-        tools.addClick( 'ui-reset-btn', this.game.gameController.rerun.bind( this.game.gameController ) );
+        Mousetrap.bind( 'space', this.game.gameController.reRun.bind( this.game.gameController ), 'keydown' );
+        tools.addClick( 'ui-reset-btn', this.game.gameController.reRun.bind( this.game.gameController ) );
 
         return;
     }
@@ -116,22 +117,9 @@ class GameTemplate
 
     showPopinScoring()
     {
-        var self = this,
-            isEnd = this.game.gameController.isEndRun(),
-            fct;
+        var self = this;
 
-        // Fin de run
-        if ( isEnd === true )
-        {
-            fct = this.showPopinScoringTotal.bind( this );
-        }
-        // Fin de stage
-        else
-        {
-            fct = this.game.gameController.startNextLvl.bind( this.game.gameController );
-        }
-
-        Mousetrap.bind( 'a', fct, 'keydown' );
+        Mousetrap.bind( 'a', this.game.gameController.startNextLvl.bind( this.game.gameController ), 'keydown' );
 
         tools.addOverlay( function()
         {
@@ -139,7 +127,7 @@ class GameTemplate
             {
                 "isHighScore": false,
                 "classPopin": 'scoringlevel',
-                "end": self.game.scoring.endLevel.bind( self )()
+                "end": self.game.scoring.endLevel.bind( self.game.scoring )()
             } );
         } );
 
@@ -168,19 +156,15 @@ class GameTemplate
 
     showPopinScoringTotal()
     {
-        var self = this;
-
-        tools.addOverlay( function()
+        tools.populateTemplate( ScoringTpl, 'popin',
         {
-            tools.showTemplate( ScoringTpl, 'popin',
-            {
-                "isHighScore": false,
-                "classPopin": 'scoring_run',
-                "end": self.game.scoring.endRun.bind( self )()
-            } );
+            "isHighScore": false,
+            "classPopin": 'scoring_run',
+            "end": this.game.scoring.endRun.bind( this.game.scoring )()
         } );
 
-        this.cinematiqueGame();
+        Mousetrap.unbind( 'a' );
+        Mousetrap.bind( 'a', this.cinematiqueGame.bind( this ), 'keydown' );
 
         return;
     }
@@ -189,7 +173,12 @@ class GameTemplate
     {
         tools.fadeOut( 'l-main', function()
         {
-            tools.showTemplate( CinematiqueGameTpl, 'l-main' );
+            tools.fadeOut('popin');
+            tools.empty( 'popin' );
+            tools.removeOverlay( function()
+            {
+                tools.showTemplate( CinematiqueGameTpl, 'l-main' );
+            } );
         } );
 
         Mousetrap.bind( 'a', this.cinematiqueGameEnd.bind( this ), 'keydown' );
@@ -200,6 +189,17 @@ class GameTemplate
     cinematiqueGameEnd()
     {
         Mousetrap.unbind( 'a' );
+
+        tools.populateTemplate( CinematiqueCreditTpl, 'l-main' );
+
+        Mousetrap.bind( 'a', this.cinematiqueGameCreditEnd.bind( this ), 'keydown' );
+
+        return;
+    }
+
+    cinematiqueGameCreditEnd()
+    {
+        this.game.introTemplate.start();
 
         return;
     }

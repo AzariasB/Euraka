@@ -20,6 +20,7 @@ class Monster extends Entity
         // Gestion des sprites animés A FAIRE AVANT getSprite
         this.animation = new Animation( 2 );
         this.animation.setSpeed( 150 );
+        this.speed = 100;
 
         // On pose un block sol dessous sinon pb avec transparence
         var sol = new Sol( game, data.x, data.y );
@@ -29,6 +30,40 @@ class Monster extends Entity
 
         this.followingPlayer = false;
         this.target = false;
+
+        return;
+    }
+
+    runIa()
+    {
+        this.moving = true;
+        this.tickIa();
+
+        return;
+    }
+
+    tickIa()
+    {
+        var tabTryOrientation = [],
+            tabOrientations = _.keys( config.orientations ),
+            i = 0,
+            len = tabOrientations.length;
+
+        // Tant qu'on ne peut pas bouger, on cherche l'orientation adéquate
+        while ( this.canMove( 5 ) === false && i < len - 1 )
+        {
+            // trouve une oritentaiton non testé
+            this.orientation = tools.tabRandom( _.difference( tabOrientations, tabTryOrientation ) );
+            // push l orientation dans les orientations testé
+            tabTryOrientation.push( this.orientation );
+            i = i + 1;
+        }
+
+        // this.orientation = config.orientations.LEFT;
+        // console.log(this.orientation);
+
+        // relance le déplacement
+        _.delay( this.tickIa.bind( this ), _.random( 2, 6 ) * 1000 );
 
         return;
     }

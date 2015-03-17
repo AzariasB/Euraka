@@ -20,6 +20,18 @@
     right: 0;
     margin: auto;
 }
+.credit-txt {
+    color: #FFF;
+    width: 51em;
+    right: 16em;
+    top: 13em;
+    bottom: auto;
+    line-height: 4em;
+}
+.credit-link {
+    line-height: 4em;
+  font-size: 2em;
+}
 /*------------------------------------*\
     Scoring
 \*------------------------------------*/
@@ -93,17 +105,18 @@
 \*------------------------------------*/
 
 .touche-block {
-    margin-bottom: 1.5em;
+    margin-bottom: 3em;
 }
 .touche-titre {
     font-size: 3em;
+    margin-bottom: 1.5em
 }
 .touche-col {
     float: left;
-    width: 45%
+    width: 48%;
 }
 .touche-img-col1 {
-    width: 317px;
+    width: 330px;
     float: left;
     clear: left;
 }
@@ -112,10 +125,8 @@
     float: left;
     clear: left;
 }
-.touche-col span {
-    display: block;
-    margin-bottom: 3em;
-    height: 0px;
+.touche-big {
+    margin-bottom: 7em;
 }
 .touche-lumiere {
     overflow: hidden;
@@ -129,8 +140,22 @@
 .touche-lumiere .rayon_lumiere {
     display: inherit;
     float: left;
-    background-position:-976px -107px;
+    background-position: -976px -107px;
 }
 .touche-link {
     color: #F1F1F1;
+}
+.touche-end {
+    margin-top: 1em;
+}
+/*------------------------------------*\
+    $ Thanks
+\*------------------------------------*/
+
+.credit-name {
+    font-size: 1.5em;
+    line-height: 1em;
+}
+.credit-thanks {
+    top: 10em;
 }

@@ -19,6 +19,7 @@ class IntroTemplate
 
     start()
     {
+        this.game.gameController.resetRun();
         tools.populateTemplate( AccueilView, 'l-main', null, this.tplLoaded.bind( this ) );
 
         return;
