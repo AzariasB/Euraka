@@ -284,11 +284,11 @@ class Stage
                     b = new C( this.game, idCol, idLine );
                     this.tabEntities.push( b );
 
-                    if ( C === Entree )
-                    {
-                        b = new Projectile( this.game, idCol, idLine, config.map.projectileSize, config.map.projectileSize, config.orientations.RIGHT );
-                        this.tabEntities.push( b );
-                    }
+                    // if ( C === Entree )
+                    // {
+                    //     b = new Projectile( this.game, idCol, idLine, config.map.projectileSize, config.map.projectileSize, config.orientations.RIGHT );
+                    //     this.tabEntities.push( b );
+                    // }
                 }
 
             }, this );
