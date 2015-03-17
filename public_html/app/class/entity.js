@@ -4,7 +4,6 @@ var config = require( 'data/config.js' );
 // Class
 var Sprite = require( 'class/sprite.js' );
 var Transition = require( 'class/transition.js' );
-
 // Lib
 var tools = require( 'lib/tools.js' );
 var _ = require( 'underscore' );
@@ -475,8 +474,8 @@ class Entity
     {
         var block = this.getBlock( entityMoved ),
             result = false;
-
-        return tools.isset( block ) === true && block.isCollisionel() === true;
+    
+        return (tools.isset( block ) && block instanceof require('class/entities/block.js')  && block.isCollisionel());
     }
 
 }

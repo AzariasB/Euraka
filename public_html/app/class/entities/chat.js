@@ -26,18 +26,6 @@ class Chat extends Monster
         this.gridY = incrY;
     }
 
-    process()
-    {
-        if ( this.playerAroundme() )
-        {
-            followPlayer();
-        }
-        else
-        {
-            makePath();
-        }
-    }
-
 }
 
 module.exports = Chat;

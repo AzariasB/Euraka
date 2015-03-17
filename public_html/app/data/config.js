@@ -77,5 +77,8 @@ module.exports = {
         "BLOCK_KIKETTE" : "kikette",
         "BLOCK_SOL" : "sol",
         "CHAT" : "CHAT_"
+    },
+    "monster":{
+        "SEEK_DISTANCE_CAT" : 6
     }
 };

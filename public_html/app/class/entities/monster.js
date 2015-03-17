@@ -49,19 +49,16 @@ class Monster extends Entity
             i = 0,
             len = tabOrientations.length;
 
-        // Tant qu'on ne peut pas bouger, on cherche l'orientation adéquate
-        while ( this.canMove( 5 ) === false && i < len - 1 )
-        {
-            // trouve une oritentaiton non testé
-            this.orientation = tools.tabRandom( _.difference( tabOrientations, tabTryOrientation ) );
-            // push l orientation dans les orientations testé
-            tabTryOrientation.push( this.orientation );
-            i = i + 1;
-        }
-
-        // this.orientation = config.orientations.LEFT;
-        // console.log(this.orientation);
-
+            // Tant qu'on ne peut pas bouger, on cherche l'orientation adéquate
+            while ( !this.canMove( 1 ) && i < len - 1 )
+            {
+                // trouve une oritentaiton non testé
+                this.orientation = tools.tabRandom( _.difference( tabOrientations, tabTryOrientation ) );
+                // push l orientation dans les orientations testé
+                tabTryOrientation.push( this.orientation );
+                i = i + 1;
+            }
+            
         // relance le déplacement
         _.delay( this.tickIa.bind( this ), _.random( 2, 6 ) * 1000 );
 
@@ -72,9 +69,15 @@ class Monster extends Entity
     {
         var dx, dy, near = false;
 
-        dx = Math.abs( this.gridX - character.gridX );
-        dy = Math.abs( this.gridY - character.gridY );
+        var hisGrid = tools.getPositionInArray(character.x,character.y);
+        
+//        console.log("Moi chat : ");console.log(myGrid);
+//        console.log("\nLe joueur : ");console.log(hisGrid);
+        
+        dx = Math.abs( this.x - hisGrid.x );
+        dy = Math.abs( this.y - hisGrid.y );
 
+        //console.log(" Distance atendue : " + distance + " -distance trouvée en x : " + dx + " -distance trouvé en y : " + dy);
         if ( dx <= distance && dy <= distance )
         {
             near = true;
@@ -83,7 +86,7 @@ class Monster extends Entity
         return near;
     }
 
-    lookAtCharacter( charcacter )
+    lookAtCharacter( character )
     {
         if ( this.gridX < character.gridX )
         {
@@ -95,11 +98,11 @@ class Monster extends Entity
         }
         else if ( this.gridY > character.gridY )
         {
-            this.orientation = config.orientation.UP;
+            this.orientation = config.orientations.UP;
         }
         else
         {
-            this.orientation = config.orientation.DOWN;
+            this.orientation = config.orientations.DOWN;
         }
     }
 
@@ -111,6 +114,8 @@ class Monster extends Entity
 
     followCharacter( character )
     {
+        var path = this.game.mapTemplate.getPath(this.data, {x:character.x,y:character.y} );
+        this.go(path);
         this.followingPlayer = true;
         return;
     }
