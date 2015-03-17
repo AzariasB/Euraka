@@ -64,7 +64,7 @@ class Character extends Entity
 
     hasChangeEnergie()
     {
-        this.game.gameTemplate.getRactive().set( 'energieClass', 'energy_0' + this.getEnery() );
+        this.game.gameTemplate.getRactive().set( 'energieClass', 'energy_0' + this.getEnergy() );
 
         return;
     }
@@ -164,7 +164,7 @@ class Character extends Entity
         }
     }
 
-    getEnery()
+    getEnergy()
     {
         return this.energy;
     }

@@ -479,7 +479,7 @@ class MapTemplate
     updateUi()
     {
         var ractive = this.game.gameTemplate.getRactive();
-
+        
         ractive.set( 'score', this.game.scoring.getScore() );
         ractive.set( 'timer', tools.toHHMMSS( this.game.stageTime ) );
 
