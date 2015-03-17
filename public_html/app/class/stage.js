@@ -19,6 +19,7 @@ var MurEntree = require( 'class/entities/murEntree.js' );
 var MurSortie = require( 'class/entities/murSortie.js' );
 var Bordure = require( 'class/entities/bordure.js' );
 var Chat = require( 'class/entities/chat.js' );
+var Projectile = require( 'class/entities/projectile.js' );
 
 // lib
 var tools = require( 'lib/tools.js' );
@@ -282,6 +283,12 @@ class Stage
                 {
                     b = new C( this.game, idCol, idLine );
                     this.tabEntities.push( b );
+
+                    if ( C === Entree )
+                    {
+                        b = new Projectile( this.game, idCol, idLine, config.map.projectileSize, config.map.projectileSize, config.orientations.RIGHT );
+                        this.tabEntities.push( b );
+                    }
                 }
 
             }, this );

@@ -213,7 +213,7 @@ var populateTemplate = function( tpl, container, data, callback, partials )
     if ( isset( callback ) === true )
     {
         // call back après le return (si jamais on a besoin de ractive)
-        _.delay(callback, 0);
+        _.delay( callback, 0 );
     }
 
     return ractive;
@@ -363,6 +363,20 @@ var getTsDay = function()
 var tabRandom = function( t )
 {
     return t[ Math.floor( Math.random() * t.length ) ];
+};
+/**
+ * Remove element from array
+ */
+var tabRemoveEl = function( t, e )
+{
+    var i = t.indexOf( e );
+
+    if ( i > -1 )
+    {
+        t.splice( i, 1 );
+    }
+
+    return;
 };
 
 var getDocHeight = function()
@@ -589,6 +603,7 @@ exports.isDesktop = isDesktop;
 exports.getDocWidth = getDocWidth;
 exports.getDocHeight = getDocHeight;
 exports.tabRandom = tabRandom;
+exports.tabRemoveEl = tabRemoveEl;
 exports.getTsDay = getTsDay;
 exports.isset = isset;
 exports.typeWriter = typeWriter;

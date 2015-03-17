@@ -1,9 +1,9 @@
 // Data
 var config = require( 'data/config.js' );
-var Sol = require( 'class/entities/sol.js' );
 
 // Class
 var Entity = require( 'class/entity.js' );
+var Sol = require( 'class/entities/sol.js' );
 
 class Kikette extends Entity
 {

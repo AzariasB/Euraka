@@ -27,7 +27,7 @@ class Character extends Entity
         this.tabInput = [];
 
         // Gestion du déplacement
-        this.movement = new Transition();
+        // this.movement = new Transition();
         // Gestion des sprites animés  A FAIRE AVANT getSprite
         this.animation = new Animation( 4 );
         this.animation.setSpeed( 150 );
@@ -43,6 +43,20 @@ class Character extends Entity
         return;
     }
 
+    addEnergyPoint()
+    {
+        var result = false;
+
+        // si on est pas full
+        if ( this.energy < config.energie.JAUGE_MAX )
+        {
+            this.energy = this.energy + 1;
+            result = true;
+        }
+
+        return result;
+    }
+
     getRayonEcl()
     {
         return this.rayon_ecl;
@@ -51,6 +65,24 @@ class Character extends Entity
     hasChangeEnergie()
     {
         this.game.gameTemplate.getRactive().set( 'energieClass', 'energy_0' + this.getEnery() );
+
+        return;
+    }
+
+    addEnergy()
+    {
+        var block = this.getBlock( this );
+
+        if ( _.contains( config.map.energy, block.constructor.name ) === true && block.isActive() === true )
+        {
+            // si on a recup le point, on update l'ui et on suprime le block
+            if ( this.addEnergyPoint() === true )
+            {
+                this.hasChangeEnergie();
+                block.remove();
+                block.disable();
+            }
+        }
 
         return;
     }
@@ -123,7 +155,7 @@ class Character extends Entity
         var self = this;
         if ( this.peutLancerProjectile )
         {
-            this.game.mapTemplate.createProjectile( this.x, this.y, this.direction );
+            this.game.mapTemplate.createProjectile( this.x, this.y, this.orientation );
             this.peutLancerProjectile = false;
             setTimeout( function()
             {

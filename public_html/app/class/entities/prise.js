@@ -3,6 +3,7 @@ var config = require( 'data/config.js' );
 
 // Class
 var Block = require( 'class/entities/block.js' );
+var Sol = require( 'class/entities/sol.js' );
 
 /**
  * Un block prise, c'est un peu comme un bloc destructible
@@ -20,7 +21,23 @@ class Prise extends Block
         data.width = config.map.priseSize;
         data.height = config.map.priseSize;
 
+        // On pose un block sol dessous car on peut la faire disparaitre
+        var sol = new Sol( game, x, y );
+        game.stage.pushTabEntities( sol );
+
         super( game, config.nomsEntitee.BLOCK_PRISE, data, false );
+
+        this.active = true;
+    }
+
+    isActive()
+    {
+        return this.active;
+    }
+
+    disable()
+    {
+        this.active = false;
     }
 }
 

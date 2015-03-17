@@ -4,6 +4,10 @@ var config = require( 'data/config.js' );
 // Class
 var Entity = require( 'class/entity.js' );
 
+// Lib
+var tools = require( 'lib/tools.js' );
+var _ = require( 'underscore' );
+
 class Block extends Entity
 {
     constructor( game, name, data, collisionel )
@@ -23,6 +27,16 @@ class Block extends Entity
     setCollision( canCollide )
     {
         this.collisionel = canCollide;
+    }
+
+    /**
+     * Remove entities from mapTempalte
+     */
+    remove( x, y )
+    {
+        tools.tabRemoveEl( this.game.mapTemplate.getTabEntities(), this );
+
+        return;
     }
 
 }

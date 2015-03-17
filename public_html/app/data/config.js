@@ -19,10 +19,12 @@ module.exports = {
         "entreeSize": 54,
         "characterSize": 54,
         "chatSize": 54,
+        "projectileSize": 54,
         "tileSize": 54,
         "speed": 300,
         "speedMonster": 250,
         "ia": ['Chat','Velo'],
+        "energy": ['Prise'],
         "music": {
             "limitRecurrence": 3,
             "timeBeforeEndTransition": 5,

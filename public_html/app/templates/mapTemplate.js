@@ -70,6 +70,11 @@ class MapTemplate
         return;
     }
 
+    getTabEntities()
+    {
+        return this.tabEntities;
+    }
+
     pushEntityToUpdate( v )
     {
         this.tabEntitiesToUpdate.push( v );
@@ -79,9 +84,13 @@ class MapTemplate
 
     createProjectile( x, y, direction )
     {
-        console.log( "Projectile créé" );
+        if (tools.isDebug() === true) {
+            console.log( "Projectile créé" );
+            console.log( x +', ' + y + ', ' + direction );
+        }
         var dimension = config.map.blockSize;
-        var projectile = new Projectile( this.game, x, y, dimension, dimension );
+        var projectile = new Projectile( this.game, x, y, dimension, dimension, direction );
+        projectile.moving = true;
         this.tabEntities.push( projectile );
         this.tabEntitiesToUpdate.push( projectile );
     }
@@ -221,11 +230,13 @@ class MapTemplate
         // Action 'spéciales'
         Mousetrap.bind( 'a', this.character.addRayonEclairage.bind( this.character ), 'keydown' );
         Mousetrap.bind( 'z', this.character.lanceProjectile.bind( this.character ), 'keydown' );
+        Mousetrap.bind( 'e', this.character.addEnergy.bind( this.character ), 'keydown' );
         Mousetrap.bind( 'q', this.game.gameController.showVictoire.bind( this.game.gameController ), 'keydown' );
 
         if ( tools.isDebug() === true )
         {
             Mousetrap.bind( '=', this.character.fillEnergy.bind( this.character ), 'keydown' );
+            this.character.hasChangeEnergie();
         }
 
         // Mousetrap.bind( 'up', function() {

@@ -1,0 +1,6 @@
+<div class="ac end_kaode">
+    <div class="pa cinematique-txt credit-txt">
+        <p class="touche-titre">Suivez les aventures d'Euraka dans « Kaode », sortie été 2015.</p>
+        <a class="credit-link" href="http://www.thegamehasbegun.com/" onclick="window.open(this.href);return false;">www.thegamehasbegun.com</a>
+    </div>
+</div>

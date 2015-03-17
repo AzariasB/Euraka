@@ -11,7 +11,7 @@ var _ = require( 'underscore' );
 
 class Projectile extends Entity
 {
-    constructor( game, x, y, width, height, direction )
+    constructor( game, x, y, width, height, orientation )
     {
         var data = {};
         data.x = x;
@@ -19,7 +19,7 @@ class Projectile extends Entity
         data.width = width;
         data.height = height;
 
-        this.orientation = config.orientations.RIGHT;
+        this.orientation = orientation;
         this.portee = config.projectile.PORTEE;
 
         super( game, config.nomsEntitee.PROJECTILE + this.orientation, 'game', data );
@@ -28,7 +28,7 @@ class Projectile extends Entity
     avance()
     {
         //console.log(this.portee);
-        this.lossPortee( .01 );
+        this.lossPortee( '.01' );
     }
 
     lossPortee( loss )

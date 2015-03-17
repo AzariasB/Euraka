@@ -449,48 +449,34 @@ class Entity
         return !this.isHittingBlock( entityMove );
     }
 
-    isHittingBlock( entityMoved )
+    getBlock( entity )
     {
-
-        var entityPosition = tools.getPositionInArray( entityMoved.x + entityMoved.width / 2, entityMoved.y + entityMoved.height - entityMoved.height / 10 );
-
-        //console.log("HautGauche :" + upLeft + " - BasDroite : " + downRight);
-
+        var result = null;
+        var entityPosition = tools.getPositionInArray( entity.x + entity.width / 2, entity.y + entity.height - entity.height / 10 );
         var tiledMap = this.game.mapTemplate.tiledMap;
-        var collision = false;
 
-        // console.log(tiledMap);
-        // console.log(entityPosition);
-
-        if ( tiledMap  && tools.isset( tiledMap[ entityPosition.y ][ entityPosition.x ] ) === true )
+        if ( tiledMap && tools.isset( tiledMap[ entityPosition.y ][ entityPosition.x ] ) === true )
         {
-
             try
             {
-                if ( tiledMap[ entityPosition.y ][ entityPosition.x ].isCollisionel() )
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                result = tiledMap[ entityPosition.y ][ entityPosition.x ];
             }
             catch ( ex )
             {
                 console.log( ex );
-                return false;
             }
 
-            console.log( tiledMap[ entityPosition.y ][ entityPosition.x ].constructor.name );
-
-        }
-        else
-        {
-            console.log( "Out of map" );
         }
 
-        return collision;
+        return result;
+    }
+
+    isHittingBlock( entityMoved )
+    {
+        var block = this.getBlock( entityMoved ),
+            result = false;
+
+        return tools.isset( block ) === true && block.isCollisionel() === true;
     }
 
 }
