@@ -291,7 +291,7 @@ class MapTemplate
                 }
             }
 
-            if (tools.isset( blockEnemy ) === true )
+            if ( tools.isset( blockEnemy ) === true )
             {
                 if ( tools.isset( blockEnemy.isOneshot ) === true && blockEnemy.isOneshot() === true )
                 {
@@ -587,6 +587,11 @@ class MapTemplate
             tick = Math.round( this.tileSize / ( e.moveSpeed / ( 1000 / this.realFPS ) ) );
 
             // Lag or.. ?
+            if ( e.constructor.name === 'Character' )
+            {
+                tick = Math.min( 5, tick );
+            }
+
             if ( tick < config.map.tileSize && e.isAlive() === true && e.isMoving() === true && e.canMove( tick ) === true )
             {
                 if ( e.orientation === config.orientations.LEFT )

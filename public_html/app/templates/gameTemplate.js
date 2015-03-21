@@ -185,9 +185,9 @@ class GameTemplate
     cinematiqueGame()
     {
         // C'est sale mais pas le temps.........
+        this.game.musicManager.fadeOutCurrent();
         var cinematiqueGameSound = this.game.preloader.getAsset( 'sound', 'musiques/fin.mp3' );
         this.game.sounds.cinematiqueGame = cinematiqueGameSound.getObj();
-        this.game.soundManager.fadeOutSound( this.game.sounds.currentSound );
         this.game.sounds.currentSound = this.game.sounds.cinematiqueGame;
         this.game.soundManager.fadeInSound( this.game.sounds.currentSound );
 

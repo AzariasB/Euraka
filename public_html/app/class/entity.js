@@ -4,7 +4,6 @@ var config = require( 'data/config.js' );
 // Class
 var Sprite = require( 'class/sprite.js' );
 var Transition = require( 'class/transition.js' );
-
 // Lib
 var tools = require( 'lib/tools.js' );
 var _ = require( 'underscore' );

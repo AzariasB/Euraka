@@ -89,7 +89,7 @@ class Character extends Entity
 
     hasChangeEnergie()
     {
-        this.game.gameTemplate.getRactive().set( 'energieClass', 'energy_0' + this.getEnery() );
+        this.game.gameTemplate.getRactive().set( 'energieClass', 'energy_0' + this.getEnergy() );
 
         return;
     }
@@ -189,7 +189,7 @@ class Character extends Entity
         var self = this,
             marge = config.map.tileSize / 2;
 
-        if ( this.getEnery() > 0 && this.peutLancerProjectile === true )
+        if ( this.getEnergy() > 0 && this.peutLancerProjectile === true )
         {
             this.peutLancerProjectile = false;
             this.energy = this.energy - 1;
@@ -217,7 +217,7 @@ class Character extends Entity
         return;
     }
 
-    getEnery()
+    getEnergy()
     {
         return this.energy;
     }
@@ -306,7 +306,7 @@ class Character extends Entity
         return this.entityKilled;
     }
 
-    addOneKillFor( monsterNamae )
+    addOneKillFor( monsterName )
     {
         //Au cas où le nom du monstre n'est pas bien renseigné, pour ne pas avoir de nullpointerexception ou un truc du genre
         try
@@ -370,12 +370,16 @@ class Character extends Entity
     {
         this.kikette = 0;
         this.allKikette = 0;
+
+        return;
     }
 
     setKikette()
     {
         this.kikette = this.kikette + 1;
         this.allKikette = this.allKikette + 1;
+
+        return;
     }
 }
 

@@ -32,7 +32,8 @@ class Scoring
         var self = this;
         this.timeOut = setTimeout( function()
         {
-            self.lossPoints.bind( self, config.scoring.LOSS_PER_SECOND );
+            self.lossPoints( config.scoring.LOSS_PER_SECOND );
+            self.updateScore();
         }, config.scoring.UPDATE_TEMPO );
 
         return;
@@ -65,21 +66,44 @@ class Scoring
          *  +125 par munitions restantes
          *  +400 si kikette en sa possession
          */
+        var self = this,
+            affichage = [], // Variable dans laquelle on vas stocker chaque point d'affichage
+            configBonusMunition = config.scoring.PER_MUNITIONS * 1,
+            configBonusKikette = config.scoring.KIKETTE_BONUS * 1,
+            bonusMunition, kik, killedElements;
 
         //Nom de la fonction à changer très probablement => fonction qui permet de savoir le nombre de munitions du joueur
-        var bonusMunition = config.scoring.PER_MUNITIONS * this.game.character.getMunitions();
-        this.levelScore += bonusMunition;
-        if ( this.game.character.hasKikette() )
+        affichage.push(
         {
-            this.levelScore += config.scoring.KIKETTE_BONUS;
+            intituleScore: "Points restants",
+            valeurScore: self.levelScore
+        } );
+
+        bonusMunition = configBonusMunition * this.game.character.getEnergy();
+
+        this.levelScore += bonusMunition;
+
+        kik = this.game.character.hasKikette();
+
+        if ( kik )
+        {
+            this.levelScore += configBonusKikette;
         }
+
+        affichage.push(
+        {
+            intituleScore: "Energie restante",
+            valeurScore: bonusMunition
+        },
+        {
+            intituleScore: "Kikette récupérée",
+            valeurScore: configBonusKikette
+        } )
 
         this.totalScore += this.levelScore;
 
-        var self = this;
-        var affichage = [];
+        killedElements = this.game.character.getEntityKilled();
 
-        var killedElements = this.game.character.getEntityKilled;
         _.each( killedElements, function( item, key )
         {
             affichage.push(
@@ -112,37 +136,43 @@ class Scoring
          *  + 1000 s'il à mis moins de 10 min pour tout finir (change en fonction du nobmre de niveaux)
          */
 
-        var self = this;
-        var condition = "condition";
-        var nbPoints = "nbpoints";
+        var self = this,
+            condition = "condition",
+            nbPoints = "nbPoints";
 
         //Chaque bonus comporte une condition pour être validée et un score en conséquence
 
         //-- C'est ici pour
+        var char = this.game.character,
+            allkikette = char.hasAllKikette(),
+            noKill = char.killedNobody(),
+            goodTime = char.minuteTime() < config.scoring.TIME_MAX;
+
         var bonuses = {
             "Make love, not war":
             {
-                condition: self.game.character.killedNobody(),
+                condition: allkikette,
                 nbPoints: config.scoring.NO_KILL
             },
             "Toutes les kikettes":
             {
-                condition: self.game.character.hasAllKikette(),
+                condition: allkikette,
                 nbPoints: config.scoring.ALL_KIKETTE
             },
             "Temps réduit":
             {
-                condition: self.game.character.minuteTime() < config.scoring.TIME_MAX,
+                condition: goodTime,
                 nbPoints: config.scoring.GOOD_TIME
             }
         };
 
-        var affichage =
-                    [];
+        var affichage = [];
 
         //en fonction de s'il a réussi ou pas certains bonus du run, on affiche les points qu'il a gagné
         _.each( bonuses, function( item, key )
         {
+            // console.log( item );
+            // console.log( item[ 'nbPoints' ] );
             if ( item[ condition ] )
             {
                 self.totalScore += item[ nbPoints ];
@@ -162,11 +192,16 @@ class Scoring
             }
         } );
 
-        var randomLol = Math.floor( Math.random() * ( bonusLOL.length - 1 ) );
+        var randomBonusName = Math.floor( Math.random() * ( bonusName.length - 1 ) );
+        var randomBonusScore = Math.floor( Math.random() * ( bonusScore.length - 1 ) );
+
+        // console.log( bonusName[ randomBonusName ] );
+        // console.log( bonusScore[ randomBonusScore ] );
+
         affichage.push(
         {
-            intituleScore: bonusLOL[ randomLol ][ intituleScore ],
-            valeurScore: bonusLOL[ randomLol ][ valeurScore ]
+            intituleScore: bonusName[ randomBonusName ],
+            valeurScore: bonusScore[ randomBonusScore ]
         } );
 
         affichage.push(
@@ -193,16 +228,35 @@ class Scoring
     }
 }
 
-var bonusLOL =
+var bonusName =
         [
-    {
-        intituleScore: "Avoir lu les commentaires du code",
-        valeurScore: "/* ~1000 */"
-    },
-    {
-        intituleScore: "Avoir lu les crédits",
-        valeurScore: "Just a kiss"
-    }
+    "Avoir lu les commentaires du code",
+    "Lire les crédits",
+    "Avoir participé à une Gamejam.",
+    "500eme partie !",
+    "Avoir dit « c'est cool » en jouant à Euraka.",
+    "Kaode le jeu.",
+    "Ete 2015. True story.",
+    "Alleeez c'est cadeau !",
+    "On est pas là pour les points... si ?",
+    "Arbalète !",
+    "*Insérez ici une réplique comique*",
+    "Yup.",
+    "T'es un champion, champion !",
+    "C'est pour toi, ça fait plaisir"
         ];
+
+var bonusScore =
+        [
+    "Un bisou.",
+    "Notre éternelle gratitude.",
+    "Euraka vient habiter chez toi.",
+    "1.000.000 points.",
+    "Bonus pour la prochaine partie",
+    "Un pixel offert pour l'achat de 2 pixels.",
+    "/* Un commentaire en plus ! */",
+    "Math.random(0,1)",
+    "Rien"
+        ]
 
 module.exports = Scoring;

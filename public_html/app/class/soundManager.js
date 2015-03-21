@@ -227,6 +227,13 @@ class SoundManager
         return;
     }
 
+    fadeOutCurrent()
+    {
+        this.fadeOut( this.currentSound );
+
+        return;
+    }
+
     fadeOutSound( sound )
     {
         this.fadeOut( sound );

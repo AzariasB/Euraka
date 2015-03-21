@@ -8,7 +8,7 @@ require( 'lib/raf.js' );
 
 var isDebug = function()
 {
-    return false;
+    return true;
 };
 var isLocalhost = function()
 {

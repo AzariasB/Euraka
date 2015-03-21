@@ -195,7 +195,6 @@ class Monster extends Entity
 
         return;
     }
-
 }
 
 module.exports = Monster;
