@@ -32,7 +32,7 @@ class Block extends Entity
     /**
      * Remove entities from mapTempalte
      */
-    remove( x, y )
+    remove()
     {
         tools.tabRemoveEl( this.game.mapTemplate.getTabEntities(), this );
 

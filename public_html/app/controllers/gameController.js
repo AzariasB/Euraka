@@ -6,8 +6,6 @@ var Character = require( 'class/entities/character.js' );
 var Stage = require( 'class/stage.js' );
 var Entity = require( 'class/entity.js' );
 var Timer = require( 'class/timer.js' );
-// var MusicManager = require( 'class/musicManager.js' );
-// var AmbienceManager = require( 'class/ambienceManager.js' );
 
 // Lib
 var tools = require( 'lib/tools.js' );
@@ -23,7 +21,7 @@ class GameController
         this.game = game;
         this.game.gameView = null;
         this.hasNeverStarted = true;
-        this.tabCodeStage = [ 'tuto', 'pyramide1' ];
+        this.tabCodeStage = [ 'tuto', 'grotte1-1a', 'grotte1-2a', 'pyramide2-1a', 'pyramide2-2a' ];
         // this.tabCodeStage  = [ 'pyramide1' ];
         this.indexCodeStage = 0;
         this.nbRunTotal = this.tabCodeStage.length;
@@ -103,6 +101,11 @@ class GameController
 
     resetRun()
     {
+        if ( tools.isset( this.game.character ) === true )
+        {
+            this.game.character.resetKikette();
+        }
+
         this.resetTimer();
         this.indexCodeStage = 0;
     }
@@ -173,7 +176,7 @@ class GameController
             "height": 0
         } );
 
-        character = new Character( this.game, start[ 0 ] * config.map.tileSize, start[ 1 ] * config.map.tileSize, config.map.speed );
+        character = new Character( this.game, start[ 0 ], start[ 1 ], config.map.speed );
         character.hasChangeEnergie();
 
         this.game.character = character;

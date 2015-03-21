@@ -112,7 +112,7 @@ class Sprite
         return;
     }
 
-    draw( x, y, width, height)
+    draw( x, y, width, height )
     {
         if ( this.visible === false )
         {
@@ -121,9 +121,23 @@ class Sprite
 
         // Hack du gros cul d'Euraka
         if ( this.code.indexOf( config.nomsEntitee.JOUEUR + config.orientations.UP ) > -1 ||
-         this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.DOWN ) > -1 )
+            this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.DOWN ) > -1 )
         {
             width = config.map.characterSize - 12;
+        }
+        else
+        // Hack source lumière
+        if ( this.code.indexOf( config.nomsEntitee.BLOCK_PRISE ) > -1 )
+        {
+            x = x + 8;
+            y = y - 40;
+        }
+
+        // On recentre les chats
+        if ( this.code.indexOf( config.nomsEntitee.CHAT ) > -1 )
+        {
+            x = x + 20;
+            y = y - 20;
         }
 
         this.context.drawImage( this.img, this.x, this.y, this.width, this.height, x, y, width, height );

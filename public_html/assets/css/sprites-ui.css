@@ -94,12 +94,12 @@
    height: 27px;
 }
 .highscore {
-   background: url('../img/ui.png') no-repeat -1586px -2739px;
+   background: url('../img/ui.png') no-repeat -1586px -2740px;
    width: 304px;
    height: 76px;
 }
 .highscore:hover {
-   background: url('../img/ui.png') no-repeat -1281px -2739px;
+   background: url('../img/ui.png') no-repeat -1281px -2740px;
    width: 304px;
    height: 76px;
 }

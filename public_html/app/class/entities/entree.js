@@ -38,6 +38,11 @@ class Entree extends Block
     {
         return config.nomsEntitee.BLOCK_ENTREE + 'DOWN';
     }
+
+    isEntree()
+    {
+        return true;
+    }
 }
 
 module.exports = Entree;

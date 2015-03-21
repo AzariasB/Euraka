@@ -13,11 +13,6 @@ class SoundManager
 
         this.enabled = true;
 
-        if ( tools.isLocalhost() === true )
-        {
-            this.enabled = false;
-        }
-
         this.currentAsset = null;
         this.tabSounds = [];
         this.volumeDefault = 1;
@@ -27,29 +22,34 @@ class SoundManager
         this.nextSound = null;
 
         this.isLoaded = false;
-        this.isRanded = false;
+
+        return;
+    }
+
+    setCurrentSound( v )
+    {
+        this.currentSound = v;
+
+        return;
+    }
+
+    setNextSound( v )
+    {
+        this.nextSound = v;
 
         return;
     }
 
     load()
     {
-        var idTerrain = this.game.region.getTerrainMusique(),
-            tuile;
-
-        this.tabSounds = [];
-
-        if ( tools.isset( idTerrain ) )
-        {
-            tuile = new Tuile();
-            tuile.setIdTerrain( idTerrain );
-            this.tabSounds = this.constructor.name === 'AmbienceManager' ? tuile.getAmbiances() : tuile.getMusiques();
-        }
-
-        // console.log('Sound in load');
-        // console.log(this.tabSounds);
-
         this.isLoaded = true;
+
+        return;
+    }
+
+    setTabSound( v )
+    {
+        this.tabSounds = v;
 
         return;
     }
@@ -101,11 +101,6 @@ class SoundManager
         return;
     }
 
-    rand()
-    {
-        this.isRanded = true;
-    }
-
     play()
     {
         if ( this.enabled === true )
@@ -115,22 +110,21 @@ class SoundManager
                 this.load();
             }
 
-            if ( this.isRanded === false )
-            {
-                this.rand();
-            }
-
             // On bind la transition, changement de musique lorsqu'elle va se finir
             this.bindUpdate();
 
             // On la lance la musique
             if ( this.hasNextSound() === true )
             {
-                this.nextSound.play();
+                this.fadeOutSound( this.currentSound );
+                this.fadeInSound( this.nextSound );
+                // this.nextSound.play();
             }
             else
+            if ( this.hasSound() === true )
             {
-                this.currentSound.play();
+                this.fadeInSound( this.currentSound );
+                // this.currentSound.play();
             }
         }
 
@@ -142,22 +136,32 @@ class SoundManager
         var self = this;
 
         this.clearFadeIn( this.fadeOutInterval );
-        this.fadeOutInterval = setInterval( function()
-        {
-            var step = 0.01,
-                volume = sound.volume - step;
 
-            if ( volume >= step )
+        if ( tools.isset( sound ) === true )
+        {
+            this.fadeOutInterval = setInterval( function()
             {
-                sound.volume = volume.toFixed( 2 );
-            }
-            else
-            {
-                sound.volume = 0;
-                self.clearFadeOut();
-                ended_callback( sound );
-            }
-        }, 100 );
+                var step = 0.01,
+                    volume = sound.volume - step;
+
+                if ( volume >= step )
+                {
+                    sound.volume = volume.toFixed( 2 );
+                }
+                else
+                {
+                    sound.volume = 0;
+                    sound.pause();
+
+                    self.clearFadeOut();
+
+                    if ( tools.isset( ended_callback ) === true )
+                    {
+                        ended_callback( sound );
+                    }
+                }
+            }, 40 );
+        }
 
         return;
     }
@@ -166,15 +170,22 @@ class SoundManager
     {
         var self = this;
 
+        if ( tools.isset( sound ) === true  )
+        {
+            sound.volume = 0;
+            sound.play();
+        }
+
         this.clearFadeIn();
-        if ( this.enabled === true )
+
+        if ( this.enabled === true && tools.isset( sound ) === true )
         {
             this.fadeInInterval = setInterval( function()
             {
                 var step = 0.01,
                     volume = sound.volume + step;
 
-                if ( self.enabled && volume < self.volume - step )
+                if ( volume < self.volume - step )
                 {
                     sound.volume = volume.toFixed( 2 );
                 }
@@ -183,7 +194,7 @@ class SoundManager
                     sound.volume = self.volume;
                     self.clearFadeIn();
                 }
-            }, 130 );
+            }, 60 );
         }
         return;
     }
@@ -216,6 +227,19 @@ class SoundManager
         return;
     }
 
+    fadeOutSound( sound )
+    {
+        this.fadeOut( sound );
+
+        return;
+    }
+
+    fadeInSound( sound )
+    {
+        this.fadeIn( sound );
+
+        return;
+    }
 }
 
 module.exports = SoundManager;

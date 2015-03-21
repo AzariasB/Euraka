@@ -3,7 +3,10 @@ var config = require( 'data/config.js' );
 var stageData = require( 'data/stageData.js' );
 var bitmapData = {
     "tuto": require( 'data/stages/tuto.js' ),
-    "pyramide1": require( 'data/stages/pyramide1.js' )
+    "grotte1-1a": require( 'data/stages/grotte1-1a.js' ),
+    "grotte1-2a": require( 'data/stages/grotte1-2a.js' ),
+    "pyramide2-1a": require( 'data/stages/pyramide2-1a.js' ),
+    "pyramide2-2a": require( 'data/stages/pyramide2-2a.js' )
 };
 
 // Class
@@ -60,9 +63,14 @@ class Stage
         this.game = game;
 
         this.code = code;
-        var data = stageData[ this.code ];
 
+        var data = stageData[ this.code ];
         this.style = data.style;
+        this.lvl = data.stage;
+        this.title = data.title;
+
+        this.x = 0;
+        this.y = 0;
 
         this.nbTuilesLargeur = 0;
         this.nbTuilesHauteur = 0;
@@ -74,6 +82,21 @@ class Stage
         this.call_back_init = null;
 
         return;
+    }
+
+    getMinimapTitle()
+    {
+        return 'Chapitre ' + this.lvl + ' : ' + this.title;
+    }
+
+    getLvl()
+    {
+        return this.lvl;
+    }
+
+    getTitle()
+    {
+        return this.title;
     }
 
     getStyle()
@@ -137,6 +160,11 @@ class Stage
         return this.tabEntities;
     }
 
+    getTabEnemyEntity()
+    {
+        return this.tabEnemyEntity;
+    }
+
     getTabEntree()
     {
         return this.tabEntree;
@@ -161,9 +189,11 @@ class Stage
      */
     init()
     {
-        // console.log(this.code);
-        // console.log(bitmapData);
-        // console.log(bitmapData[ this.code ].data);
+        if ( tools.isDebug() === true )
+        {
+            console.log( this.code );
+            console.log( bitmapData );
+        }
 
         var b, C, tabToPush, data = bitmapData[ this.code ].data,
             tab = {
@@ -172,10 +202,14 @@ class Stage
                 "tabSolPiege": [],
                 "tabSolKikette": [],
                 "tabPiegePaille": [],
-                "tabPiegeEnnemi": [],
-                "tabSolEnnemi": [],
-                "tabEnnemiKikette": []
+                "tabPiegeEnemy": [],
+                "tabSolEnemy": [],
+                "tabEnemyKikette": []
             };
+
+        // Priorité d'affichage des sprites
+        this.tabEnemyEntity = [];
+        this.tabEnergyEntity = [];
 
         this.nbTuilesHauteur = bitmapData[ this.code ].data.length;
 
@@ -221,7 +255,7 @@ class Stage
                         C = Paille;
                         break;
                     case 8:
-                        // ennemi
+                        // enemy
                         C = Chat;
                         break;
                     case 9:
@@ -257,16 +291,16 @@ class Stage
                         tabToPush = 'tabPiegePaille';
                         break;
                     case 17:
-                        // Piege ou ennemi
-                        tabToPush = 'tabPiegeEnnemi';
+                        // Piege ou enemy
+                        tabToPush = 'tabPiegeEnemy';
                         break;
                     case 18:
-                        // Ennemi ou sol
-                        tabToPush = 'tabSolEnnemi';
+                        // Enemy ou sol
+                        tabToPush = 'tabSolEnemy';
                         break;
                     case 19:
-                        // Ennemi ou Kikette
-                        tabToPush = 'tabEnnemiKikette';
+                        // Enemy ou Kikette
+                        tabToPush = 'tabEnemyKikette';
                         break;
                     default:
                         // mur
@@ -282,13 +316,20 @@ class Stage
                 else
                 {
                     b = new C( this.game, idCol, idLine );
-                    this.tabEntities.push( b );
 
-                    // if ( C === Entree )
-                    // {
-                    //     b = new Projectile( this.game, idCol, idLine, config.map.projectileSize, config.map.projectileSize, config.orientations.RIGHT );
-                    //     this.tabEntities.push( b );
-                    // }
+                    if ( _.contains( config.map.ia, b.constructor.name ) === true )
+                    {
+                        this.tabEnemyEntity.push( b );
+                    }
+                    else
+                    if ( _.contains( config.map.energy, b.constructor.name ) === true )
+                    {
+                        this.tabEnergyEntity.push( b );
+                    }
+                    else
+                    {
+                        this.tabEntities.push( b );
+                    }
                 }
 
             }, this );
@@ -304,14 +345,14 @@ class Stage
         var nb, index, b, tabEvenOdd, C, tabTmp, oldIdTraitement, tabToRead, oldTabToRead;
 
         // Traitement des cases une sur deux
-        tabEvenOdd = _.range( 12, 18 );
+        tabEvenOdd = _.range( 12, 19 );
 
         _.each( tabEvenOdd, function( idTraitement )
         {
             // si on a une valeur
             if ( tools.isset( stageData[ this.code ][ idTraitement ] ) === true && stageData[ this.code ][ idTraitement ] > 0 )
             {
-                // tabPiegeEnnemi cases de merdes
+                // tabPiegeEnemy cases de merdes
                 if ( idTraitement === 16 || idTraitement === 17 )
                 {
                     return;
@@ -337,7 +378,7 @@ class Stage
                         break;
                     case 18:
                         C = Chat;
-                        tabToRead = 'tabSolEnnemi';
+                        tabToRead = 'tabSolEnemy';
                         break;
                 }
 
@@ -351,7 +392,20 @@ class Stage
                     index = Math.floor( Math.random() * tab[ tabToRead ].length );
 
                     b = new C( this.game, tab[ tabToRead ][ index ][ 0 ], tab[ tabToRead ][ index ][ 1 ] );
-                    this.tabEntities.push( b );
+
+                    if ( _.contains( config.map.ia, b.constructor.name ) === true )
+                    {
+                        this.tabEnemyEntity.push( b );
+                    }
+                    else
+                    if ( _.contains( config.map.energy, b.constructor.name ) === true )
+                    {
+                        this.tabEnergyEntity.push( b );
+                    }
+                    else
+                    {
+                        this.tabEntities.push( b );
+                    }
 
                     tab[ tabToRead ].splice( index, 1 );
 
@@ -380,22 +434,22 @@ class Stage
         },
             {
                 "idTraitement": 17,
-                "tabToRead": 'tabPiegeEnnemi',
+                "tabToRead": 'tabPiegeEnemy',
                 "block": 'piege'
         },
             {
                 "idTraitement": 17,
-                "tabToRead": 'tabPiegeEnnemi',
-                "block": 'ennemi'
+                "tabToRead": 'tabPiegeEnemy',
+                "block": 'enemy'
         },
             {
                 "idTraitement": 19,
-                "tabToRead": 'tabEnnemiKikette',
-                "block": 'ennemi'
+                "tabToRead": 'tabEnemyKikette',
+                "block": 'enemy'
         },
             {
                 "idTraitement": 19,
-                "tabToRead": 'tabEnnemiKikette',
+                "tabToRead": 'tabEnemyKikette',
                 "block": 'kikette'
         }
         ];
@@ -439,7 +493,7 @@ class Stage
                         case 'piege':
                             C = Piege;
                             break;
-                        case 'ennemi':
+                        case 'enemy':
                             C = Chat;
                             break;
                         case 'kikette':
@@ -459,7 +513,20 @@ class Stage
                         index = Math.floor( Math.random() * tab[ item.tabToRead ].length );
 
                         b = new C( this.game, tab[ item.tabToRead ][ index ][ 0 ], tab[ item.tabToRead ][ index ][ 1 ] );
-                        this.tabEntities.push( b );
+
+                        if ( _.contains( config.map.ia, b.constructor.name ) === true )
+                        {
+                            this.tabEnemyEntity.push( b );
+                        }
+                        else
+                        if ( _.contains( config.map.energy, b.constructor.name ) === true )
+                        {
+                            this.tabEnergyEntity.push( b );
+                        }
+                        else
+                        {
+                            this.tabEntities.push( b );
+                        }
                     }
 
                 }, this );
@@ -468,10 +535,13 @@ class Stage
 
         }, this );
 
+        this.tabEntities = this.tabEntities.concat( this.tabEnergyEntity, this.tabEnemyEntity );
+
         if ( tools.isset( this.call_back_init ) === true )
         {
             this.call_back_init();
         }
+
 
         return;
     }

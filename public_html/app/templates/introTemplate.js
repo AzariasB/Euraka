@@ -19,6 +19,17 @@ class IntroTemplate
 
     start()
     {
+        // C'est sale mais pas le temps.........
+        var introSound = this.game.preloader.getAsset( 'sound', 'musiques/intro.mp3' );
+        this.game.sounds.intro = introSound.getObj();
+        // repeat
+        this.game.sounds.intro.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        this.game.sounds.currentSound = this.game.sounds.intro;
+        this.game.soundManager.fadeInSound( this.game.sounds.currentSound );
+
         this.game.gameController.resetRun();
         tools.populateTemplate( AccueilView, 'l-main', null, this.tplLoaded.bind( this ) );
 
@@ -44,19 +55,19 @@ class IntroTemplate
 
     handleTouches()
     {
-        this.openPopin(ToucheView);
+        this.openPopin( ToucheView );
 
         return;
     }
 
     handleCredits()
     {
-        this.openPopin(CreditView);
+        this.openPopin( CreditView );
 
         return;
     }
 
-    openPopin(view)
+    openPopin( view )
     {
         tools.addOverlay( function()
         {

@@ -18,29 +18,63 @@ class Projectile extends Entity
         data.y = y;
         data.width = width;
         data.height = height;
+        data.speed = config.map.speedProjectile;
+        data.orientation = orientation;
 
-        this.orientation = orientation;
+        super( game, config.nomsEntitee.PROJECTILE + data.orientation, 'game', data );
+
         this.portee = config.projectile.PORTEE;
 
-        super( game, config.nomsEntitee.PROJECTILE + this.orientation, 'game', data );
+        if ( tools.isset( this.game.sounds.tirSound ) === false )
+        {
+            var tirSound = this.game.preloader.getAsset( 'sound', 'sons/tir.mp3' );
+            this.game.sounds.tirSound = tirSound.getObj();
+        }
+
+        this.game.sounds.tirSound.currentTime = 0;
+        this.game.sounds.tirSound.play();
+
+        var self = this;
+        this.onHasMoved( function()
+        {
+            self.hasHit();
+        } );
+
+        return;
     }
 
-    avance()
+    hasHit()
     {
-        //console.log(this.portee);
-        this.lossPortee( '.01' );
-    }
+        var block, remove;
 
-    lossPortee( loss )
-    {
-        this.portee -= loss;
-    }
+        block = this.getBlock( this.nextPosition( config.map.tileSize / 2 ) );
 
-    getPortee()
-    {
-        return this.portee;
-    }
+        // Si le block peut se détruire
+        if ( tools.isset( block ) === true )
+        {
+            if ( tools.isset( block.isDestruct ) === true )
+            {
+                // Destruction du block
+                block.isDestruct();
+                remove = true;
+            }
+            else
+            if ( tools.isset( block.isCollisionel ) === true && block.isCollisionel() === true )
+            {
+                remove = true;
+            }
 
+            if ( remove === true )
+            {
+                // Suppression du projectile
+                this.moving = false;
+                tools.tabRemoveEl( this.game.mapTemplate.getTabEntitiesToUpdate(), this );
+                tools.tabRemoveEl( this.game.mapTemplate.getTabEntities(), this );
+            }
+        }
+
+        return;
+    }
 }
 
 module.exports = Projectile;

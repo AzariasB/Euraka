@@ -3,9 +3,10 @@ var config = require( 'data/config.js' );
 
 // Class
 var Entity = require( 'class/entity.js' );
-var Transition = require( 'class/transition.js' );
+var Projectile = require( 'class/entities/projectile.js' );
 var Animation = require( 'class/animation.js' );
 var Timer = require( 'class/timer.js' );
+// var Transition = require( 'class/transition.js' );
 
 // Lib
 var tools = require( 'lib/tools.js' );
@@ -34,11 +35,35 @@ class Character extends Entity
 
         super( game, config.nomsEntitee.JOUEUR, 'game', data );
 
-        this.energy = config.energie.JAUGE_MAX;
+        this.energy = config.energie.JAUGE_START;
         this.rayon_ecl = 1;
         this.dequeEclairage = [];
         this.entityKilled = {};
         this.peutLancerProjectile = true;
+
+        this.kikette = 0;
+        this.allKikette = 0;
+
+        return;
+    }
+
+    //Ben... il est mort, faut détruire l'objet
+    die()
+    {
+        var self = this;
+
+        Mousetrap.unbind( 'up' );
+        Mousetrap.unbind( 'down' );
+        Mousetrap.unbind( 'left' );
+        Mousetrap.unbind( 'right' );
+
+        super.die();
+
+        _.delay( function()
+        {
+            self.game.mapTemplate.stop();
+            self.game.gameTemplate.showDeath();
+        }, 1000 );
 
         return;
     }
@@ -97,7 +122,7 @@ class Character extends Entity
             dequeEcl = {};
 
         //On perd de l'énergie et s'il en reste, on fait quelque chose
-        if ( this.lostEnergy() >= 0 )
+        if ( this.lostEnergy() >= 0 && this.rayon_ecl < 6 )
         {
             if ( tools.isDebug() === true )
             {
@@ -142,6 +167,15 @@ class Character extends Entity
 
                     self.dequeEclairage[ 1 ] = this.timer;
                 }
+
+                if ( tools.isset( this.game.sounds.haloSound ) === false )
+                {
+                    var haloSound = this.game.preloader.getAsset( 'sound', 'sons/halo.mp3' );
+                    this.game.sounds.haloSound = haloSound.getObj();
+                }
+
+                this.game.sounds.haloSound.currentTime = 0;
+                this.game.sounds.haloSound.play();
             }
 
             this.hasChangeEnergie();
@@ -150,18 +184,37 @@ class Character extends Entity
         return;
     }
 
-    lanceProjectile( x, y )
+    lanceProjectile()
     {
-        var self = this;
-        if ( this.peutLancerProjectile )
+        var self = this,
+            marge = config.map.tileSize / 2;
+
+        if ( this.getEnery() > 0 && this.peutLancerProjectile === true )
         {
-            this.game.mapTemplate.createProjectile( this.x, this.y, this.orientation );
             this.peutLancerProjectile = false;
-            setTimeout( function()
+            this.energy = this.energy - 1;
+            this.hasChangeEnergie();
+
+            var dimension = config.map.blockSize;
+            var currentTile = this.getCurrentTilde();
+
+            if ( tools.isDebug() === true )
+            {
+                console.log( "Projectile créé" );
+                console.log( currentTile );
+            }
+
+            var projectile = new Projectile( this.game, currentTile.x, currentTile.y, dimension, dimension, this.orientation );
+            projectile.moving = true;
+            this.game.mapTemplate.addProjectile( projectile );
+
+            _.delay( function()
             {
                 self.peutLancerProjectile = true;
-            } );
+            }, 500 );
         }
+
+        return;
     }
 
     getEnery()
@@ -277,11 +330,10 @@ class Character extends Entity
 
     aGagne()
     {
-        var aGagne = false;
-        var jPosit = tools.getPositionInArray( this.x + this.width / 2, this.y + this.height + this.height / 10 );
-        var arrive = this.game.mapTemplate.stage.tabSortie;
+        var aGagne = false,
+            block = this.getBlock( this );
 
-        if ( jPosit.x === arrive[ 0 ] && jPosit.y === arrive[ 1 ] )
+        if ( tools.isset( block.isSortie ) === true && block.isSortie() === true )
         {
             aGagne = true;
         }
@@ -291,7 +343,7 @@ class Character extends Entity
 
     hasAllKikette()
     {
-        return _.random( 0, 1 ) === 1;
+        return this.allKikette;
     }
 
     killedNobody()
@@ -311,7 +363,19 @@ class Character extends Entity
 
     hasKikette()
     {
-        return _.random( 0, 1 ) === 1;
+        return this.kikette;
+    }
+
+    resetKikette()
+    {
+        this.kikette = 0;
+        this.allKikette = 0;
+    }
+
+    setKikette()
+    {
+        this.kikette = this.kikette + 1;
+        this.allKikette = this.allKikette + 1;
     }
 }
 

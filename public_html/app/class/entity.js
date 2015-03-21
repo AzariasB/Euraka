@@ -19,6 +19,9 @@ class Entity
 
         this.x = data.x;
         this.y = data.y;
+        this.moveX = 0;
+        this.moveY = 0;
+
         this.width = data.width;
         this.height = data.height;
 
@@ -26,9 +29,11 @@ class Entity
         this.moveSpeed = tools.isset( data.speed ) === true ? data.speed : config.map.speed;
         this.moveSpeedDefault = this.moveSpeed;
 
-        this.orientation = config.orientations.LEFT;
+        this.orientation = tools.isset( data.orientation ) === true ? data.orientation : config.orientations.LEFT;
 
         this.sprite = this.getSprite();
+
+        this.alive = true;
 
         return;
     }
@@ -79,18 +84,6 @@ class Entity
         return;
     }
 
-    setPath( p )
-    {
-        this.path = p;
-        return;
-    }
-
-    setStep( s )
-    {
-        this.step = s;
-        return;
-    }
-
     getMoveSpeedDefault()
     {
         return this.moveSpeedDefault;
@@ -113,52 +106,64 @@ class Entity
         return;
     }
 
-    getGridX()
+    tildeTolerance()
     {
-        return this.gridX;
-    }
+        var result = {
+            "x": Math.floor( this.width / 2 ),
+            "y": Math.floor( this.height - this.height / 10 )
+        };
 
-    getGridY()
-    {
-        return this.gridY;
-    }
-
-    /**
-     * Converti le x,y en pixel vers un x,y en grid
-     * @param {x} : int x pixel
-     * @param {y} : int y pixel
-     */
-    setPositionOnMap()
-    {
-        var grid = this.game.map.pathfinder.setPositionByPixel( this.x, this.y );
-        this.gridX = grid.x;
-        this.gridY = grid.y;
-        return;
+        return result;
     }
 
     /**
-     * Cf. Pathfinding@setStartPosition
+     * Retourne les coordonnées de la tilde en fonction du déplacement
      */
-    setStartPosition()
+    getCurrentTilde()
     {
-        this.game.map.pathfinder.setStartPosition( this.gridX, this.gridY );
-        return;
+        var tolerance = this.tildeTolerance();
+
+        var result = {
+            "x": this.x + Math.floor( ( this.moveX + tolerance.x ) / config.map.tileSize ),
+            "y": this.y + Math.floor( ( this.moveY + tolerance.y ) / config.map.tileSize )
+        };
+
+        return result;
     }
 
-    calcX()
+    /**
+     * Position absolue sur la map
+     */
+    calcAbsPos()
     {
-        return this.x * config.map.tileSize + this.game.stage.getX();
+        var result = {
+            "x": this.x * config.map.tileSize + this.moveX,
+            "y": this.y * config.map.tileSize + this.moveY
+        };
+
+        return result;
     }
 
-    calcY()
+    /**
+     * Position relative à la position du stage
+     */
+    calcPos()
     {
-        return this.y * config.map.tileSize + this.game.stage.getY();
+        var result = this.calcAbsPos();
+
+        // Pas de prise en compte de la position du stage, car 'Character' est centré
+        result.x = result.x + this.game.stage.getX();
+        result.y = result.y + this.game.stage.getY();
+
+        return result;
     }
 
     setData( data )
     {
         this.x = data.x || 0;
         this.y = data.y || 0;
+        this.moveX = data.moveX || 0;
+        this.moveY = data.moveY || 0;
         this.width = data.width || 0;
         this.height = data.height || 0;
 
@@ -170,231 +175,22 @@ class Entity
      */
     draw()
     {
-        // console.log( this.calcX() );
-        // console.log( this.calcY() );
-        // console.log(this.constructor.name);
-        if ( _.contains( [ 'Character', 'Entity' ], this.constructor.name ) === true )
-        {
-            this.sprite.draw( this.x + this.game.stage.getX(), this.y + this.game.stage.getY(), this.width, this.height );
-        }
-        else
-        {
-            this.sprite.draw( this.calcX(), this.calcY(), this.width, this.height );
-        }
-    }
+        var pos = this.calcPos();
 
-    /**
-     * Initialise le chemin de l'entité et lance le mouvement
-     */
-    go( path )
-    {
-        this.step = 0;
-        this.path = path;
-        return this.nextStep();
-    }
-
-    /**
-     * Stops a moving character.
-     */
-    stop()
-    {
-        if ( this.isMoving() )
-        {
-            this.interrupted = true;
-        }
+        this.sprite.draw( pos.x, pos.y, this.width, this.height );
 
         return;
     }
 
-    updateMovement()
-    {
-        var p = this.path,
-            i = this.step;
-        if ( p[ i ][ 0 ] < p[ i - 1 ][ 0 ] )
-        {
-            // this.walk( config.orientations.LEFT );
-            this.orientation = config.orientations.LEFT;
-        }
-        if ( p[ i ][ 0 ] > p[ i - 1 ][ 0 ] )
-        {
-            // this.walk( config.orientations.RIGHT );
-            this.orientation = config.orientations.RIGHT;
-        }
-        if ( p[ i ][ 1 ] < p[ i - 1 ][ 1 ] )
-        {
-            // this.walk( config.orientations.UP );
-            this.orientation = config.orientations.UP;
-        }
-        if ( p[ i ][ 1 ] > p[ i - 1 ][ 1 ] )
-        {
-            // this.walk( config.orientations.DOWN );
-            this.orientation = config.orientations.DOWN;
-        }
-
-        return;
-    }
-
-    nextStep()
-    {
-        var stop = false,
-            x, y;
-        if ( this.isMoving() )
-        {
-            if ( this.before_step_callback )
-            {
-                this.before_step_callback();
-            }
-
-            this.gridX = this.path[ this.step ][ 0 ];
-            this.gridY = this.path[ this.step ][ 1 ];
-            this.game.map.pathfinder.setStartPosition( this.gridX, this.gridY );
-            // if Character.stop() has been called
-            if ( this.interrupted )
-            {
-                stop = true;
-                this.interrupted = false;
-            }
-            else
-            {
-                if ( this.hasNextStep() )
-                {
-                    this.nextGridX = this.path[ this.step + 1 ][ 0 ];
-                    this.nextGridY = this.path[ this.step + 1 ][ 1 ];
-                }
-
-                if ( this.step_callback )
-                {
-                    this.step_callback();
-                }
-
-                if ( this.hasNextStep() )
-                {
-                    this.step += 1;
-                    this.updateMovement();
-                }
-                else
-                {
-                    stop = true;
-                }
-            }
-
-            this.gridX = this.path[ this.step ][ 0 ];
-            this.gridY = this.path[ this.step ][ 1 ];
-            this.game.map.pathfinder.setStartPosition( this.gridX, this.gridY );
-            // if Character.stop() has been called
-            if ( this.interrupted )
-            {
-                stop = true;
-                this.interrupted = false;
-            }
-            else
-            {
-                if ( this.hasNextStep() )
-                {
-                    this.nextGridX = this.path[ this.step + 1 ][ 0 ];
-                    this.nextGridY = this.path[ this.step + 1 ][ 1 ];
-                }
-
-                if ( this.step_callback )
-                {
-                    this.step_callback();
-                }
-
-                if ( this.hasNextStep() )
-                {
-                    this.step += 1;
-                    this.updateMovement();
-                }
-                else
-                {
-                    stop = true;
-                }
-            }
-
-            if ( this.after_step_callback )
-            {
-                this.after_step_callback();
-            }
-
-            // Path is complete or has been interrupted
-            if ( stop )
-            {
-                this.path = null;
-                if ( this.after_step_callback )
-                {
-                    this.after_step_callback();
-                }
-
-                // Path is complete or has been interrupted
-                if ( stop )
-                {
-                    this.path = null;
-                    // On rétablie la vitesse du joueur
-                    this.restorMoveSpeed();
-                    if ( this.stop_pathing_callback )
-                    {
-                        this.stop_pathing_callback( this.gridX, this.gridY );
-                    }
-                }
-            }
-
-            return;
-        }
-    }
-
-    onBeforeStep( callback )
-    {
-        this.before_step_callback = callback;
-        return;
-    }
-
-    onAfterStep( callback )
-    {
-        this.after_step_callback = callback;
-        return;
-    }
-
-    onStep( callback )
-    {
-        this.step_callback = callback;
-        return;
-    }
-
-    onRequestPath( callback )
-    {
-        this.request_path_callback = callback;
-        return;
-    }
-
-    onStartPathing( callback )
-    {
-        this.start_pathing_callback = callback;
-        return;
-    }
-
-    onStopPathing( callback )
-    {
-        this.stop_pathing_callback = callback;
-        return;
-    }
-
-    // isMoving()
-    // {
-    //     return this.path !== null && this.path.length > 0;
-    // }
     isMoving()
     {
         return this.moving;
     }
 
-    hasNextStep()
-    {
-        return this.path !== null && ( this.path.length - 1 > this.step );
-    }
-
     onHasMoved( callback )
     {
         this.hasmoved_callback = callback;
+
         return;
     }
 
@@ -407,65 +203,80 @@ class Entity
         return;
     }
 
-    isAttacked()
+    isAlive()
     {
-        this.die();
+        return this.alive;
     }
 
     //Ben... il est mort, faut détruire l'objet
     die()
     {
+        var self = this;
 
+        this.alive = false;
+        this.sprite.blink( 120 );
+
+        _.delay( function()
+        {
+            tools.tabRemoveEl( self.game.mapTemplate.getTabEntitiesToUpdate(), self );
+            tools.tabRemoveEl( self.game.mapTemplate.getTabEntities(), self );
+        }, 800 );
+
+        return;
     }
 
-    canMove( deplacement )
+    nextPosition( deplacement )
     {
+        var pos = this.calcPos(),
+            entityMove = _.clone( this );
 
-        var entityMove = _.clone( this );
-
-        // pas plus de 5
-        deplacement = Math.min( 5, deplacement );
+        entityMove.calcPos = this.calcPos;
+        entityMove.calcAbsPos = this.calcAbsPos;
+        entityMove.tildeTolerance = this.tildeTolerance;
+        entityMove.getCurrentTilde = this.getCurrentTilde;
 
         if ( entityMove.orientation === config.orientations.LEFT )
         {
-            entityMove.x = this.x - deplacement;
+            entityMove.moveX = this.moveX - deplacement;
         }
         else
         if ( entityMove.orientation === config.orientations.RIGHT )
         {
-            entityMove.x = this.x + deplacement;
+            entityMove.moveX = this.moveX + deplacement;
         }
         else
         if ( entityMove.orientation === config.orientations.UP )
         {
-            entityMove.y = this.y - deplacement;
+            entityMove.moveY = this.moveY - deplacement;
         }
         else
         if ( entityMove.orientation === config.orientations.DOWN )
         {
-            entityMove.y = this.y + deplacement;
+            entityMove.moveY = this.moveY + deplacement;
         }
 
-        return !this.isHittingBlock( entityMove );
+        return entityMove;
+    }
+
+    canMove( deplacement )
+    {
+        return !this.isHittingBlock( this.nextPosition( deplacement ) );
     }
 
     getBlock( entity )
     {
-        var result = null;
-        var entityPosition = tools.getPositionInArray( entity.x + entity.width / 2, entity.y + entity.height - entity.height / 10 );
-        var tiledMap = this.game.mapTemplate.tiledMap;
+        var pos = entity.getCurrentTilde(),
+            result, tiledMap;
 
-        if ( tiledMap && tools.isset( tiledMap[ entityPosition.y ][ entityPosition.x ] ) === true )
+        tiledMap = this.game.mapTemplate.tiledMap;
+
+        try
         {
-            try
-            {
-                result = tiledMap[ entityPosition.y ][ entityPosition.x ];
-            }
-            catch ( ex )
-            {
-                console.log( ex );
-            }
-
+            result = tiledMap[ pos.y ][ pos.x ];
+        }
+        catch ( ex )
+        {
+            console.log( ex );
         }
 
         return result;
@@ -476,7 +287,7 @@ class Entity
         var block = this.getBlock( entityMoved ),
             result = false;
 
-        return tools.isset( block ) === true && block.isCollisionel() === true;
+        return tools.isset( block ) === true && tools.isset( block.isCollisionel ) === true && block.isCollisionel() === true;
     }
 
 }

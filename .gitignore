@@ -18,6 +18,7 @@ src/app/bundle.js.map
 _save/
 build/
 dist/
+_map/
 gulp/
 npm.md
 server/

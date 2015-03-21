@@ -11,15 +11,14 @@ var Sol = require( 'class/entities/sol.js' );
  */
 class Prise extends Block
 {
-
     constructor( game, x, y, width, heigh )
     {
 
         var data = {};
         data.x = x;
         data.y = y;
-        data.width = config.map.priseSize;
-        data.height = config.map.priseSize;
+        data.width = 80;
+        data.height = 80;
 
         // On pose un block sol dessous car on peut la faire disparaitre
         var sol = new Sol( game, x, y );
@@ -33,6 +32,11 @@ class Prise extends Block
     isActive()
     {
         return this.active;
+    }
+
+    isAddEnergy()
+    {
+        return true;
     }
 
     disable()

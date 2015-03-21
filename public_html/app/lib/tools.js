@@ -8,7 +8,7 @@ require( 'lib/raf.js' );
 
 var isDebug = function()
 {
-    return true;
+    return false;
 };
 var isLocalhost = function()
 {
@@ -563,8 +563,8 @@ var getPositionInArray = function( x, y )
         y: 0
     };
 
-    positions.x = Math.floor( x / config.map.blockSize );
-    positions.y = Math.floor( y / config.map.blockSize );
+    positions.x = Math.floor( x / config.map.tileSize );
+    positions.y = Math.floor( y / config.map.tileSize );
 
     return positions;
 };

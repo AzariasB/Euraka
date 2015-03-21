@@ -4,9 +4,19 @@
     background: #000;
     z-index: 15;
 }
-
 .w-revert {
-  -webkit-transform: scaleX(-1); /* Ch <36, Saf 5.1+, iOS, An =<4.4.4 */
-      -ms-transform: scaleX(-1); /* IE 9 */
-          transform: scaleX(-1); /* IE 10, Fx 16+, Op 12.1+ */
+    -webkit-transform: scaleX(-1);
+    /* Ch <36, Saf 5.1+, iOS, An =<4.4.4 */
+
+-ms-transform: scaleX(-1);
+    /* IE 9 */
+
+transform: scaleX(-1);
+    /* IE 10, Fx 16+, Op 12.1+ */
+}
+.w-closeinfo {
+    bottom: 0;
+    right: 0;
+    color: #FFF;
+    text-align: right;
 }

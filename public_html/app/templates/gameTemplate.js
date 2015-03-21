@@ -14,7 +14,7 @@ var CinematiqueTpl = require( 'views/game/cinematiqueTpl.ract' );
 var CinematiqueGameTpl = require( 'views/game/cinematiqueGameTpl.ract' );
 var CinematiqueCreditTpl = require( 'views/game/cinematiqueCreditTpl.ract' );
 var CinematiqueTplKaode = require( 'views/game/cinematiqueKaodeTpl.ract' );
-var ModalTpl = require( 'views/game/modalTpl.ract' );
+var MinimapTpl = require( 'views/game/minimapTpl.ract' );
 var ScoringTpl = require( 'views/game/scoringTpl.ract' );
 var DeathTpl = require( 'views/game/deathTpl.ract' );
 
@@ -53,6 +53,13 @@ class GameTemplate
     {
         var self = this;
 
+        // C'est sale mais pas le temps.........
+        var cinematiqueSound = this.game.preloader.getAsset( 'sound', 'musiques/cinematique.mp3' );
+        this.game.sounds.cinematique = cinematiqueSound.getObj();
+        this.game.soundManager.fadeOutSound( this.game.sounds.currentSound );
+        this.game.sounds.currentSound = this.game.sounds.cinematique;
+        this.game.soundManager.fadeInSound( this.game.sounds.currentSound );
+
         tools.fadeOut( 'l-main', function()
         {
             tools.showTemplate( CinematiqueTpl, 'l-main' );
@@ -66,6 +73,11 @@ class GameTemplate
     cinematiqueEnd()
     {
         Mousetrap.unbind( 'a' );
+
+        this.game.soundManager.fadeOutSound( this.game.sounds.currentSound );
+        this.game.musicManager.setTabSound( config.map.music.tabDefaultMusics );
+        this.game.musicManager.play();
+
         this.game.gameController.start();
 
         return;
@@ -77,9 +89,10 @@ class GameTemplate
 
         tools.addOverlay( function()
         {
-            tools.showTemplate( ModalTpl, 'popin',
+            tools.showTemplate( MinimapTpl, 'popin',
             {
-                "code": self.game.gameController.getCurrentCodeStage()
+                "code": self.game.gameController.getCurrentCodeStage(),
+                "title": self.game.stage.getMinimapTitle()
             } );
             tools.fadeIn( 'l-main' );
         } );
@@ -141,7 +154,7 @@ class GameTemplate
             tools.showTemplate( DeathTpl, 'l-main' );
         } );
 
-        Mousetrap.bind( 'a', fct, 'keydown' );
+        Mousetrap.bind( 'a', this.game.gameController.reRun.bind( this.game.gameController ), 'keydown' );
 
         return;
     }
@@ -171,9 +184,16 @@ class GameTemplate
 
     cinematiqueGame()
     {
+        // C'est sale mais pas le temps.........
+        var cinematiqueGameSound = this.game.preloader.getAsset( 'sound', 'musiques/fin.mp3' );
+        this.game.sounds.cinematiqueGame = cinematiqueGameSound.getObj();
+        this.game.soundManager.fadeOutSound( this.game.sounds.currentSound );
+        this.game.sounds.currentSound = this.game.sounds.cinematiqueGame;
+        this.game.soundManager.fadeInSound( this.game.sounds.currentSound );
+
         tools.fadeOut( 'l-main', function()
         {
-            tools.fadeOut('popin');
+            tools.fadeOut( 'popin' );
             tools.empty( 'popin' );
             tools.removeOverlay( function()
             {

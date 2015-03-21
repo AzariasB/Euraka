@@ -30,18 +30,34 @@ class Preloader
                 files: [
                     new Img( 'ui.png' ),
                     new Img( 'game.png' ),
-                    new Img( 'keys.png' )
+                    new Img( 'keys.png' ),
+                    new Img( 'minimaps/grotte1-1a.png' ),
+                    new Img( 'minimaps/grotte1-2a.png' ),
+                    new Img( 'minimaps/pyramide2-1a.png' ),
+                    new Img( 'minimaps/pyramide2-2a.png' ),
+                    new Img( 'minimaps/tuto.png' )
                 ]
-
             },
             {
                 name: 'sound',
                 files: [
+                    new Sound( 'musiques/intro.mp3' ),
+                    new Sound( 'musiques/cinematique.mp3' ),
+                    new Sound( 'musiques/fin.mp3' ),
+                    new Sound( 'musiques/jeu1.mp3' ),
+                    new Sound( 'musiques/jeu2.mp3' ),
+                    new Sound( 'musiques/jeu3.mp3' ),
+                    new Sound( 'musiques/jeu4.mp3' ),
+                    new Sound( 'musiques/jeu5.mp3' ),
+                    new Sound( 'sons/energie.mp3' ),
+                    new Sound( 'sons/enregie-moins.mp3' ),
+                    new Sound( 'sons/gameover.mp3' ),
+                    new Sound( 'sons/halo.mp3' ),
+                    new Sound( 'sons/kickette.mp3' ),
+                    new Sound( 'sons/tir.mp3' )
                 ]
             }
         ];
-
-        this.interval = null;
 
         return;
     }

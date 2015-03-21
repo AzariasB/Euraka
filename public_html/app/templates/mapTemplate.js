@@ -3,7 +3,6 @@ var config = require( 'data/config.js' );
 
 // Class
 var Block = require( 'class/entities/block.js' );
-var Projectile = require( 'class/entities/projectile.js' );
 var Scoring = require( 'class/scoring.js' );
 
 // Lib
@@ -70,6 +69,11 @@ class MapTemplate
         return;
     }
 
+    getTabEntitiesToUpdate()
+    {
+        return this.tabEntitiesToUpdate;
+    }
+
     getTabEntities()
     {
         return this.tabEntities;
@@ -82,17 +86,12 @@ class MapTemplate
         return;
     }
 
-    createProjectile( x, y, direction )
+    addProjectile( projectile )
     {
-        if (tools.isDebug() === true) {
-            console.log( "Projectile créé" );
-            console.log( x +', ' + y + ', ' + direction );
-        }
-        var dimension = config.map.blockSize;
-        var projectile = new Projectile( this.game, x, y, dimension, dimension, direction );
-        projectile.moving = true;
         this.tabEntities.push( projectile );
-        this.tabEntitiesToUpdate.push( projectile );
+        this.pushEntityToUpdate( projectile );
+
+        return;
     }
 
     getContext()
@@ -115,16 +114,14 @@ class MapTemplate
         this.tabEntities = this.stage.getTabEntities();
 
         // On place les monstres dans les entité à update
-        _.each( this.tabEntities, function( item )
+        _.each( this.stage.getTabEnemyEntity(), function( item )
         {
-            if ( _.contains( config.map.ia, item.constructor.name ) === true )
-            {
-                this.tabEntitiesIA.push( item );
-                this.tabEntitiesToUpdate.push( item );
-            }
+            this.tabEntitiesIA.push( item );
+            this.tabEntitiesToUpdate.push( item );
         }, this );
 
         this.initTiledMap();
+
         return;
     }
 
@@ -179,7 +176,6 @@ class MapTemplate
     initTiledMap()
     {
         // console.log("Nombre d'entités : " + this.stage.getTabEntities().length);
-        var self = this;
         this.tiledMap = [];
 
         for ( var y = 0; y < this.stage.getNbTuilesHauteur(); y++ )
@@ -193,10 +189,10 @@ class MapTemplate
 
         _.each( this.tabEntities, function( item, key )
         {
-            self.tiledMap[ item.y ][ item.x ] = item;
+            this.tiledMap[ item.y ][ item.x ] = item;
             //            if(item.y >= 9)
             //            console.log(" x : " + item.x + " - y : " + item.y + " -Nom : " + item.constructor.name);
-        } );
+        }, this );
 
         return;
     }
@@ -208,6 +204,11 @@ class MapTemplate
 
         // On lance l'animation
         this.start();
+
+        if ( tools.isDebug() === true )
+        {
+            console.log( 'Nb IA : ' + this.tabEntitiesIA.length );
+        }
 
         // Run IA
         _.each( this.tabEntitiesIA, function( item )
@@ -235,43 +236,43 @@ class MapTemplate
 
         if ( tools.isDebug() === true )
         {
-            Mousetrap.bind( '=', this.character.fillEnergy.bind( this.character ), 'keydown' );
-            this.character.hasChangeEnergie();
+            Mousetrap.bind( '=', function()
+            {
+                self.character.fillEnergy();
+                self.character.hasChangeEnergie();
+            }, 'keydown' );
         }
-
-        // Mousetrap.bind( 'up', function() {
-        //     self.character.handlePlayerInput.bind( self.character, config.orientations.UP );
-        //     // Mousetrap.unbind( ['up', 'z']);
-        // }, 'keypress' );
-        // Mousetrap.bind( 'down', function() {
-        //     self.character.handlePlayerInput.bind( self.character, config.orientations.DOWN );
-        //     // Mousetrap.unbind( ['down', 's']);
-        // }, 'keypress' );
-        // Mousetrap.bind( 'left', function() {
-        //     self.character.handlePlayerInput.bind( self.character, config.orientations.LEFT );
-        //     // Mousetrap.unbind( ['left', 'q']);
-        // }, 'keypress' );
-        // Mousetrap.bind( 'right', function() {
-        //     self.character.handlePlayerInput.bind( self.character, config.orientations.RIGHT );
-        //     // Mousetrap.unbind( ['right', 'd']);
-        // }, 'keypress' );
 
         Mousetrap.bind( 'up', this.character.handlePlayerInputOff.bind( this.character, config.orientations.UP ), 'keyup' );
         Mousetrap.bind( 'down', this.character.handlePlayerInputOff.bind( this.character, config.orientations.DOWN ), 'keyup' );
         Mousetrap.bind( 'left', this.character.handlePlayerInputOff.bind( this.character, config.orientations.LEFT ), 'keyup' );
         Mousetrap.bind( 'right', this.character.handlePlayerInputOff.bind( this.character, config.orientations.RIGHT ), 'keyup' );
 
-        // var self = this;
-        // this.character.onBeforeStep( function() {} );
-
         this.character.onHasMoved( function()
         {
             self.centerMap();
 
+            var block = self.character.getBlock( self.character );
+
+            if ( tools.isset( block ) === true )
+            {
+                if ( tools.isset( block.isOneshot ) === true && block.isOneshot() === true )
+                {
+                    self.character.die();
+                }
+                else
+                if ( tools.isset( block.isBonus ) === true && block.isBonus() === true )
+                {
+                    self.character.setKikette();
+                    block.die();
+                }
+            }
+
             if ( self.character.aGagne() )
             {
                 self.stop();
-                return self.game.gameController.showVictoire();
+                _.delay( self.game.gameController.showVictoire.bind( self.game.gameController ), 800 );
+                return;
             }
         } );
 
@@ -300,89 +301,14 @@ class MapTemplate
     }
 
     /**
-     * Click sur le bouton GO!
-     */
-    handleGo( e )
-    {
-        var pos = this.mouse;
-
-        // Si on clique là où on vient de cliquer, on ne bouge pas
-        if ( pos.x === this.previousClickPosition.x && pos.y === this.previousClickPosition.y )
-        {
-            return;
-        }
-        else
-        {
-            this.previousClickPosition = pos;
-        }
-
-        // On cherche les effets map
-        var tabEffet = this.game.joueur.getEffet( 'map' );
-        _.each( tabEffet, function( item )
-        {
-            item.apply( this.character );
-        }, this );
-
-        // Si le jeu est démaré
-        if ( this.started )
-        {
-            this.game.aventureView.hideAction();
-
-            this.isDrawParcourt = false;
-            this.character.go( this.path );
-
-            if ( this.character.isOnBoat() === true )
-            {
-                this.boat.go( this.path );
-            }
-        }
-
-        return;
-    }
-
-    /**
-     * Créer le parcourt du joueur tuile / tuile
-     */
-    getPath( pos, dest )
-    {
-        var x, y;
-
-        // Click sur un point particulier
-        this.tuile = _.find( this.tabClickable, function( item )
-        {
-            return item.hit( pos.x, pos.y ) === true;
-        } );
-
-        // Chercher si c'est une ville
-        if ( tools.isset( this.tuile ) === true && ( this.character.isOnBoat() === false && this.tuile.constructor.name !== 'Monture' ) )
-        {
-            x = this.tuile.x;
-            y = this.tuile.y;
-        }
-        // Point non particulier
-        else
-        {
-            x = dest.x;
-            y = dest.y;
-        }
-
-        this.path = this.stage.pathfinder.findPath( x, y );
-
-        return;
-    }
-
-    hasPath()
-    {
-        return this.path !== null && this.path.length > 0;
-    }
-
-    /**
      * Centre la map sur le joueur
      */
     centerMap()
     {
-        this.stage.x = Math.floor( tools.toInt( -this.character.x + ( this.canvas.width / 2 ) ) );
-        this.stage.y = Math.floor( tools.toInt( -this.character.y + ( this.canvas.height / 2 ) ) );
+        var charPos = this.character.calcAbsPos();
+
+        this.stage.x = Math.floor( tools.toInt( -charPos.x + ( this.canvas.width / 2 ) ) );
+        this.stage.y = Math.floor( tools.toInt( -charPos.y + ( this.canvas.height / 2 ) ) );
 
         // Limite pour que l image ne sorte pas du canvas
         return this.getLimitMap();
@@ -453,6 +379,11 @@ class MapTemplate
         return;
     }
 
+    getIsStop()
+    {
+        return this.isStopped;
+    }
+
     /**
      * Appel les fonctionts pour dessiner sur le canvas
      */
@@ -505,7 +436,7 @@ class MapTemplate
 
     getWidthRayon()
     {
-        return Math.round( ( this.character.getRayonEcl() + 1 ) * config.map.tileSize + ( config.map.tileSize / 8 ) );
+        return Math.round( ( this.character.getRayonEcl() * 2 + 3 ) * config.map.tileSize + ( config.map.tileSize / 3 ) );
     }
 
     /**
@@ -514,14 +445,17 @@ class MapTemplate
     drawCharacter()
     {
         var sizeRayon = this.getWidthRayon(),
-            characterWidth = Math.round( this.character.getWidth() / 2 );
+            characterWidth = Math.round( this.character.getWidth() / 2 ),
+            charPos = this.character.calcPos();
 
-        // console.log( this.windowWidth );
-        // console.log( this.windowHeight );
+        if ( tools.isDebug() === true )
+        {
+            sizeRayon = 2000;
+        }
 
         // On dessine un cercle à la position du joueur pour en faire un clip
         this.context.beginPath();
-        this.context.arc( this.character.x + this.game.stage.getX() + characterWidth, this.character.y + this.game.stage.getY() + characterWidth, sizeRayon / 2.2, 0, Math.PI * 2, true );
+        this.context.arc( charPos.x + characterWidth, charPos.y + characterWidth, sizeRayon / 2.2, 0, Math.PI * 2, true );
         this.context.closePath();
         this.context.clip();
 
@@ -530,13 +464,14 @@ class MapTemplate
         this.character.draw();
         this.halo.setData(
         {
-            "x": this.character.x - ( sizeRayon / 2 ) + characterWidth,
-            "y": this.character.y - ( sizeRayon / 2 ) + characterWidth,
+            "x": this.character.x,
+            "y": this.character.y,
+            "moveX": this.character.moveX - ( sizeRayon / 2 ) + characterWidth,
+            "moveY": this.character.moveY - ( sizeRayon / 2 ) + characterWidth,
             "width": sizeRayon,
             "height": sizeRayon
         } );
         this.halo.draw();
-        // // On dessinne le joueur
 
         // On restore l'ensemble du canvas pour ne plus dessiner uniquement dans le clip
         this.context.restore();
@@ -570,12 +505,16 @@ class MapTemplate
      */
     drawFps()
     {
-        var x = 140;
+        var pos = this.character.calcPos(),
+            x = 140;
+
         this.context.textAlign = 'left';
         this.context.font = '14pt Impact';
         this.context.fillStyle = "#00FF00";
         this.context.fillText( "FPS : " + this.realFPS, x, 90 );
         this.context.fillText( "Char [x, y] : " + this.character.x + ', ' + this.character.y, x, 120 );
+        this.context.fillText( "Char [pos.x, pos.y] : " + pos.x + ', ' + pos.y, x, 150 );
+        this.context.fillText( "Stage [x, y] : " + this.stage.x + ', ' + this.stage.y, x, 190 );
 
         return;
     }
@@ -600,7 +539,6 @@ class MapTemplate
     {
         this.updateFps();
         this.updateMovements();
-        // this.updateTransitions();
         this.updateAnimations();
 
         return;
@@ -613,125 +551,43 @@ class MapTemplate
 
         _.each( this.tabEntitiesToUpdate, function( e )
         {
+            // console.log(e.constructor.name);
+
             tick = Math.round( this.tileSize / ( e.moveSpeed / ( 1000 / this.realFPS ) ) );
 
-            if ( e.isMoving() && e.canMove( tick ) )
+            // Lag or.. ?
+            if ( tick < 10 && e.isAlive() === true && e.isMoving() === true && e.canMove( tick ) === true )
             {
-                // Lag or.. ?
-                if ( isFinite( tick ) === false )
-                {
-                    tick = 5;
-                }
-
-                // if ( e.constructor.name === 'Chat' )
-                // {
-                //     console.log( tick );
-                //     // console.log( e.moveSpeed );
-                // }
-
                 if ( e.orientation === config.orientations.LEFT )
                 {
-                    e.x = e.x - tick;
+                    e.moveX = e.moveX - tick;
                 }
                 else
                 if ( e.orientation === config.orientations.RIGHT )
                 {
-                    e.x = e.x + tick;
+                    e.moveX = e.moveX + tick;
                 }
                 else
                 if ( e.orientation === config.orientations.UP )
                 {
-                    e.y = e.y - tick;
+                    e.moveY = e.moveY - tick;
                 }
                 else
                 if ( e.orientation === config.orientations.DOWN )
                 {
-                    e.y = e.y + tick;
+                    e.moveY = e.moveY + tick;
                 }
 
                 e.hasMoved();
-
-                // if ( tools.isset( this.after_step_callback ) === true )
-                // {
-                //     this.after_step_callback();
-                // }
-
-                // if ( e.orientation === config.orientations.LEFT )
-                // {
-                //     e.movement.start( this.currentTime,
-                //         function( x )
-                //         {
-                //             e.x = x;
-                //             e.hasMoved();
-                //         },
-                //         function()
-                //         {
-                //             e.x = e.movement.endValue;
-                //             e.hasMoved();
-
-                //         },
-                //         e.x - tick,
-                //         e.x - 0,
-                //         e.moveSpeed );
-                // }
-                // else if ( e.orientation === config.orientations.RIGHT )
-                // {
-                //     e.movement.start( this.currentTime,
-                //         function( x )
-                //         {
-                //             e.x = x;
-                //             e.hasMoved();
-                //         },
-                //         function()
-                //         {
-                //             e.x = e.movement.endValue;
-                //             e.hasMoved();
-
-                //         },
-                //         e.x + tick,
-                //         e.x + 0,
-                //         e.moveSpeed );
-                // }
-                // else if ( e.orientation === config.orientations.UP )
-                // {
-                //     e.movement.start( this.currentTime,
-                //         function( y )
-                //         {
-                //             e.y = y;
-                //             e.hasMoved();
-                //         },
-                //         function()
-                //         {
-                //             e.y = e.movement.endValue;
-                //             e.hasMoved();
-
-                //         },
-                //         e.y - tick,
-                //         e.y - 0,
-                //         e.moveSpeed );
-                // }
-                // else if ( e.orientation === config.orientations.DOWN )
-                // {
-                //     e.movement.start( this.currentTime,
-                //         function( y )
-                //         {
-                //             e.y = y;
-                //             e.hasMoved();
-                //         },
-                //         function()
-                //         {
-                //             e.y = e.movement.endValue;
-                //             e.hasMoved();
-
-                //         },
-                //         e.y + tick,
-                //         e.y + 0,
-                //         e.moveSpeed );
-                // }
             }
         }, this );
 
         return;
+    }
+
+    getEntities()
+    {
+        return this.tabEntities;
     }
 
     getEntitiesByName( Name )
@@ -747,27 +603,6 @@ class MapTemplate
         } );
 
         return entities;
-    }
-
-    /**
-     * Défini les variables à bouger en fonction du tick et de la position du joueur
-     */
-    updateTransitions( c )
-    {
-        var m; // Transition
-
-        _.each( this.tabEntitiesToUpdate, function( e )
-        {
-            m = e.movement;
-
-            if ( m.inProgress )
-            {
-                m.step( this.currentTime );
-            }
-
-        }, this );
-
-        return;
     }
 
     updateAnimations()

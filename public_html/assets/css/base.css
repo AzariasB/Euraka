@@ -37,6 +37,8 @@ font-size: 1em;
 }
 canvas {
     image-rendering: optimizeSpeed;
+    border: 2px solid #b8c2ca;
+    border-radius: 3px;
 }
 /*==========  Style générique  ==========*/
 

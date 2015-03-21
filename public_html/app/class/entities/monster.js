@@ -31,13 +31,33 @@ class Monster extends Entity
         this.followingPlayer = false;
         this.target = false;
 
+        // Die
+        var self = this;
+        this.onHasMoved( function()
+        {
+            var block = self.getBlock( self );
+
+            // Suppression du friendly fire
+            if ( tools.isset( block ) === true && _.contains( config.map.ia, block.constructor.name ) === false && tools.isset( block.isOneshot ) === true && block.isOneshot() === true )
+            {
+                self.die();
+            }
+        } );
+
         return;
     }
 
     runIa()
     {
-        this.moving = true;
-        this.tickIa();
+        // delay avant d'actionner l'ia dans le tuto
+        if ( this.game.gameController.getCurrentCodeStage() === 'tuto' )
+        {
+            _.delay( this.tickIa.bind( this ), 15000 );
+        }
+        else
+        {
+            this.tickIa();
+        }
 
         return;
     }
@@ -48,6 +68,8 @@ class Monster extends Entity
             tabOrientations = _.keys( config.orientations ),
             i = 0,
             len = tabOrientations.length;
+
+        this.moving = true;
 
         // Tant qu'on ne peut pas bouger, on cherche l'orientation adéquate
         while ( this.canMove( 5 ) === false && i < len - 1 )
@@ -62,8 +84,11 @@ class Monster extends Entity
         // this.orientation = config.orientations.LEFT;
         // console.log(this.orientation);
 
-        // relance le déplacement
-        _.delay( this.tickIa.bind( this ), _.random( 2, 6 ) * 1000 );
+        // relance le déplacement si la map n'est pas stopée
+        if ( this.game.mapTemplate.getIsStop() === false )
+        {
+            _.delay( this.tickIa.bind( this ), 2000 );
+        }
 
         return;
     }
@@ -101,17 +126,21 @@ class Monster extends Entity
         {
             this.orientation = config.orientation.DOWN;
         }
+
+        return;
     }
 
     lostPlayer()
     {
         this.followingPlayer = false;
+
         return;
     }
 
     followCharacter( character )
     {
         this.followingPlayer = true;
+
         return;
     }
 
@@ -119,7 +148,20 @@ class Monster extends Entity
     attackCharacter( character )
     {
         character.isAttacked();
+
+        return;
     }
+
+    isOneshot()
+    {
+        return true;
+    }
+
+    isDesctruct()
+    {
+        return true;
+    }
+
 }
 
 module.exports = Monster;

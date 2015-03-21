@@ -1,0 +1,4 @@
+<div class="ac minimap text-center">
+    <img src="./assets/img/minimaps/{{code}}.png">
+    <p class="pr minimap-title">{{title}}</p>
+</div>

@@ -8,6 +8,8 @@ require( 'lib/mousetrap.js' );
 
 // Class
 var Preloader = require( 'class/preloader.js' );
+var SoundManager = require( 'class/soundManager.js' );
+var MusicManager = require( 'class/musicManager.js' );
 
 // Controllers
 var GameController = require( 'controllers/gameController.js' );
@@ -21,6 +23,11 @@ console.log.apply( console, k );
 
 // Contient tous les objets pour être paratagé entre les classes
 var game = {};
+
+// liste des fichiers audios
+game.sounds = {};
+game.soundManager = new SoundManager( game );
+game.musicManager = new MusicManager( game );
 
 // Préload les images et les sons
 game.preloader = new Preloader( game );

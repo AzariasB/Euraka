@@ -17,9 +17,9 @@ class MusicManager extends SoundManager
         this.currentSound = null;
         this.nextSound = null;
         this.tabLastMusics = [];
-        this.volumeDefault = 0.05;
+        this.volumeDefault = 0.5;
         this.volume = this.volumeDefault;
-        this.tabDefaultMusics = config.map.music.tabDefaultMusics;
+        this.defaultMusic = 'musiques/jeu1.mp3';
 
         return;
     }
@@ -33,7 +33,7 @@ class MusicManager extends SoundManager
     {
         var music = tools.tabRandom( tab ),
             count = 0,
-            len = 20,
+            len = 6,
             contains = _.contains( this.tabLastMusics, music );
 
         // On cherche des musiques qui ne sont pas passées
@@ -50,15 +50,6 @@ class MusicManager extends SoundManager
         return contains === false ? music : false;
     }
 
-    /**
-     * Retourne une musique par défaut non présente dans les trois dernières jouées
-     * @return String : nom de la musique
-     */
-    _randDefault()
-    {
-        return tools.tabRandom( _.difference( this.tabDefaultMusics, this.tabLastMusics ) );
-    }
-
     rand()
     {
         // console.log( '--- rand ---' );
@@ -70,14 +61,14 @@ class MusicManager extends SoundManager
             // On récupère la musique
             music = this._checkLastMusic( this.tabSounds );
         }
+
         // console.log('music : ' + music);
         // Si c'est faux, elle a été joué récément, on récupère une musique par défaut
         if ( music === false )
         {
-            music = this._randDefault();
-            // console.log('_randDefault : ' + music);
+            music = this.defaultMusic;
         }
-        console.log( music );
+
         this.currentAsset = this.game.preloader.getAsset( 'sound', music );
 
         // L'asset est trouvé
@@ -108,9 +99,6 @@ class MusicManager extends SoundManager
         {
             // this.rand();
         }
-
-        // console.log( this.currentSound.src );
-        super.rand();
 
         return;
     }
@@ -158,6 +146,7 @@ class MusicManager extends SoundManager
         // On la pousse dans les musique jouées
         this._pushMusic( this.currentAsset );
         super.play();
+
         return;
     }
 

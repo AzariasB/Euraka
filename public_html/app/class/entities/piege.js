@@ -47,6 +47,11 @@ class Piege extends Block
 
         return config.nomsEntitee.BLOCK_PIEGE + rand;
     }
+
+    isOneshot()
+    {
+        return true;
+    }
 }
 
 module.exports = Piege;

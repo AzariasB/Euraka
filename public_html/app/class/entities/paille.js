@@ -29,7 +29,7 @@ class Paille extends Destructible
         var sol = new Sol( game, x, y );
         game.stage.pushTabEntities( sol );
 
-        super( game, config.nomsEntitee.BLOCK_PAILLE, data, false );
+        super( game, config.nomsEntitee.BLOCK_PAILLE, data, true );
 
         return;
     }

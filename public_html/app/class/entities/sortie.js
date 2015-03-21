@@ -28,7 +28,11 @@ class Sortie extends Block
         // @TODO
         // Définir l'orientation du halo dans Stage@init...
         super( game, config.nomsEntitee.BLOCK_SORTIE + 'DOWN', data, false );
+    }
 
+    isSortie()
+    {
+        return true;
     }
 }
 
