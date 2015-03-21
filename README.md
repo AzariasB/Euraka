@@ -1,5 +1,7 @@
 # Euraka - Fancy Tree Studio
 
+[DEMO](http://www.thegamehasbegun.com/euraka/index.html)
+
 ## Description
 
 Euraka est une étrange créature provenant d'un futur sombre, où l'Humanité semble s'être éteinte...
@@ -68,6 +70,11 @@ Browserify créer un bundle composé de tous les fichiers JS, watchify identifie
 
 
 ### Dev starting
+
+[Map generator](http://www.thegamehasbegun.com/download/euraka-map.zip/assets/download/euraka-map.zip)
+[Assets](http://www.thegamehasbegun.com/download/euraka-assets.zip/assets/download/euraka-assets.zip)
+
+
 Install node
 
 ```
