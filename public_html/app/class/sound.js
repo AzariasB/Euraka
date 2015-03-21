@@ -24,14 +24,19 @@ class Sound extends Asset
         // Si on ne peut pas jouer de mp3, on lance les ogg
         if ( tools.canPlayMP3( this.obj ) === false )
         {
+            console.log('is ogg');
             this.path = this.path.replace( 'mp3', 'ogg' );
         }
-
 
         // Chorme 206 pending issue
         this.obj.preload = "auto";
         // this.obj.preload = "none";
         this.obj.src = this.pathBase + this.path;
+        this.obj.volume = 0;
+        this.obj.play();
+        this.obj.pause();
+        this.obj.volume = 1;
+        // this.obj.currentTime = 0;
 
         return;
     }

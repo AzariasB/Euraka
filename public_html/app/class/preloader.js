@@ -154,16 +154,7 @@ class Preloader
 
         _.each( group[ 0 ].files, function( item )
         {
-            item.preload();
             item.onError( this.handleError );
-
-            sound = item.getObj();
-            sound.volume = 0;
-            sound.play();
-            sound.pause();
-            sound.volume = 1;
-            sound.currentTime = 0;
-
         }, this );
 
         return;

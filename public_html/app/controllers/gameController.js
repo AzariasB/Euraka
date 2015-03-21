@@ -66,7 +66,6 @@ class GameController
 
     tickRunTimer()
     {
-        console.log('yo');
         this.game.runTime = this.game.runTime + 1;
         this.runTimer.resume();
 
