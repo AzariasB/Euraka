@@ -77,7 +77,7 @@ class Monster extends Entity
         this.toggleMoving();
 
         // Tant qu'on ne peut pas bouger, on cherche l'orientation adéquate
-        while ( this.canMove( 5 ) === false && i < len - 1 )
+        while ( this.canMove( config.map.tileSize / 2 ) === false && i < len - 1 )
         {
             // trouve une oritentaiton non testé
             this.orientation = tools.tabRandom( _.difference( tabOrientations, tabTryOrientation ) );
@@ -94,7 +94,7 @@ class Monster extends Entity
         {
             if ( this.moving === true )
             {
-                _.delay( this.tickIa.bind( this ), _.random( 600, 1400 ) );
+                _.delay( this.tickIa.bind( this ), _.random( 600, 2000 ) );
             }
             else
             {

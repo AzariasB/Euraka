@@ -6,38 +6,10 @@
   "dependencies": {
     "ractive": "^0.6.1",
     "underscore": "^1.8.2"
-    },
-  "devDependencies": {
-    "babelify": "^5.0.4",
-    "brfs": "^1.4.0",
-    "factor-bundle": "^2.4.0",
-    "browserify": "^9.0.3",
-    "gulp": "^3.8.11",
-    "gulp-connect": "^2.2.0",
-    "gulp-notify": "^2.2.0",
-    "gulp-ractive": "^0.0.1",
-    "gulp-rename": "^1.2.0",
-    "gulp-open": "^0.3.2",
-    "gulp-sourcemaps": "^1.5.0",
-    "gulp-uglify": "^1.1.0",
-    "gulp-util": "^3.0.4",
-    "jquery": "^2.1.3",
-    "lodash": "^3.5.0",
-    "node-notifier": "^4.1.2",
-    "node-webkit-builder": "^1.1.0",
-    "pretty-hrtime": "^1.0.0",
-    "ractify": "^0.5.0",
-    "ractivate": "^0.2.0",
-    "replace": "^0.3.0",
-    "ractiveify": "^1.5.4",
-    "require-dir": "^0.1.0",
-    "url": "^0.10.3",
-    "velocity-animate": "^1.2.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^2.4.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "uglifyify": "^3.0.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

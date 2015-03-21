@@ -467,7 +467,7 @@ class MapTemplate
 
     getWidthRayon()
     {
-        return Math.round( ( this.character.getRayonEcl() * 2 + 3 ) * config.map.tileSize + ( config.map.tileSize / 3 ) );
+        return Math.round( ( this.character.getRayonEcl() * 2 + 2 ) * config.map.tileSize + ( config.map.tileSize / 3 ) );
     }
 
     /**

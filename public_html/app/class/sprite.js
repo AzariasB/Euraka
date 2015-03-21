@@ -141,6 +141,16 @@ class Sprite
         //     height = height + 10;
         //     y = y - 5;
         // }
+        if ( this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.UP ) > -1 ||
+            this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.DOWN ) > -1 )
+        {
+            x = x + 27;
+        }else
+        if ( this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.LEFT ) > -1 ||
+            this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.RIGH ) > -1 )
+        {
+            y = y - 27;
+        }
 
         this.context.drawImage( this.img, this.x, this.y, this.width, this.height, x, y, width, height );
 

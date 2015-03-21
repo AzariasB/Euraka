@@ -24,7 +24,6 @@ class Sound extends Asset
         // Si on ne peut pas jouer de mp3, on lance les ogg
         if ( tools.canPlayMP3( this.obj ) === false )
         {
-            console.log('is ogg');
             this.path = this.path.replace( 'mp3', 'ogg' );
         }
 

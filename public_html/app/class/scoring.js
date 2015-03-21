@@ -96,7 +96,7 @@ class Scoring
             valeurScore: bonusMunition
         },
         {
-            intituleScore: "Kikette récupérée",
+            intituleScore: "Bonus récupérée",
             valeurScore: configBonusKikette
         } )
 
@@ -154,7 +154,7 @@ class Scoring
                 condition: allkikette,
                 nbPoints: config.scoring.NO_KILL
             },
-            "Toutes les kikettes":
+            "Toutes les bonus":
             {
                 condition: allkikette,
                 nbPoints: config.scoring.ALL_KIKETTE

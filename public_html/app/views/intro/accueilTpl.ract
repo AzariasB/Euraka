@@ -1,7 +1,7 @@
 <section class="ac menu_principal">
     <div class="pa intro-logo"><a href="http://www.thegamehasbegun.com" onclick="window.open(this.href);return false;"><img src="./assets/img/kaode-fancy-tree-studio.png" alt="Logo Kaode"></a></div>
     <nav class="text-center">
-        <ul class="pr intro-nav">
+        <ul class="ac intro-nav">
             <li>
                 <a id="commencer" class="intro-btn commencer" href="javascript:;">&nbsp;</a>
             </li>

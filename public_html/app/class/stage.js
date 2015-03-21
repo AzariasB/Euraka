@@ -539,7 +539,7 @@ class Stage
 
         }, this );
 
-        this.tabEntities = this.tabEntities.concat( this.tabEnergyEntity, this.tabEnemyEntity );
+        this.tabEntities = this.tabEntities.concat( this.tabEnemyEntity, this.tabEnergyEntity );
 
         if ( tools.isset( this.call_back_init ) === true )
         {
