@@ -55,7 +55,7 @@ module.exports = {
         "INTITULE_AFF": "affichage",
         "INTITULE_VAL" : "valeur",
         "UPDATE_TEMPO" : 1000,
-        "BEGIN_LEVEL" : 1000,
+        "BEGIN_LEVEL" : 2500,
         "LOSS_PER_SECOND" : 10,
         "KIKETTE_BONUS" : 600,
         "PER_ENNEMY" : 200,

@@ -150,6 +150,7 @@ class GameTemplate
 
     showDeath()
     {
+        this.game.musicManager.play();
         tools.fadeOut( 'l-main', function()
         {
             tools.showTemplate( DeathTpl, 'l-main' );

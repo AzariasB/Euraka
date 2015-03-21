@@ -142,13 +142,6 @@ class Sprite
         //     y = y - 5;
         // }
 
-        // On recentre les chats
-        if ( this.code.indexOf( config.nomsEntitee.CHAT ) > -1 )
-        {
-            x = x + 20;
-            y = y - 20;
-        }
-
         this.context.drawImage( this.img, this.x, this.y, this.width, this.height, x, y, width, height );
 
         return;
