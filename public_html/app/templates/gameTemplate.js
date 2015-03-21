@@ -75,6 +75,7 @@ class GameTemplate
         Mousetrap.unbind( 'a' );
 
         this.game.soundManager.fadeOutSound( this.game.sounds.currentSound );
+
         this.game.musicManager.setTabSound( config.map.music.tabDefaultMusics );
         this.game.musicManager.play();
 
