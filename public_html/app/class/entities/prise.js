@@ -17,21 +17,23 @@ class Prise extends Block
         var data = {};
         data.x = x;
         data.y = y;
-        data.width = 80;
-        data.height = 80;
+        data.width = 180;
+        data.height = 233;
 
         // On pose un block sol dessous car on peut la faire disparaitre
         var sol = new Sol( game, x, y );
         game.stage.pushTabEntities( sol );
+        // On pose un block sol dessous car on peut la faire disparaitre
+        var dataHalo = {
+            "x": x,
+            "y": y,
+            "width": config.map.blockSize,
+            "height": config.map.blockSize
+        };
+        this.haloLum = new Block( game, config.nomsEntitee.BLOCK_HALO_LUMIERE, dataHalo, false );
+        game.stage.pushTabEntities( this.haloLum );
 
-        super( game, config.nomsEntitee.BLOCK_PRISE, data, false );
-
-        this.active = true;
-    }
-
-    isActive()
-    {
-        return this.active;
+        super( game, config.nomsEntitee.BLOCK_LUMIERE, data, false );
     }
 
     isAddEnergy()
@@ -39,9 +41,17 @@ class Prise extends Block
         return true;
     }
 
+    isActive()
+    {
+        return this.active;
+    }
+
     disable()
     {
-        this.active = false;
+        this.haloLum.remove();
+        super.disable();
+
+        return;
     }
 }
 

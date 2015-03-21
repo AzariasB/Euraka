@@ -198,11 +198,11 @@ class Character extends Entity
             var dimension = config.map.blockSize;
             var currentTile = this.getCurrentTilde();
 
-            if ( tools.isDebug() === true )
-            {
-                console.log( "Projectile créé" );
-                console.log( currentTile );
-            }
+            // if ( tools.isDebug() === true )
+            // {
+            //     console.log( "Projectile créé" );
+            //     console.log( currentTile );
+            // }
 
             var projectile = new Projectile( this.game, currentTile.x, currentTile.y, dimension, dimension, this.orientation );
             projectile.moving = true;

@@ -29,8 +29,8 @@ class GameController
 
         this.game.stageTime = 0;
         this.game.runTime = 0;
-        this.stageTimer = new Timer( this.tickStageTimer.bind( this ), 1000 );
-        this.runTimer = new Timer( this.tickRunTimer.bind( this ), 1000 );
+        this.stageTimer = new Timer( this.tickStageTimer.bind( this ), 10000 );
+        this.runTimer = new Timer( this.tickRunTimer.bind( this ), 10000 );
         this.resetTimer();
 
         return;

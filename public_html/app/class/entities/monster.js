@@ -30,6 +30,7 @@ class Monster extends Entity
 
         this.followingPlayer = false;
         this.target = false;
+        this.oneshot = true;
 
         // Die
         var self = this;
@@ -52,7 +53,11 @@ class Monster extends Entity
         // delay avant d'actionner l'ia dans le tuto
         if ( this.game.gameController.getCurrentCodeStage() === 'tuto' )
         {
-            _.delay( this.tickIa.bind( this ), 15000 );
+            var pos = this.game.character.getCurrentTilde();
+            if ( pos.x === 35 && pos.y === 20 )
+            {
+                this.tickIa();
+            }
         }
         else
         {
@@ -69,7 +74,7 @@ class Monster extends Entity
             i = 0,
             len = tabOrientations.length;
 
-        this.moving = true;
+        this.toggleMoving();
 
         // Tant qu'on ne peut pas bouger, on cherche l'orientation adéquate
         while ( this.canMove( 5 ) === false && i < len - 1 )
@@ -87,7 +92,28 @@ class Monster extends Entity
         // relance le déplacement si la map n'est pas stopée
         if ( this.game.mapTemplate.getIsStop() === false )
         {
-            _.delay( this.tickIa.bind( this ), 2000 );
+            if ( this.moving === true )
+            {
+                _.delay( this.tickIa.bind( this ), _.random( 600, 1400 ) );
+            }
+            else
+            {
+                _.delay( this.tickIa.bind( this ), 800 );
+            }
+        }
+
+        return;
+    }
+
+    toggleMoving()
+    {
+        if ( this.moving === false )
+        {
+            this.moving = true;
+        }
+        else
+        {
+            this.moving = false;
         }
 
         return;
@@ -154,12 +180,20 @@ class Monster extends Entity
 
     isOneshot()
     {
-        return true;
+        return this.oneshot;
     }
 
     isDesctruct()
     {
         return true;
+    }
+
+    die()
+    {
+        this.oneshot = false;
+        super.die();
+
+        return;
     }
 
 }

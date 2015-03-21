@@ -196,6 +196,11 @@ class Entity
 
     hasMoved()
     {
+        if ( _.contains( config.map.ia, this.constructor.name ) === true )
+        {
+            this.updatePositionOnTiledMap();
+        }
+
         if ( this.hasmoved_callback )
         {
             this.hasmoved_callback( this );
@@ -261,6 +266,35 @@ class Entity
     canMove( deplacement )
     {
         return !this.isHittingBlock( this.nextPosition( deplacement ) );
+    }
+
+    updatePositionOnTiledMap()
+    {
+        var pos = this.getCurrentTilde(),
+            tiledMapEnemy = this.game.mapTemplate.tiledMapEnemy;
+
+        tiledMapEnemy[ pos.y ][ pos.x ] = this;
+
+        return;
+    }
+
+    getBlockEnemy( entity )
+    {
+        var pos = entity.getCurrentTilde(),
+            tiledMapEnemy, resultEnemy;
+
+        tiledMapEnemy = this.game.mapTemplate.tiledMapEnemy;
+
+        try
+        {
+            resultEnemy = tiledMapEnemy[ pos.y ][ pos.x ];
+        }
+        catch ( ex )
+        {
+            console.log( ex );
+        }
+
+        return resultEnemy;
     }
 
     getBlock( entity )

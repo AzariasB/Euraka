@@ -391,20 +391,24 @@ class Stage
                     // chope case au hasard
                     index = Math.floor( Math.random() * tab[ tabToRead ].length );
 
-                    b = new C( this.game, tab[ tabToRead ][ index ][ 0 ], tab[ tabToRead ][ index ][ 1 ] );
+                    if ( tools.isset( tab[ tabToRead ][ index ] ) === true && tools.isset( tab[ tabToRead ][ index ][ 0 ] ) === true && tools.isset( tab[ tabToRead ][ index ][ 1 ] ) === true )
+                    {
+                        b = new C( this.game, tab[ tabToRead ][ index ][ 0 ], tab[ tabToRead ][ index ][ 1 ] );
 
-                    if ( _.contains( config.map.ia, b.constructor.name ) === true )
-                    {
-                        this.tabEnemyEntity.push( b );
-                    }
-                    else
-                    if ( _.contains( config.map.energy, b.constructor.name ) === true )
-                    {
-                        this.tabEnergyEntity.push( b );
-                    }
-                    else
-                    {
-                        this.tabEntities.push( b );
+                        if ( _.contains( config.map.ia, b.constructor.name ) === true )
+                        {
+                            this.tabEnemyEntity.push( b );
+                        }
+                        else
+                        if ( _.contains( config.map.energy, b.constructor.name ) === true )
+                        {
+                            this.tabEnergyEntity.push( b );
+                        }
+                        else
+                        {
+                            this.tabEntities.push( b );
+                        }
+
                     }
 
                     tab[ tabToRead ].splice( index, 1 );
@@ -541,7 +545,6 @@ class Stage
         {
             this.call_back_init();
         }
-
 
         return;
     }

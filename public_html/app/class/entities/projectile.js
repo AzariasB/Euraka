@@ -45,9 +45,10 @@ class Projectile extends Entity
 
     hasHit()
     {
-        var block, remove;
+        var block, remove, blockEnemy;
 
         block = this.getBlock( this.nextPosition( config.map.tileSize / 2 ) );
+        blockEnemy = this.getBlockEnemy( this.nextPosition( config.map.tileSize / 2 ) );
 
         // Si le block peut se détruire
         if ( tools.isset( block ) === true )
@@ -63,14 +64,21 @@ class Projectile extends Entity
             {
                 remove = true;
             }
+        }
 
-            if ( remove === true )
-            {
-                // Suppression du projectile
-                this.moving = false;
-                tools.tabRemoveEl( this.game.mapTemplate.getTabEntitiesToUpdate(), this );
-                tools.tabRemoveEl( this.game.mapTemplate.getTabEntities(), this );
-            }
+        // Si le block peut se détruire
+        if ( tools.isset( blockEnemy ) === true && blockEnemy !== 0 )
+        {
+            blockEnemy.die();
+            remove = true;
+        }
+
+        if ( remove === true )
+        {
+            // Suppression du projectile
+            this.moving = false;
+            tools.tabRemoveEl( this.game.mapTemplate.getTabEntitiesToUpdate(), this );
+            tools.tabRemoveEl( this.game.mapTemplate.getTabEntities(), this );
         }
 
         return;

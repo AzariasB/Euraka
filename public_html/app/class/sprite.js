@@ -127,11 +127,20 @@ class Sprite
         }
         else
         // Hack source lumière
-        if ( this.code.indexOf( config.nomsEntitee.BLOCK_PRISE ) > -1 )
+        if ( this.code.indexOf( config.nomsEntitee.BLOCK_LUMIERE ) > -1 )
         {
-            x = x + 8;
-            y = y - 40;
+            x = x - 4;
+            y = y - 15 - ( 3 * config.map.blockSize );
         }
+        // else
+        // // Hack source lumière
+        // if ( this.code.indexOf( config.nomsEntitee.BLOCK_PIEGE ) > -1 )
+        // {
+        //     width = width + 10;
+        //     x = x - 5;
+        //     height = height + 10;
+        //     y = y - 5;
+        // }
 
         // On recentre les chats
         if ( this.code.indexOf( config.nomsEntitee.CHAT ) > -1 )

@@ -177,19 +177,33 @@ class MapTemplate
     {
         // console.log("Nombre d'entités : " + this.stage.getTabEntities().length);
         this.tiledMap = [];
+        this.tiledMapEnemy = [];
 
         for ( var y = 0; y < this.stage.getNbTuilesHauteur(); y++ )
         {
             this.tiledMap[ y ] = [];
+            this.tiledMapEnemy[ y ] = [];
             for ( var x = 0; x < this.stage.getNbTuilesLargeur(); x++ )
             {
                 this.tiledMap[ y ][ x ] = 0;
+                this.tiledMapEnemy[ y ][ x ] = 0;
             }
         }
 
         _.each( this.tabEntities, function( item, key )
         {
-            this.tiledMap[ item.y ][ item.x ] = item;
+            // on ne met pas les ennemie qui bougent dedans
+            if ( _.contains( config.map.ia, item.constructor.name ) === false )
+            {
+                this.tiledMap[ item.y ][ item.x ] = item;
+            }
+            //            if(item.y >= 9)
+            //            console.log(" x : " + item.x + " - y : " + item.y + " -Nom : " + item.constructor.name);
+        }, this );
+
+        _.each( this.tabEntitiesIA, function( item, key )
+        {
+            this.tiledMapEnemy[ item.y ][ item.x ] = item;
             //            if(item.y >= 9)
             //            console.log(" x : " + item.x + " - y : " + item.y + " -Nom : " + item.constructor.name);
         }, this );
@@ -252,7 +266,16 @@ class MapTemplate
         {
             self.centerMap();
 
-            var block = self.character.getBlock( self.character );
+            if ( self.game.gameController.getCurrentCodeStage() === 'tuto' )
+            {
+                _.each( self.tabEntitiesIA, function( item )
+                {
+                    item.runIa();
+                } );
+            }
+
+            var block = self.character.getBlock( self.character ),
+                blockEnemy = self.character.getBlockEnemy( self.character );
 
             if ( tools.isset( block ) === true )
             {
@@ -265,6 +288,14 @@ class MapTemplate
                 {
                     self.character.setKikette();
                     block.die();
+                }
+            }
+
+            if (tools.isset( blockEnemy ) === true )
+            {
+                if ( tools.isset( blockEnemy.isOneshot ) === true && blockEnemy.isOneshot() === true )
+                {
+                    self.character.die();
                 }
             }
 
@@ -556,7 +587,7 @@ class MapTemplate
             tick = Math.round( this.tileSize / ( e.moveSpeed / ( 1000 / this.realFPS ) ) );
 
             // Lag or.. ?
-            if ( tick < 10 && e.isAlive() === true && e.isMoving() === true && e.canMove( tick ) === true )
+            if ( tick < config.map.tileSize && e.isAlive() === true && e.isMoving() === true && e.canMove( tick ) === true )
             {
                 if ( e.orientation === config.orientations.LEFT )
                 {

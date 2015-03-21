@@ -16,6 +16,8 @@ class Block extends Entity
 
         this.collisionel = collisionel;
 
+        this.active = true;
+
         return;
     }
 
@@ -35,6 +37,18 @@ class Block extends Entity
     remove()
     {
         tools.tabRemoveEl( this.game.mapTemplate.getTabEntities(), this );
+
+        return;
+    }
+
+    isActive()
+    {
+        return this.active;
+    }
+
+    disable()
+    {
+        this.active = false;
 
         return;
     }

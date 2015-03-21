@@ -24,7 +24,7 @@ module.exports = {
         "tileSize": 54,
         "speed": 550,
         "speedMonster": 250,
-        "speedProjectile": 250,
+        "speedProjectile": 100,
         "ia": ['Chat','Velo'],
         "energy": ['Prise'],
         "music": {
@@ -72,7 +72,7 @@ module.exports = {
         "BLOCK_BORD_START_END" : "bordure_start_end",
         "BLOCK_MUR" : "mur_",
         "BLOCK_PIEGE" : "piege_",
-        "BLOCK_PRISE" : "rayon_lumiere",
+        "BLOCK_HALO_LUMIERE" : "prise",
         "BLOCK_LUMIERE" : "rayon_lumiere",
         "BLOCK_PAILLE" : "paille",
         "BLOCK_ENTREE" : "start_end_halo_",
