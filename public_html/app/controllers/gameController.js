@@ -29,8 +29,8 @@ class GameController
 
         this.game.stageTime = 0;
         this.game.runTime = 0;
-        this.stageTimer = new Timer( this.tickStageTimer.bind( this ), 1000 );
-        this.runTimer = new Timer( this.tickRunTimer.bind( this ), 1000 );
+        this.stageTimer = null;
+        this.runTimer = null;
         this.resetTimer();
 
         return;
@@ -66,6 +66,7 @@ class GameController
 
     tickRunTimer()
     {
+        console.log('yo');
         this.game.runTime = this.game.runTime + 1;
         this.runTimer.resume();
 
@@ -74,8 +75,8 @@ class GameController
 
     resetTimer()
     {
-        this.stageTimer.pause();
-        this.runTimer.pause();
+        this.stageTimer = new Timer( this.tickStageTimer.bind( this ), 1000 );
+        this.runTimer = new Timer( this.tickRunTimer.bind( this ), 1000 );
 
         this.game.stageTime = 0;
         this.game.runTime = 0;

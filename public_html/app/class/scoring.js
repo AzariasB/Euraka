@@ -216,8 +216,8 @@ class Scoring
     // Début du niveau
     startLevel()
     {
-        this.updateScore();
         this.levelScore = config.scoring.BEGIN_LEVEL;
+        this.updateScore();
         return;
     }
 
