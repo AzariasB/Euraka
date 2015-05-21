@@ -71,9 +71,10 @@ Browserify créer un bundle composé de tous les fichiers JS, watchify identifie
 
 ### Dev space
 
-You can download assets for Euraka here :
-[Map generator](http://www.thegamehasbegun.com/download/euraka-map.zip/assets/download/euraka-map.zip)
+You can download assets for Euraka here
 [Assets](http://www.thegamehasbegun.com/download/euraka-assets.zip/assets/download/euraka-assets.zip)
+and
+[Map generator](http://www.thegamehasbegun.com/download/euraka-map.zip/assets/download/euraka-map.zip)
 
 1. Install [node](https://nodejs.org/)
 1. `git clone` project and `cd` into project
