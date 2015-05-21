@@ -69,29 +69,33 @@ La librairie Ractive permet le d'afficher des templates en précompilant le JS, 
 Browserify créer un bundle composé de tous les fichiers JS, watchify identifie chaque modification de fichier pour ne lancer la compilation du bundle que sur la partie modifiée, babel converti le code ES6 en ES5.
 
 
-### Dev starting
+### Dev space
 
+You can download assets for Euraka here :
 [Map generator](http://www.thegamehasbegun.com/download/euraka-map.zip/assets/download/euraka-map.zip)
 [Assets](http://www.thegamehasbegun.com/download/euraka-assets.zip/assets/download/euraka-assets.zip)
 
-
-Install node
-
+1. Installer [node](https://nodejs.org/)
+1. `git clone` project and `cd` into project
+1. run these commande line **IMPORTANT** `sudo` or `Administrateur`
 ```
 npm i -g npm-install-missing gulp
 npm-install-missing
 npm i --save ractive underscore
 ```
 
-**Start server**
+## Commandes
+### Open one console for start server
 ```
 gulp connect
 ```
-**Start watchify**
+### Open one console for build and watch js file
 ```
 gulp js
 ```
-**Executable for win, linux, mac**
+
+
+### Deploiments **executable for win, linux, mac**
 ```
 gulp build
 ```
