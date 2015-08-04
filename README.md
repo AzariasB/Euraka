@@ -27,8 +27,8 @@ Theme : light *(UNESCO)*
 ##Todo
 - [ ] Bugs
   - [x] Super call bug
-  - [x] display bug
-  - [ ] Death bug
+  - [x] Display bug
+  - [x] Death bug
   - [ ] Bale of straw bug
 - [ ] Updates
   - [ ] Cats moves
