@@ -41,7 +41,8 @@ class Monster extends Entity
             var block = self.getBlock( self );
 
             // Suppression du friendly fire
-            if ( tools.isset( block ) === true && _.contains( config.map.ia, block.constructor.name ) === false && tools.isset( block.isOneshot ) === true && block.isOneshot() === true )
+            if ( tools.isset( block ) && !_.contains( config.map.ia, block.constructor.name )
+                && block.isOneshot && block.isOneshot())
             {
                 self.die();
             }
@@ -88,8 +89,7 @@ class Monster extends Entity
             i = i + 1;
         }
 
-        // this.orientation = config.orientations.LEFT;
-        // console.log(this.orientation);
+
 
         // relance le déplacement si la map n'est pas stopée
         if ( this.game.mapTemplate.getIsStop() === false )
@@ -109,15 +109,7 @@ class Monster extends Entity
 
     toggleMoving()
     {
-        if ( this.moving === false )
-        {
-            this.moving = true;
-        }
-        else
-        {
-            this.moving = false;
-        }
-
+        this.moving = !this.moving;
         return;
     }
 

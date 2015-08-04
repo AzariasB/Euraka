@@ -268,7 +268,7 @@ class MapTemplate
 
             if ( self.game.gameController.getCurrentCodeStage() === 'tuto' )
             {
-                _.each( self.tabEntitiesIA, function( item )
+                _.each( self.tabEntitiesIA, function( item,key )
                 {
                     item.runIa();
                 } );
@@ -296,7 +296,13 @@ class MapTemplate
             {
                 if ( tools.isset( blockEnemy.isOneshot ) === true && blockEnemy.isOneshot() === true )
                 {
-                    tools.isDebug() && console.log("Chat à tué");
+                    if(tools.isDebug()){
+                        var charPos = self.character.getCurrentTilde();
+                        var chatPos = blockEnemy.getCurrentTilde();
+                        console.log("Chat a tué");
+                        console.log("Coordonées du joueur [x,y] :" + charPos.x + "," + charPos.y);
+                        console.log("Coordonées du chat : [x,y] : " + chatPos.x + "," + chatPos.y);
+                    }                    
                     self.character.die();
                 }
             }
@@ -592,7 +598,7 @@ class MapTemplate
     {
         // Estimate of the movement distance for one update
         var tick = 0;
-
+        var self = this;
         _.each( this.tabEntitiesToUpdate, function( e )
         {
             // console.log(e.constructor.name);
@@ -607,6 +613,7 @@ class MapTemplate
 
             if ( tick < config.map.tileSize && e.isAlive() === true && e.isMoving() === true && e.canMove( tick ) === true )
             {
+                var before = e.getCurrentTilde();
                 if ( e.orientation === config.orientations.LEFT )
                 {
                     e.moveX = e.moveX - tick;
@@ -625,6 +632,19 @@ class MapTemplate
                 if ( e.orientation === config.orientations.DOWN )
                 {
                     e.moveY = e.moveY + tick;
+                }
+                var after = e.getCurrentTilde();
+                
+                //Quand on est plus sur la même case
+                if(before.x !== after.x || before.y !== after.y){
+                    if(e.constructor.name === 'Chat'){
+                        try{
+                            self.tiledMapEnemy[before.y][before.x] = 0;
+                            self.tiledMapEnemy[after.y][after.x] = e;
+                        }catch(ex){
+                            console.error(ex);
+                        }
+                    }
                 }
 
                 e.hasMoved();
