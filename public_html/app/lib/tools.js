@@ -117,7 +117,7 @@ var fadeIn = function( el, callback, options )
 
     return;
 };
-
+log
 var empty = function( el )
 {
     el = convertToElement( el );

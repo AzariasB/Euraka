@@ -279,6 +279,9 @@ class Entity
         return;
     }
 
+    /*
+    Récupère la tile (ennemy càd IA) positionné au même endroit que l'entité en question
+    */
     getBlockEnemy( entity )
     {
         var pos = entity.getCurrentTilde(),
@@ -290,14 +293,17 @@ class Entity
         {
             resultEnemy = tiledMapEnemy[ pos.y ][ pos.x ];
         }
-        catch ( ex )
+        catch ( ex ) // Au cas où les coordonées sont trop grande et ne tiennent pas dans le tableau
         {
-            console.log( ex );
+            console.error( ex );
         }
 
         return resultEnemy;
     }
 
+    /*
+    Récupère la tile fixe (un bloc solide) positionné au même endroit que l'entité en question
+    */
     getBlock( entity )
     {
         var pos = entity.getCurrentTilde(),
@@ -322,7 +328,7 @@ class Entity
         var block = this.getBlock( entityMoved ),
             result = false;
 
-        return tools.isset( block ) === true && tools.isset( block.isCollisionel ) === true && block.isCollisionel() === true;
+        return tools.isset( block ) && tools.isset( block.isCollisionel ) && block.isCollisionel();
     }
 
 }

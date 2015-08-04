@@ -246,7 +246,7 @@ class MapTemplate
         Mousetrap.bind( 'a', this.character.addRayonEclairage.bind( this.character ), 'keydown' );
         Mousetrap.bind( 'z', this.character.lanceProjectile.bind( this.character ), 'keydown' );
         Mousetrap.bind( 'e', this.character.addEnergy.bind( this.character ), 'keydown' );
-        Mousetrap.bind( 'q', this.game.gameController.showVictoire.bind( this.game.gameController ), 'keydown' );
+        tools.isDebug() && Mousetrap.bind( 'q', this.game.gameController.showVictoire.bind( this.game.gameController ), 'keydown' );
 
         if ( tools.isDebug() === true )
         {
@@ -281,6 +281,7 @@ class MapTemplate
             {
                 if ( tools.isset( block.isOneshot ) === true && block.isOneshot() === true )
                 {
+                    tools.isDebug() && console.log("Piège a tué");
                     self.character.die();
                 }
                 else
@@ -295,6 +296,7 @@ class MapTemplate
             {
                 if ( tools.isset( blockEnemy.isOneshot ) === true && blockEnemy.isOneshot() === true )
                 {
+                    tools.isDebug() && console.log("Chat à tué");
                     self.character.die();
                 }
             }
@@ -314,15 +316,10 @@ class MapTemplate
     {
         var el = document.getElementById( 'l-main' ),
             elStyle = window.getComputedStyle( el );
-        console.log(elStyle.width);
-        console.log(elStyle.height);
         
 
         this.canvas.width = elStyle.width.replace( 'px', '' );
         this.canvas.height = elStyle.height.replace( 'px', '' );
-
-        console.log(this.canvas.width);
-        console.log(this.canvas.height);
 
         return;
     }
@@ -542,16 +539,26 @@ class MapTemplate
      */
     drawFps()
     {
-        var pos = this.character.calcPos(),
+        var pos = this.character.calcAbsPos(),
+                coord = this.character.getCurrentTilde(),
             x = 140;
 
         this.context.textAlign = 'left';
         this.context.font = '14pt Impact';
         this.context.fillStyle = "#00FF00";
         this.context.fillText( "FPS : " + this.realFPS, x, 90 );
-        this.context.fillText( "Char [x, y] : " + this.character.x + ', ' + this.character.y, x, 120 );
+        this.context.fillText( "Char [x, y] : " + coord.x + ', ' + coord.y, x, 120 );
         this.context.fillText( "Char [pos.x, pos.y] : " + pos.x + ', ' + pos.y, x, 150 );
-        this.context.fillText( "Stage [x, y] : " + this.stage.x + ', ' + this.stage.y, x, 190 );
+        //this.context.fillText( "Stage [x, y] : " + this.stage.x + ', ' + this.stage.y, x, 190 );
+        var yText = 180;
+        
+        var Cats = this.getEntitiesByName("Chat");
+        var self = this;
+        _.each(Cats,function(cat){
+            var tile = cat.getCurrentTilde();
+            self.context.fillText("Chat [x,y] : " + tile.x + "," + tile.y ,x,yText);
+            yText += 30;
+        });
 
         return;
     }

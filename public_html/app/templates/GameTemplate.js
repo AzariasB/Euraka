@@ -79,7 +79,7 @@ class GameTemplate
         this.game.soundManager.fadeOutSound( this.game.sounds.currentSound );
 
         this.game.musicManager.setTabSound( config.map.music.tabDefaultMusics );
-        this.game.musicManager.play();
+        !tools.isDebug() && this.game.musicManager.play();
 
         this.game.gameController.start();
 
@@ -193,7 +193,7 @@ class GameTemplate
         var cinematiqueGameSound = this.game.preloader.getAsset( 'sound', 'musiques/fin.mp3' );
         this.game.sounds.cinematiqueGame = cinematiqueGameSound.getObj();
         this.game.sounds.currentSound = this.game.sounds.cinematiqueGame;
-        this.game.soundManager.fadeInSound( this.game.sounds.currentSound );
+        !tools.isDebug() && this.game.soundManager.fadeInSound( this.game.sounds.currentSound );
 
         tools.fadeOut( 'l-main', function()
         {
