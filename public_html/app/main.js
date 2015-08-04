@@ -41,7 +41,9 @@ game.introTemplate = new IntroTemplate( game );
 game.gameController = new GameController( game );
 
 // Démarage du jeu
-game.introTemplate.start();
+!tools.isDebug() && game.introTemplate.start();
+tools.isDebug() && game.gameController.start();
+
 
 if ( tools.isDebug() === true )
 {

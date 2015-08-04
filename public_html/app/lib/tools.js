@@ -8,7 +8,8 @@ require( 'lib/raf.js' );
 
 var isDebug = function()
 {
-    return false;
+    var debug = true;
+    return debug;
 };
 var isLocalhost = function()
 {
@@ -494,7 +495,6 @@ var removeOverlay = function( callback, options )
 // Fusion de fichier json
 var merge = function()
 {
-    'use strict';
     var destination = {},
         sources = [].slice.call( arguments, 0 );
     sources.forEach( function( source )

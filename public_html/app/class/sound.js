@@ -11,6 +11,7 @@ class Sound extends Asset
 {
     constructor( path )
     {
+        super()
         this.path = path;
         this.pathBase = config.paths.audio;
 

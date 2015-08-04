@@ -16,34 +16,26 @@ class Mur extends Block
 
     constructor( game, x, y, width, heigh )
     {
-
         var data = {};
         data.x = x;
         data.y = y;
         data.width = config.map.blockSize;
         data.height = config.map.blockSize;
+        
+        var stage = game.stage;
+        super( game,
+                stage.getStyle() + config.nomsEntitee.BLOCK_MUR + '0' +
+                tools.tabRandom(
+                    stage.getStyle() === 'prehi_' ?
+                        [1] :
+                        _.range(1,4)
+                    )
+            , data, true );
+
 
         //Changer le nom du sprite
-        super( game, this.getSpriteName( game.stage ), data, true );
     }
 
-    getSpriteName( stage )
-    {
-        var alternatives;
-
-        // 1 skin pour la préhistoire
-        if ( stage.getStyle() === 'prehi_' )
-        {
-            alternatives = [1];
-        }
-        // 3 skins
-        else
-        {
-            alternatives = _.range( 1, 4 );
-        }
-
-        return stage.getStyle() + config.nomsEntitee.BLOCK_MUR + '0' + tools.tabRandom( alternatives );
-    }
 }
 
 module.exports = Mur;

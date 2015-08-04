@@ -15,18 +15,20 @@ class Monster extends Entity
 {
     constructor( game, name, file, data )
     {
+
+        var anim = new Animation( 2 );
+        anim.setSpeed( 150 );
+        super( game, name, 'game', data,anim );
+
         // Gestion du déplacement
         this.movement = new Transition();
         // Gestion des sprites animés A FAIRE AVANT getSprite
-        this.animation = new Animation( 2 );
-        this.animation.setSpeed( 150 );
         this.speed = 100;
 
         // On pose un block sol dessous sinon pb avec transparence
         var sol = new Sol( game, data.x, data.y );
         game.stage.pushTabEntities( sol );
 
-        super( game, name, 'game', data );
 
         this.followingPlayer = false;
         this.target = false;

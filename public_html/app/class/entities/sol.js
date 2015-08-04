@@ -23,30 +23,19 @@ class Sol extends Block
         data.width = config.map.blockSize;
         data.height = config.map.blockSize;
 
+        
+        var stage = game.stage;
+        super( game,
+            stage.getStyle() + config.nomsEntitee.BLOCK_SOL + '_0' + tools.tabRandom(
+                stage.getStyle() === 'prehi_' ?
+                    _.range(1,4) :
+                    _.range(1,3)
+                ) ,
+            data, false );
+
         //Changer le nom du sprite
-        super( game, this.getSpriteName( game.stage ), data, false );
     }
 
-    /**
-     * Skin alternatif
-     */
-    getSpriteName( stage )
-    {
-        var alternatives;
-
-        // 3 skins pour la préhistoire
-        if ( stage.getStyle() === 'prehi_' )
-        {
-            alternatives = _.range( 1, 4 );
-        }
-        // 2 skins
-        else
-        {
-            alternatives = _.range( 1, 3 );
-        }
-
-        return stage.getStyle() + config.nomsEntitee.BLOCK_SOL + '_0' + tools.tabRandom( alternatives );
-    }
 }
 
 module.exports = Sol;

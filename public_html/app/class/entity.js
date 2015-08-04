@@ -10,7 +10,7 @@ var _ = require( 'underscore' );
 
 class Entity
 {
-    constructor( game, code, file, data )
+    constructor( game, code, file, data ,animation = undefined)
     {
         this.game = game;
         this.code = code; // nom du sprite
@@ -20,6 +20,8 @@ class Entity
         this.y = data.y;
         this.moveX = 0;
         this.moveY = 0;
+        
+        this.animation = animation;
 
         this.width = data.width;
         this.height = data.height;
@@ -62,7 +64,7 @@ class Entity
 
     getEndSpriteName()
     {
-        return this.orientation + '_' + this.animation.getCurrentFrame();
+        return this.orientation + '_' +  this.animation.getCurrentFrame();
     }
 
     getCurrentSprite()

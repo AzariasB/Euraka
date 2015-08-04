@@ -11,6 +11,7 @@ class Img extends Asset
 {
     constructor( path )
     {
+        super()
         this.path = path;
         this.pathBase = config.paths.img;
 

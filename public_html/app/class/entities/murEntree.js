@@ -22,9 +22,10 @@ class MurEntree extends Block
         data.y = y;
         data.width = config.map.blockSize;
         data.height = config.map.blockSize;
+        
+        super( game, game.stage.getStyle() + config.nomsEntitee.BLOCK_BORD_START_END, data, true );
 
         //Changer le nom du sprite
-        super( game, this.getSpriteName( game.stage ), data, true );
     }
 
     /**

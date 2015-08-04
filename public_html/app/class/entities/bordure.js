@@ -16,14 +16,13 @@ class Bordure extends Block
 
     constructor( game, x, y, width, heigh )
     {
-
         var data = {};
         data.x = x;
         data.y = y;
         data.width = config.map.blockSize;
         data.height = config.map.blockSize;
+        super( game, game.stage.getStyle() + config.nomsEntitee.BLOCK_BORDURE , data, true );
 
-        super( game, this.getSpriteName( game.stage ), data, true );
     }
 
     getSpriteName( stage )

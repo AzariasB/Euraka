@@ -16,12 +16,18 @@ class Character extends Entity
 {
     constructor( game, x, y, speed )
     {
+
         var data = {};
         data.x = x;
         data.y = y;
         data.speed = speed;
         data.width = config.map.characterSize;
         data.height = config.map.characterSize;
+
+        var anim = new Animation(4);
+        anim.setSpeed(150);
+        
+        super( game, config.nomsEntitee.JOUEUR, 'game', data,anim );
 
         // Arrow keys
         this.nbInput = 0;
@@ -30,10 +36,7 @@ class Character extends Entity
         // Gestion du déplacement
         // this.movement = new Transition();
         // Gestion des sprites animés  A FAIRE AVANT getSprite
-        this.animation = new Animation( 4 );
-        this.animation.setSpeed( 150 );
 
-        super( game, config.nomsEntitee.JOUEUR, 'game', data );
 
         this.energy = config.energie.JAUGE_START;
         this.rayon_ecl = 1;

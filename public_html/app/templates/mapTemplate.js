@@ -314,9 +314,15 @@ class MapTemplate
     {
         var el = document.getElementById( 'l-main' ),
             elStyle = window.getComputedStyle( el );
+        console.log(elStyle.width);
+        console.log(elStyle.height);
+        
 
         this.canvas.width = elStyle.width.replace( 'px', '' );
         this.canvas.height = elStyle.height.replace( 'px', '' );
+
+        console.log(this.canvas.width);
+        console.log(this.canvas.height);
 
         return;
     }

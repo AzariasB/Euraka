@@ -17,13 +17,13 @@ class Entree extends Block
 {
 
     constructor( game, x, y, width, heigh )
-    {
-
+    {        
         var data = {};
         data.x = x;
         data.y = y;
         data.width = config.map.entreeSize;
         data.height = config.map.entreeSize;
+        super( game, config.nomsEntitee.BLOCK_ENTREE + 'DOWN', data, false );
 
         // On pose un block sol dessous sinon pb avec transparence
         var sol = new Sol( game, x, y );
@@ -31,7 +31,7 @@ class Entree extends Block
 
         // @TODO
         // Définir l'orientation du halo dans Stage@init...
-        super( game, this.getSpriteName( game.stage ), data, false );
+
     }
 
     getSpriteName( stage )

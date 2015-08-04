@@ -19,6 +19,7 @@ class Prise extends Block
         data.y = y;
         data.width = 180;
         data.height = 233;
+        super( game, config.nomsEntitee.BLOCK_LUMIERE, data, false );
 
         // On pose un block sol dessous car on peut la faire disparaitre
         var sol = new Sol( game, x, y );
@@ -33,7 +34,7 @@ class Prise extends Block
         this.haloLum = new Block( game, config.nomsEntitee.BLOCK_HALO_LUMIERE, dataHalo, false );
         game.stage.pushTabEntities( this.haloLum );
 
-        super( game, config.nomsEntitee.BLOCK_LUMIERE, data, false );
+
     }
 
     isAddEnergy()
