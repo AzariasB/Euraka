@@ -119,7 +119,7 @@ class Sprite
             return;
         }
 
-        // Hack du gros cul d'Euraka
+        // Hack du gros Euraka
         if ( this.code.indexOf( config.nomsEntitee.JOUEUR + config.orientations.UP ) > -1 ||
             this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.DOWN ) > -1 )
         {
@@ -144,17 +144,23 @@ class Sprite
         if ( this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.UP ) > -1 ||
             this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.DOWN ) > -1 )
         {
-            x = x + 27;
+            x = x + 1;
         }else
         if ( this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.LEFT ) > -1 ||
             this.code.indexOf( config.nomsEntitee.CHAT + config.orientations.RIGH ) > -1 )
         {
-            y = y - 27;
+            y = y + 10;
         }
 
         this.context.drawImage( this.img, this.x, this.y, this.width, this.height, x, y, width, height );
 
         return;
+    }
+
+    debug(x,y,width,height){
+        this.context.rect(x,y,width,height);
+        this.context.fillRect(x,y,10,10);
+        this.context.stroke();
     }
 
     blink( speed, callback )

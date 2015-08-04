@@ -556,15 +556,8 @@ class MapTemplate
         this.context.fillText( "Char [x, y] : " + coord.x + ', ' + coord.y, x, 120 );
         this.context.fillText( "Char [pos.x, pos.y] : " + pos.x + ', ' + pos.y, x, 150 );
         //this.context.fillText( "Stage [x, y] : " + this.stage.x + ', ' + this.stage.y, x, 190 );
-        var yText = 180;
-        
-        var Cats = this.getEntitiesByName("Chat");
-        var self = this;
-        _.each(Cats,function(cat){
-            var tile = cat.getCurrentTilde();
-            self.context.fillText("Chat [x,y] : " + tile.x + "," + tile.y ,x,yText);
-            yText += 30;
-        });
+
+
 
         return;
     }

@@ -51,6 +51,19 @@ class Monster extends Entity
         return;
     }
 
+    draw(){
+        super.draw();
+
+        var pos = this.calcPos();
+
+        if(tools.isDebug()){
+            this.sprite.debug(pos.x,pos.y,this.width,this.height);
+        }
+
+
+        return;
+    }
+
     runIa()
     {
         // delay avant d'actionner l'ia dans le tuto
