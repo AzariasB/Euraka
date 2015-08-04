@@ -24,6 +24,10 @@ Parcourant les moments clefs de l'Histoire, peut-être trouvera t-il ce qu'il se
 Grenoble Game Jam 48h in [La Casemate](http://lacasemate.fr/) - 2015
 Theme : light *(UNESCO)*
 
+##Todo
+[ ] Correcting death bug
+[ ] Correcting bale of straw bug
+[ ] Correcting cats moves
 
 ## Architecture development
 
