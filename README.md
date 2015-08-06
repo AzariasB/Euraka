@@ -31,7 +31,8 @@ Theme : light *(UNESCO)*
   - [x] Death bug
   - [x] Bale of straw bug
   - [x] Lightening bug
-  - [ ] Cat-don't-kill bug
+  - [x] Cat-don't-kill bug
+  - [ ] FrameRate Drop (falling to 10fps !)
 - [ ] Updates
   - [ ] Cats moves
   - [ ] Map rotation
