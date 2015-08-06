@@ -33,6 +33,7 @@ Theme : light *(UNESCO)*
   - [x] Lightening bug
   - [x] Cat-don't-kill bug
   - [ ] FrameRate Drop (falling to 10fps !)
+  - [ ] Lightening creation bug
 - [ ] Updates
   - [ ] Cats moves
   - [ ] Map rotation
