@@ -192,7 +192,7 @@ class Character extends Entity
         var self = this,
             marge = config.map.tileSize / 2;
 
-        if ( this.getEnergy() > 0 && this.peutLancerProjectile === true )
+        if ( this.getEnergy() > 0 && this.peutLancerProjectile )
         {
             this.peutLancerProjectile = false;
             this.energy = this.energy - 1;

@@ -226,6 +226,11 @@ class Entity
         {
             tools.tabRemoveEl( self.game.mapTemplate.getTabEntitiesToUpdate(), self );
             tools.tabRemoveEl( self.game.mapTemplate.getTabEntities(), self );
+            var coord = self.getCurrentTilde();
+            if(self.game.mapTemplate.tiledMap[coord.y][coord.x] == self){
+                //Effaçage de l'entité sur la carte
+                self.game.mapTemplate.tiledMap[coord.y][coord.x] = 0;
+            }
         }, 800 );
 
         return;

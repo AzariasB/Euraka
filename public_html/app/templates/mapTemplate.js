@@ -248,7 +248,7 @@ class MapTemplate
         Mousetrap.bind( 'e', this.character.addEnergy.bind( this.character ), 'keydown' );
         tools.isDebug() && Mousetrap.bind( 'q', this.game.gameController.showVictoire.bind( this.game.gameController ), 'keydown' );
 
-        if ( tools.isDebug() === true )
+        if ( tools.isDebug() )
         {
             Mousetrap.bind( '=', function()
             {
@@ -488,16 +488,15 @@ class MapTemplate
             characterWidth = Math.round( this.character.getWidth() / 2 ),
             charPos = this.character.calcPos();
 
-        if ( tools.isDebug() === true )
-        {
-            sizeRayon = 2000;
-        }
+
+        //tools.isDebug() && (sizeRayon = 2000);
+
 
         // On dessine un cercle à la position du joueur pour en faire un clip
         this.context.beginPath();
         this.context.arc( charPos.x + characterWidth, charPos.y + characterWidth, sizeRayon / 2.2, 0, Math.PI * 2, true );
         this.context.closePath();
-        this.context.clip();
+        !tools.isDebug() && this.context.clip();
 
         // On dessinne le monde en couleur dans le clip
         this.drawEntities();
@@ -511,7 +510,7 @@ class MapTemplate
             "width": sizeRayon,
             "height": sizeRayon
         } );
-        this.halo.draw();
+        !tools.isDebug() && this.halo.draw();
 
         // On restore l'ensemble du canvas pour ne plus dessiner uniquement dans le clip
         this.context.restore();

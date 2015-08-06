@@ -22,9 +22,7 @@ class Destructible extends Block
     isDestruct()
     {
         this.setCollision( false );
-        this.remove();
-        // this.setCurrentSprite( getCurrentSprite() + 1 );
-
+        super.die();
         return;
     }
 }
