@@ -29,7 +29,8 @@ Theme : light *(UNESCO)*
   - [x] Super call bug
   - [x] Display bug
   - [x] Death bug
-  - [ ] Bale of straw bug
+  - [x] Bale of straw bug
+  - [ ] Lightening bug
 - [ ] Updates
   - [ ] Cats moves
   - [ ] Map rotation
