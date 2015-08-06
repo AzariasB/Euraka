@@ -30,7 +30,8 @@ Theme : light *(UNESCO)*
   - [x] Display bug
   - [x] Death bug
   - [x] Bale of straw bug
-  - [ ] Lightening bug
+  - [x] Lightening bug
+  - [ ] Cat-don't-kill bug
 - [ ] Updates
   - [ ] Cats moves
   - [ ] Map rotation
