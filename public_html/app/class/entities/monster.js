@@ -91,6 +91,11 @@ class Monster extends Entity
             len = tabOrientations.length;
 
         this.toggleMoving();
+        var mCoord = this.getCurrentTilde();
+        var pCoord = this.game.character.getCurrentTilde();
+        if(mCoord.x === pCoord.x && mCoord.y === pCoord.y){
+            this.game.character.die();
+        }
 
         // Tant qu'on ne peut pas bouger, on cherche l'orientation adéquate
         while ( this.canMove( config.map.tileSize / 2 ) === false && i < len - 1 )
