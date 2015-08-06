@@ -25,7 +25,7 @@ class Projectile extends Entity
 
         this.portee = config.projectile.PORTEE;
 
-        if ( tools.isset( this.game.sounds.tirSound ) === false )
+        if ( !this.game.sounds.tirSound )
         {
             var tirSound = this.game.preloader.getAsset( 'sound', 'sons/tir.mp3' );
             this.game.sounds.tirSound = tirSound.getObj();
@@ -51,29 +51,29 @@ class Projectile extends Entity
         blockEnemy = this.getBlockEnemy( this.nextPosition( config.map.tileSize / 2 ) );
 
         // Si le block peut se détruire
-        if ( tools.isset( block ) === true )
+        if ( block  )
         {
-            if ( tools.isset( block.isDestruct ) === true )
+            if ( tools.isset( block.isDestruct ))
             {
                 // Destruction du block
                 block.isDestruct();
                 remove = true;
             }
             else
-            if ( tools.isset( block.isCollisionel ) === true && block.isCollisionel() === true )
+            if ( block.isCollisionel && block.isCollisionel()  )
             {
                 remove = true;
             }
         }
 
         // Si le block peut se détruire
-        if ( tools.isset( blockEnemy ) === true && blockEnemy !== 0 )
+        if ( blockEnemy && blockEnemy !== 0 )
         {
             blockEnemy.die();
             remove = true;
         }
 
-        if ( remove === true )
+        if ( remove )
         {
             // Suppression du projectile
             this.moving = false;

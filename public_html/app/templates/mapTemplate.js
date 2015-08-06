@@ -603,7 +603,7 @@ class MapTemplate
                 tick = Math.min( 5, tick );
             }
 
-            if ( tick < config.map.tileSize && e.isAlive() === true && e.isMoving() === true && e.canMove( tick ) === true )
+            if ( tick < config.map.tileSize && e.isAlive() && e.isMoving() && e.canMove( tick ) === true )
             {
                 var before = e.getCurrentTilde();
                 if ( e.orientation === config.orientations.LEFT )
@@ -624,6 +624,9 @@ class MapTemplate
                 if ( e.orientation === config.orientations.DOWN )
                 {
                     e.moveY = e.moveY + tick;
+                    if(e.constructor.name === "Projectile"){
+                        console.log("orientation est 'bas'");
+                    }
                 }
                 var after = e.getCurrentTilde();
                 

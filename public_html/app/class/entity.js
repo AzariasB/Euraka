@@ -27,7 +27,7 @@ class Entity
         this.height = data.height;
 
         // mouvement
-        this.moveSpeed = tools.isset( data.speed ) === true ? data.speed : config.map.speed;
+        this.moveSpeed = data.speed ? data.speed : config.map.speed;
         this.moveSpeedDefault = this.moveSpeed;
 
         this.orientation = tools.isset( data.orientation ) === true ? data.orientation : config.orientations.LEFT;
@@ -197,7 +197,7 @@ class Entity
 
     hasMoved()
     {
-        if ( _.contains( config.map.ia, this.constructor.name ) === true )
+        if ( _.contains( config.map.ia, this.constructor.name ))
         {
             this.updatePositionOnTiledMap();
         }
@@ -271,7 +271,7 @@ class Entity
 
     canMove( deplacement )
     {
-        return !this.isHittingBlock( this.nextPosition( deplacement ) );
+        return this.constructor.name === "Projectile" || !this.isHittingBlock( this.nextPosition( deplacement ) );
     }
 
     updatePositionOnTiledMap()
