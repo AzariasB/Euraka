@@ -1,3 +1,6 @@
+//Passer à True pour un mode Debug
+var eurakaDebug = true;
+
 // Data
 var config = require( 'data/config.js' );
 
@@ -8,8 +11,7 @@ require( 'lib/raf.js' );
 
 var isDebug = function()
 {
-    var debug = true;
-    return debug;
+    return eurakaDebug;
 };
 var isLocalhost = function()
 {

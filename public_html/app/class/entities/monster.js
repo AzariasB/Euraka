@@ -93,7 +93,7 @@ class Monster extends Entity
         this.toggleMoving();
         var mCoord = this.getCurrentTilde();
         var pCoord = this.game.character.getCurrentTilde();
-        if(mCoord.x === pCoord.x && mCoord.y === pCoord.y){
+        if(mCoord.x === pCoord.x && mCoord.y === pCoord.y && this.game.character.isAlive()){
             this.game.character.die();
         }
 

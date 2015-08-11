@@ -148,7 +148,7 @@ class GameController
     gameLoaded()
     {
         this.currentCodeStage = this.tabCodeStage[ this.indexCodeStage ];
-        this.indexCodeStage = this.indexCodeStage + 1;
+        this.indexCodeStage = this.indexCodeStage + 1;            
 
         this.game.mapTemplate = new MapTemplate( this.game );
 
@@ -212,6 +212,10 @@ class GameController
         }
         else
         {
+            if(this.tabCodeStage[0] === 'tuto'){
+                this.tabCodeStage.shift();
+                this.indexCodeStage--;
+            }
             this.start();
         }
 

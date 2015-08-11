@@ -39,7 +39,7 @@ class MapTemplate
         // Variable pour l'animation
         this.lastTime = new Date();
         // Fork rAF si on veut changer
-        this.FPS = 60;
+        this.FPS = 30;
         this.frameCount = 0;
         this.realFPS = this.frameCount;
         // FPS alternatif
@@ -281,7 +281,6 @@ class MapTemplate
             {
                 if ( tools.isset( block.isOneshot ) === true && block.isOneshot() === true )
                 {
-                    tools.isDebug() && console.log("Piège a tué");
                     self.character.die();
                 }
                 else
@@ -299,9 +298,6 @@ class MapTemplate
                     if(tools.isDebug()){
                         var charPos = self.character.getCurrentTilde();
                         var chatPos = blockEnemy.getCurrentTilde();
-                        console.log("Chat a tué");
-                        console.log("Coordonées du joueur [x,y] :" + charPos.x + "," + charPos.y);
-                        console.log("Coordonées du chat : [x,y] : " + chatPos.x + "," + chatPos.y);
                     }                    
                     self.character.die();
                 }
@@ -593,56 +589,53 @@ class MapTemplate
         var self = this;
         _.each( this.tabEntitiesToUpdate, function( e )
         {
-            // console.log(e.constructor.name);
+            if(e){
+                tick = Math.round( this.tileSize / ( e.moveSpeed / ( 1000 / this.realFPS ) ) );
 
-            tick = Math.round( this.tileSize / ( e.moveSpeed / ( 1000 / this.realFPS ) ) );
+                // Lag or.. ?
+                if ( e.constructor.name === 'Character' )
+                {
+                    tick = Math.min( 5, tick );
+                }
 
-            // Lag or.. ?
-            if ( e.constructor.name === 'Character' )
-            {
-                tick = Math.min( 5, tick );
-            }
-
-            if ( tick < config.map.tileSize && e.isAlive() && e.isMoving() && e.canMove( tick ) === true )
-            {
-                var before = e.getCurrentTilde();
-                if ( e.orientation === config.orientations.LEFT )
+                if ( tick < config.map.tileSize && e.isAlive() && e.isMoving() && e.canMove( tick ) === true )
                 {
-                    e.moveX = e.moveX - tick;
-                }
-                else
-                if ( e.orientation === config.orientations.RIGHT )
-                {
-                    e.moveX = e.moveX + tick;
-                }
-                else
-                if ( e.orientation === config.orientations.UP )
-                {
-                    e.moveY = e.moveY - tick;
-                }
-                else
-                if ( e.orientation === config.orientations.DOWN )
-                {
-                    e.moveY = e.moveY + tick;
-                    if(e.constructor.name === "Projectile"){
-                        console.log("orientation est 'bas'");
+                    var before = e.getCurrentTilde();
+                    if ( e.orientation === config.orientations.LEFT )
+                    {
+                        e.moveX = e.moveX - tick;
                     }
-                }
-                var after = e.getCurrentTilde();
-                
-                //Quand on est plus sur la même case
-                if(before.x !== after.x || before.y !== after.y){
-                    if(e.constructor.name === 'Chat'){
-                        try{
-                            self.tiledMapEnemy[before.y][before.x] = 0;
-                            self.tiledMapEnemy[after.y][after.x] = e;
-                        }catch(ex){
-                            console.error(ex);
+                    else
+                    if ( e.orientation === config.orientations.RIGHT )
+                    {
+                        e.moveX = e.moveX + tick;
+                    }
+                    else
+                    if ( e.orientation === config.orientations.UP )
+                    {
+                        e.moveY = e.moveY - tick;
+                    }
+                    else
+                    if ( e.orientation === config.orientations.DOWN )
+                    {
+                        e.moveY = e.moveY + tick;
+                    }
+                    var after = e.getCurrentTilde();
+                    
+                    //Quand on est plus sur la même case
+                    if(before.x !== after.x || before.y !== after.y){
+                        if(e.constructor.name === 'Chat'){
+                            try{
+                                self.tiledMapEnemy[before.y][before.x] = 0;
+                                self.tiledMapEnemy[after.y][after.x] = e;
+                            }catch(ex){
+                                console.error(ex);
+                            }
                         }
                     }
-                }
 
-                e.hasMoved();
+                    e.hasMoved();
+                }
             }
         }, this );
 
