@@ -35,11 +35,13 @@ Theme : light *(UNESCO)*
   - [ ] FrameRate Drop (falling to 10fps !)
   - [ ] Lightening creation bug
 - [ ] Updates
+-   [ ] Remove tutorial from run
   - [ ] Cats moves
   - [ ] Map rotation
   - [ ] Change lightening duration
   - [ ] Counting bonuses
   - [ ] Scoring improvement (no more random !)
+  - [ ] Save scores
 
 ## Architecture development
 
