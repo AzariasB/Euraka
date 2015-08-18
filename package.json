@@ -4,8 +4,6 @@
   "description": "Euraka est une étrange créature provenant d'un futur sombre, où l'Humanité semble s'être éteinte...",
   "main": "gulpfile.js",
   "devDependencies": {
-    "ractive": "~0.7.3",
-    "underscore": "~1.8.3",
     "babelify": "^6.1.2",
     "brfs": "^1.4.0",
     "browserify": "^11.0.1",
@@ -19,20 +17,23 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5",
+    "lodash": "^3.10.1",
     "node-notifier": "^4.2.3",
+    "nw-builder": "^2.0.2",
     "pretty-hrtime": "^1.0.0",
     "ractify": "^0.6.0",
     "ractivate": "^0.2.0",
+    "ractive": "~0.7.3",
     "ractiveify": "^1.5.6",
     "replace": "^0.3.0",
     "require-dir": "^0.3.0",
+    "uglifyify": "^3.0.1",
+    "underscore": "~1.8.3",
     "url": "^0.10.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2",
-    "yargs": "^3.12.0",
-    "nw-builder": "^2.0.2",
-    "uglifyify": "^3.0.1"
+    "yargs": "^3.12.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
