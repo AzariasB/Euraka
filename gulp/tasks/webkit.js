@@ -9,7 +9,7 @@ var config    = require( '../config' ).webkit;
 
 // Package
 var gulp      = require('gulp');
-var NwBuilder = require( 'node-webkit-builder' );
+var NwBuilder = require( 'nw-builder' );
 var replace   = require( 'replace' );
 
 // Task
@@ -33,6 +33,7 @@ var nwTask = function( callback, dev )
         cacheDir:config.cacheDir,
         buildDir:config.buildDir,
         platforms: platforms,
+        version: config.version,
         winIco: config.winIco,
         buildType: config.buildType,
         manifest:

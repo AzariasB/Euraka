@@ -1,23 +1,20 @@
 // Data
-
 var config = require( 'data/config.js' );
-
-// Class
 
 // Lib
 require( 'lib/mousetrap.js' );
 var tools = require( 'lib/tools.js' );
-var _ = require( 'underscore' );
+var _     = require( 'underscore' );
 
 // Views
-var GameTpl = require( 'views/game/gameTpl.ract' );
-var CinematiqueTpl = require( 'views/game/cinematiqueTpl.ract' );
-var CinematiqueGameTpl = require( 'views/game/cinematiqueGameTpl.ract' );
+var GameTpl              = require( 'views/game/gameTpl.ract' );
+var CinematiqueTpl       = require( 'views/game/cinematiqueTpl.ract' );
+var CinematiqueGameTpl   = require( 'views/game/cinematiqueGameTpl.ract' );
 var CinematiqueCreditTpl = require( 'views/game/cinematiqueCreditTpl.ract' );
-var CinematiqueTplKaode = require( 'views/game/cinematiqueKaodeTpl.ract' );
-var MinimapTpl = require( 'views/game/minimapTpl.ract' );
-var ScoringTpl = require( 'views/game/scoringTpl.ract' );
-var DeathTpl = require( 'views/game/deathTpl.ract' );
+var CinematiqueTplKaode  = require( 'views/game/cinematiqueKaodeTpl.ract' );
+var MinimapTpl           = require( 'views/game/minimapTpl.ract' );
+var ScoringTpl           = require( 'views/game/scoringTpl.ract' );
+var DeathTpl             = require( 'views/game/deathTpl.ract' );
 
 class GameTemplate
 {

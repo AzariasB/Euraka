@@ -1,5 +1,5 @@
 //Passer à True pour un mode Debug
-var eurakaDebug = true;
+var eurakaDebug = false;
 
 // Data
 var config = require( 'data/config.js' );
