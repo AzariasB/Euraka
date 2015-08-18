@@ -19,6 +19,7 @@ _save/
 build/
 dist/
 _map/
+gulp/
 npm.md
 server/
 _doc/

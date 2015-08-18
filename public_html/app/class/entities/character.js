@@ -345,7 +345,7 @@ class Character extends Entity
 
     killedNobody()
     {
-        return _.random( 0, 1 ) === 1;
+        return _.isEmpty(this.entityKilled);
     }
 
     minuteTime()
@@ -355,7 +355,7 @@ class Character extends Entity
 
     getMunitions()
     {
-        return _.random( 0, 1 ) === 1;
+        return this.getEnergy();
     }
 
     hasKikette()

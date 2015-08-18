@@ -67,7 +67,7 @@ class Scoring
          *  +400 si kikette en sa possession
          */
         var self = this,
-            affichage = [], // Variable dans laquelle on vas stocker chaque point d'affichage
+            affichage = [], // Variable dans laquelle on vas stocker chaque point à afficher
             configBonusMunition = config.scoring.PER_MUNITIONS * 1,
             configBonusKikette = config.scoring.KIKETTE_BONUS * 1,
             bonusMunition, kik, killedElements;
