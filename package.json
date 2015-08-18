@@ -30,7 +30,7 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2",
-    "yargs": "^3.12.0"
+    "yargs": "^3.12.0",
     "nw-builder": "^2.0.2",
     "uglifyify": "^3.0.1"
   },

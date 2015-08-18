@@ -20,8 +20,8 @@
     "height": 820,
     "resizable": true,
     "always-on-top": false,
-    "fullscreen": false,
-    "toolbar": true,
+    "fullscreen": true,
+    "toolbar": false,
     "frame": false
   },
   "author": "Fancy Tree Studio",
