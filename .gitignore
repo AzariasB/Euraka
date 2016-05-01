@@ -1,4 +1,3 @@
-
 /test/
 /nbproject/
 /.git/
@@ -22,6 +21,7 @@ _map/
 npm.md
 server/
 _doc/
+/public_html/assets/css/
 /public_html/assets/audio/
 /public_html/assets/font/
 /public_html/assets/img/

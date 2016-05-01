@@ -119,7 +119,7 @@ var fadeIn = function( el, callback, options )
 
     return;
 };
-log
+
 var empty = function( el )
 {
     el = convertToElement( el );
@@ -136,6 +136,7 @@ var empty = function( el )
 
     return;
 };
+
 var getPlatform = function()
 {
     var platform = process.platform;
